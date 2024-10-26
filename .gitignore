@@ -1,0 +1,6 @@
+.env/
+inventory/__pycache__/
+mybiz/__pycache__/
+users/__pycache__/
+db.sqlite3
+__pycache__/
