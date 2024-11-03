@@ -1,0 +1,5 @@
+DB_NAME='mybiz_db'
+DB_USER='mybiz_dev'
+DB_PASS='mybiz_pwd'
+DB_HOST='localhost'
+DB_PORT='5432'

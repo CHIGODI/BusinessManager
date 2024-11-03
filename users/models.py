@@ -1,8 +1,7 @@
 from django.db import models
+from ..core.models import BaseModel
 
-class Base(models.Model):
+
+class CustomUser(models.Model, BaseModel):
     """"""
-    created_at =
-    updated_at =
-    id = 
-
+    
