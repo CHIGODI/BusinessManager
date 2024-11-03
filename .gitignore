@@ -4,3 +4,4 @@ mybiz/__pycache__/
 users/__pycache__/
 db.sqlite3
 __pycache__/
+env/
