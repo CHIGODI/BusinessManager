@@ -4,7 +4,7 @@ from django.db import models
 from core.models import BaseModel
 
 
-class Product(BaseModel, models.Model):
+class Product(BaseModel):
     """Model for products"""
     name = models.CharField(max_length=255, null=False, blank=False)
     buying_price = models.DecimalField(default=0.0, decimal_places=2,
