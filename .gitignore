@@ -1,7 +1,3 @@
+.next/
+node_modules/
 .env
-inventory/__pycache__/
-mybiz/__pycache__/
-users/__pycache__/
-db.sqlite3
-__pycache__/
-venv/
