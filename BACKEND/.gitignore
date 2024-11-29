@@ -8,3 +8,4 @@ venv/
 users/migrations/
 users/__pycache__/
 mybiz/migrations/
+inventory/migrations/
