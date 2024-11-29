@@ -1,11 +1,11 @@
 from .serializers import UserSerializer
 from django.http import JsonResponse
 from rest_framework import generics
-from django.contrib.auth.models import User
+from .models import CustomUser
 
 class UserListCreate(generics.ListCreateAPIView):
     """View to list all users or create a new user"""
-    queryset = User.objects.all()
+    queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
 
     def get(self, request, *args, **kwargs):
