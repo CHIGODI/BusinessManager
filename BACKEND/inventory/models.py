@@ -7,7 +7,7 @@ from core.models import BaseModel
 class Product(BaseModel):
     """Model for products"""
     name = models.CharField(max_length=255, null=False, blank=False,
-                            unique=True)
+                            unique=True, verbose_name='Product Name')
     buying_price = models.DecimalField(max_digits=6, default=0.0,
                                        decimal_places=2, null=False)
     selling_price = models.DecimalField(max_digits=6, default=0.0,
