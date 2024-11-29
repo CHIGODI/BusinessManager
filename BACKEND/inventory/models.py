@@ -42,12 +42,13 @@ class Product(BaseModel):
 class Sale(BaseModel):
     """Model for sales"""
     product = models.ForeignKey(Product, on_delete=models.PROTECT,
-                                related_name='sales')
+                                related_name='sales', verbose_name='Product Name')
     quantity = models.IntegerField(null=False, default=0)
     discount = models.DecimalField(max_digits=6, default=0.0,
                                    decimal_places=2, null=True)
-    total_cost = models.DecimalField(max_digits=6, default=0.0,
-                                     decimal_places=2, null=False)
+    total = models.DecimalField(max_digits=6, default=0.0,
+                                     decimal_places=2, null=False,
+                                     verbose_name='Total Price')
 
     class Meta:
         """Control behavior of the model"""

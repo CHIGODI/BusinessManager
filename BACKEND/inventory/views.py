@@ -19,6 +19,3 @@ class ProductListCreate(generics.ListCreateAPIView):
     def post(self, request, *args, **kwargs):
         """POST method to create a new product"""
         return super().post(request, *args, **kwargs)
-
-
-class ProductUpdate()
