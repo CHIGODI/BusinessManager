@@ -3,44 +3,58 @@ import axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
+import { redirect } from 'next/navigation'
 
 export default function LandingPage({ pathname }) {
     const [isFormVisible, setIsFormVisible] = useState(false);
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const formRef = useRef(null);
 
-    const handleLogin = async (e) => {
+
+
+    const getCSRFToken = () => {
+        const cookies = document.cookie.split("; ");
+        const csrfCookie = cookies.find(cookie => cookie.startsWith("csrftoken="));
+        return csrfCookie ? csrfCookie.split("=")[1] : null;
+    };
+
+    // Login function
+    const handleLogin = async (username, password) => {
         e.preventDefault(); // Prevent form submission from reloading the page
         setError(''); // Clear any existing errors
 
-        if (!email || !password) {
+        if (!username || !password) {
             setError('Please fill out all fields.');
             return;
         }
 
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/v1/users/', { 'email': email, 'password': password}, {
-                headers: { 'Content-Type': 'application/json' },
+            const csrfToken = getCSRFToken();
+            const response = await axios.post(
+                "http://localhost:8000/api/v1/account/login/",
+                { username, password },
+                {
+                    headers: {
+                        "X-CSRFToken": csrfToken,
+                    },
+                    withCredentials: true,
+                }
+            ).then((response) => {
+                console.log(response);
             });
-
-            console.log('Login successful:', response.data);
-
-            // Close the login form and redirect the user to the dashboard or home page
-            setIsFormVisible(false);
-            // Redirect the user to the dashboard or home page
-            router.push('/dashboard');
-        } catch (err) {
-            console.error('Error during login:', err);
-            toast.error(err.response?.data?.message || 'An error occurred. Please try again.');
+            redirect('/Dashboard');
+            console.log("Login successful:", response.data);
+        } catch (error) {
+            console.error("Error during login:", error);
         }
     };
 
     const closeLoginForm = () => {
         setIsFormVisible(false);
         setError(''); // Reset errors when closing the form
-        setEmail('');
+        setUsername('');
         setPassword('');
     };
 
@@ -70,7 +84,7 @@ export default function LandingPage({ pathname }) {
             {/* Apply blur only to the background when login form is active */}
             <div className={`absolute inset-0 fixed ${isFormVisible ? 'bg-black bg-opacity-50' : ''}`}>
                 {/* Background content goes here */}
-            </div>
+            </div>-
             <nav className="relative h-[70px] flex items-center justify-between">
                 <div className="w-[50%] Logo">
                     <h1 className="text-purple-800">myBIZ</h1>
@@ -100,6 +114,7 @@ export default function LandingPage({ pathname }) {
                             Login
                         </button>
                     </li>
+                    {/* Login form */}
                     {isFormVisible && (
                         <div
                             ref={formRef}
@@ -114,14 +129,13 @@ export default function LandingPage({ pathname }) {
                             <h2 className="text-center mb-4 text-2xl font-bold text-purple-700">Welcome Back</h2>
                             <form className="w-full p-6 flex flex-col space-y-2" onSubmit={handleLogin}>
                                 {error && <p className="text-red-500 text-sm">{error}</p>}
-                                <label htmlFor="email" className="text-base text-gray-700">Email</label>
+                                <label htmlFor="email" className="text-base text-gray-700">Username</label>
                                 <input
-                                    type="email"
-                                    id="email"
-                                    name="email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    required
+                                    type="username"
+                                    id="username"
+                                    name="username"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
                                     className="p-2 border border-gray-300 rounded"
                                 />
                                 <label htmlFor="password" className="text-base text-gray-700">Password</label>
@@ -131,13 +145,12 @@ export default function LandingPage({ pathname }) {
                                     name="password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    required
                                     className="p-2 border border-gray-300 rounded"
                                 />
                                 <button
                                     type="submit"
                                     className="w-full py-3 bg-purple-700 text-white rounded-lg hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                                >
+                                onClick={handleLogin}>
                                     Login
                                 </button>
                             </form>
