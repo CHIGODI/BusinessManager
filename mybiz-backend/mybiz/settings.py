@@ -28,32 +28,33 @@ SECRET_KEY = 'django-insecure-!qq=4)qwof002!z(w^x_hbi@0^2-%j&w08h_@r57otdq6s9=*y
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-CORS_ALLOW_ALL_ORIGINS = True
-
-ALLOWED_HOSTS = [
-    "localhost",
-    "127.0.0.1",
-    "localhost:3000",  # Include this if you're testing with React on port 3000
+ORS_ALLOW_HEADERS = ['*']
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
 ]
+
+CORS_ALLOW_CREDENTIALS = True
+
+ALLOWED_HOSTS = ['localhost', '127.0.0.1' ]
 
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'inventory',
-    'users',
-    'corsheaders',
-    'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
+    'rest_framework',
+    'inventory',
+    'allauth',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -159,4 +160,4 @@ REST_FRAMEWORK = {
     )
 }
 
-AUTH_USER_MODEL = 'users.CustomUser'
+AUTH_USER_MODEL = 'accounts.CustomUser'
