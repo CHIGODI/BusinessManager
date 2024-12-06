@@ -1,6 +1,7 @@
 import jwt
 from os import getenv
 from dotenv import load_dotenv
+from django.db.models import Q
 from .serializers import UserSerializer
 from rest_framework import generics, status
 from rest_framework.response import Response
@@ -20,11 +21,15 @@ class RegisterView(generics.GenericAPIView):
 
     def post(self, request):
         email = request.data.get("email")
+        username = request.data.get("username")
         password = request.data.get("password")
-        user = CustomUser.objects.filter(email=email).first()
-        if user is not None:
-            raise ValidationError("User with this email already exists")
-        user = CustomUser(email=email)
+
+        if CustomUser.objects.filter(Q(email=email) |
+                                     Q(username=username)).exists():
+            raise ValidationError('User with this email or ' \
+                                  'username already exists')
+
+        user = CustomUser(email=email, username=username)
         user.set_password(password)
         user.save()
         return Response(self.serializer_class(user).data,
@@ -37,15 +42,14 @@ class LoginView(generics.GenericAPIView):
     queryset = CustomUser.objects.all()
 
     def post(self, request):
-        email = request.data.get("email")
+        username = request.data.get("username")
         password = request.data.get("password")
-        user = CustomUser.objects.filter(email=email).first()
-        print(email, password)
+        user = CustomUser.objects.filter(username=username).first()
 
-        if not email or not password:
-            raise ValidationError("Email and password are required")
+        if not username or not password:
+            raise ValidationError("Username and password are required")
         if user is None:
-            raise ValidationError("User not found")
+            raise ValidationError("User with these cridentials was not found")
         if not user.check_password(password):
             raise ValidationError("Incorrect password")
 
