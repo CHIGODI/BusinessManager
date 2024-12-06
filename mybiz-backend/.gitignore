@@ -11,3 +11,5 @@ mybiz/migrations/
 inventory/migrations/__pycache__/
 accounts/migrations/__pycache__
 accounts/__pycache__/
+*/migrations/0002_auto_*.py
+*/migrations/0001_initial.py
