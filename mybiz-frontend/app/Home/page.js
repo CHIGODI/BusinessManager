@@ -21,33 +21,35 @@ export default function LandingPage({ pathname }) {
     };
 
     // Login function
-    const handleLogin = async (username, password) => {
-        e.preventDefault(); // Prevent form submission from reloading the page
+    const handleLogin = async (e) => {
+        e.preventDefault();
         setError(''); // Clear any existing errors
 
+        console.log(username, password)
         if (!username || !password) {
             setError('Please fill out all fields.');
             return;
         }
 
         try {
-            const csrfToken = getCSRFToken();
             const response = await axios.post(
                 "http://localhost:8000/api/v1/account/login/",
                 { username, password },
                 {
                     headers: {
-                        "X-CSRFToken": csrfToken,
+                        "Content-Type": "application/json",
+                        // "X-CSRFToken": csrfToken,
                     },
                     withCredentials: true,
                 }
-            ).then((response) => {
-                console.log(response);
-            });
-            redirect('/Dashboard');
+            );
             console.log("Login successful:", response.data);
+            redirect('/Dashboard');
         } catch (error) {
-            console.error("Error during login:", error);
+            console.error("Error during login:", error.response || error.message);
+            if (error.response) {
+                console.error("Response data:", error.response.data);
+            }
         }
     };
 
@@ -150,7 +152,7 @@ export default function LandingPage({ pathname }) {
                                 <button
                                     type="submit"
                                     className="w-full py-3 bg-purple-700 text-white rounded-lg hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                                onClick={handleLogin}>
+                                >
                                     Login
                                 </button>
                             </form>
