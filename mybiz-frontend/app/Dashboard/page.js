@@ -1,30 +1,36 @@
 import Link from 'next/link';
+import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartShopping, faGrip } from "@fortawesome/free-solid-svg-icons";
+import { faCartShopping, faGrip, faMoneyBill, faMoneyBillTrendUp, faGear } from "@fortawesome/free-solid-svg-icons";
 
 
 export default function Dashboard(){
     return(
         <div className="h-screen">
             <nav className="relative h-[70px] flex items-center justify-between border-b">
-                <div className='w-[20%] h-full flex items-center justify-center'>
-                    <p className='font-bold text-gray-500'>myBIZ</p>
+                <div className='w-[20%] h-full flex items-center pl-[2%]'>
+                    <Image
+                        src="/Images/myBIZ.png"
+                        alt="MyBiz Logo"
+                        width={60}
+                        height={40}
+                    />
                 </div>
             </nav>
             <div className="flex flex-row w-full h-screen">
                 <div className="w-[20%] border-r border-b">
-                    <ul>
+                    <ul className='flex flex-col justify-start'>
                         <li className='links'>
-                            <Link href="/Home"><FontAwesomeIcon icon={faGrip} /> Dashboard</Link>
+                            <Link href="/Home"><FontAwesomeIcon className='text-base mr-4' icon={faGrip} />Dashboard</Link>
                         </li>
                         <li className='links'>
-                            <Link href="/Home">Expenses</Link>
+                            <Link href="/Home"><FontAwesomeIcon className='text-base mr-4' icon={faMoneyBillTrendUp} />Expenses</Link>
                         </li>
                         <li className='links'>
-                            <Link href="/dashboard">Sales</Link>
+                            <Link href="/dashboard"><FontAwesomeIcon className='text-base mr-4' icon={faMoneyBill} />Sales</Link>
                         </li>
                         <li className='links'>
-                            <Link href="/dashboard">Settings</Link>
+                            <Link href="/dashboard"><FontAwesomeIcon className='text-base mr-4' icon={faGear} />Settings</Link>
                         </li>
                     </ul>
                 </div>
