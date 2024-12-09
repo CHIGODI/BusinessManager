@@ -2,6 +2,8 @@
 import { useState } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
+import NavBar from '../components/navbar';
+import SideNav from '../components/sidenav';
 
 export default function SalePage() {
 
@@ -20,28 +22,9 @@ export default function SalePage() {
 
     return (
         <div className="h-screen">
-            <nav className="relative h-[70px] flex items-center justify-between border-b">
-                <div className='w-[20%] h-full flex items-center justify-center'>
-                    <p className='font-bold text-gray-500'>myBIZ</p>
-                </div>
-            </nav>
+            <NavBar />
             <div className="flex flex-row w-full h-screen">
-                <div className="w-[20%] border-r border-b">
-                    <ul>
-                        <li className='links'>
-                            <Link href="/Home">Dashboard</Link>
-                        </li>
-                        <li className='links'>
-                            <Link href="/Home">Expenses</Link>
-                        </li>
-                        <li className='links'>
-                            <Link href="/dashboard">Sales</Link>
-                        </li>
-                        <li className='links'>
-                            <Link href="/dashboard">Settings</Link>
-                        </li>
-                    </ul>
-                </div>
+                <SideNav />
                 <div className="w-[80%] pl-[2%] pr-[2%] h-full">
                     <div className="w-full flex justify-center items-center">
                         <input

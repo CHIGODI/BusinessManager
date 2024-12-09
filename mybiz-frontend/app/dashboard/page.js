@@ -1,5 +1,5 @@
-import Link from 'next/link';
-import Image from "next/image";
+import SideNav from '../components/sidenav';
+import NavBar from '../components/navbar';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping, faGrip, faMoneyBill, faMoneyBillTrendUp, faGear, faArrowUpRightFromSquare, faCoins, faBox } from "@fortawesome/free-solid-svg-icons";
 
@@ -7,33 +7,9 @@ import { faCartShopping, faGrip, faMoneyBill, faMoneyBillTrendUp, faGear, faArro
 export default function Dashboard(){
     return(
         <div className="h-screen box-border">
-            <nav className="relative h-[70px] flex items-center justify-between border-b">
-                <div className='w-[20%] h-full flex items-center pl-[2%]'>
-                    <Image
-                        src="/Images/myBIZ.png"
-                        alt="MyBiz Logo"
-                        width={60}
-                        height={40}
-                    />
-                </div>
-            </nav>
+           <NavBar />
             <div className="flex flex-row w-full h-screen">
-                <div className="w-[20%] border-r border-b shadow-right-sm">
-                    <ul className='flex flex-col justify-start'>
-                        <li className='links'>
-                            <Link href="/Home"><FontAwesomeIcon className='text-base mr-4 text-[#001F3F]' icon={faGrip} />Dashboard</Link>
-                        </li>
-                        <li className='links'>
-                            <Link href="/Home"><FontAwesomeIcon className='text-base mr-4 text-[#001F3F]' icon={faMoneyBillTrendUp} />Expenses</Link>
-                        </li>
-                        <li className='links'>
-                            <Link href="/dashboard"><FontAwesomeIcon className='text-base mr-4 text-[#001F3F]' icon={faMoneyBill} />Sales</Link>
-                        </li>
-                        <li className='links'>
-                            <Link href="/dashboard"><FontAwesomeIcon className='text-base mr-4 text-[#001F3F]' icon={faGear} />Settings</Link>
-                        </li>
-                    </ul>
-                </div>
+                <SideNav />
                 <main className='w-[80%] pr-[5%] pl-[5%] pt-[5%] flex flex-row flex-wrap gap-4'>
                     <div className='cards flex flex-col justify-center'>
                         <h5 className='text-center text-[#001F3F]'>
