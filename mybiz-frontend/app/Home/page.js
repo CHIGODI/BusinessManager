@@ -13,19 +13,10 @@ export default function LandingPage({ pathname }) {
     const formRef = useRef(null);
 
 
-
-    const getCSRFToken = () => {
-        const cookies = document.cookie.split("; ");
-        const csrfCookie = cookies.find(cookie => cookie.startsWith("csrftoken="));
-        return csrfCookie ? csrfCookie.split("=")[1] : null;
-    };
-
-    // Login function
     const handleLogin = async (e) => {
         e.preventDefault();
-        setError(''); // Clear any existing errors
+        setError('');
 
-        console.log(username, password)
         if (!username || !password) {
             setError('Please fill out all fields.');
             return;
@@ -34,11 +25,13 @@ export default function LandingPage({ pathname }) {
         try {
             const response = await axios.post(
                 "http://localhost:8000/api/v1/account/login/",
-                { username, password },
+                {
+                    'username': username,
+                    'password': password
+                },
                 {
                     headers: {
                         "Content-Type": "application/json",
-                        // "X-CSRFToken": csrfToken,
                     },
                     withCredentials: true,
                 }
@@ -55,7 +48,7 @@ export default function LandingPage({ pathname }) {
 
     const closeLoginForm = () => {
         setIsFormVisible(false);
-        setError(''); // Reset errors when closing the form
+        setError('');
         setUsername('');
         setPassword('');
     };
@@ -86,7 +79,7 @@ export default function LandingPage({ pathname }) {
             {/* Apply blur only to the background when login form is active */}
             <div className={`absolute inset-0 fixed ${isFormVisible ? 'bg-black bg-opacity-50' : ''}`}>
                 {/* Background content goes here */}
-            </div>-
+            </div>
             <nav className="relative h-[70px] flex items-center justify-between">
                 <div className="w-[50%] Logo">
                     <h1 className="text-purple-800">myBIZ</h1>
@@ -165,15 +158,15 @@ export default function LandingPage({ pathname }) {
                     )}
                 </ul>
             </nav>
-            <main className="flex flex-col md:flex-row items-center justify-between px-8 py-16 bg-white">
-                <div className="md:w-1/2 space-y-4">
-                    <h2 className="text-4xl font-bold text-gray-900">
-                        Think, plan, and track all in one place
+            <main className="flex flex-row md:flex-row justify-between px-8 py-16 gap-10">
+                <div className="md:w-1/2 flex flex-col items-center mt-[8%] text-center">
+                    <h2 className="text-4xl font-bold text-[#001F3F] pb-4 ">
+                        Think, plan and track all in one place
                     </h2>
-                    <p className="text-lg text-gray-700">
-                        Efficiently manage your tasks and boost productivity.
+                    <p className="text-lg text-[#31363F] pb-4">
+                        Efficiently manage your business and boost productivity.
                     </p>
-                    <button className="bg-purple-600 text-white px-6 py-3 text-lg rounded hover:bg-blue-700">
+                    <button className="bg-purple-600 text-white px-3 py-3 text-lg rounded hover:bg-blue-700 w-1/2">
                         Get started
                     </button>
                 </div>
@@ -181,7 +174,7 @@ export default function LandingPage({ pathname }) {
                     <img
                         src="/Images/Landing2.jpg"
                         alt="ChronoTask Dashboard"
-                        className="rounded-lg shadow-lg"
+                        className="rounded-lg"
                     />
                 </div>
             </main>
