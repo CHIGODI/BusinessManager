@@ -1,5 +1,6 @@
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
+import Image from "next/image";
 
 export default function LandingPage() {
 
@@ -20,10 +21,12 @@ export default function LandingPage() {
                         Get started
                     </button>
                 </div>
-                <div className="md:w-1/2 mt-8 md:mt-0">
-                    <img
+                <div className="md:w-1/2 mt-8 md:mt-0 flex justify-center">
+                    <Image
                         src="/Images/Landing2.jpg"
                         alt="ChronoTask Dashboard"
+                        width={300}
+                        height={100}
                         className="rounded-lg"
                     />
                 </div>
