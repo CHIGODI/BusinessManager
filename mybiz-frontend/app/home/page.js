@@ -4,9 +4,9 @@ import Footer from './components/Footer';
 export default function LandingPage() {
 
     return (
-        <div className="h-screen ml-[5%] mr-[5%]">
+        <div className="h-screen md:ml-[5%] md:mr-[5%]">
             <NavBar />
-            <section className="flex flex-row md:flex-row justify-between px-8 py-16 gap-10">
+            <section className="flex flex-col justify-between px-8 py-16 gap-10 md:flex-row">
                 <div className="md:w-1/2 flex flex-col items-center mt-[8%] text-center">
                     <header>
                         <h2 className="text-4xl font-bold text-[#001F3F] pb-4 ">
