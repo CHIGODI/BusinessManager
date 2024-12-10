@@ -43,6 +43,7 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1' ]
 # Application definition
 
 INSTALLED_APPS = [
+    'rest_framework_simplejwt.token_blacklist',
     'allauth.account',
     'allauth.socialaccount',
     'django.contrib.admin',
