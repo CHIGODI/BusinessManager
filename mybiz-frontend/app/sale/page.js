@@ -32,7 +32,7 @@ export default function SalePage() {
                             placeholder="Search product..."
                             className="text-sm w-[50%] p-2 border border-gray-300 rounded-tl-full rounded-bl-full mt-4 mb-4 outline-none focus:border-purple-500"
                         />
-                        <button className='text-sm text-gray-500 border-t border-b border-r p-2 bg-purple-500 text-white rounded-tr-full rounded-br-full hover:bg-opacity-90'>Search</button>
+                        <button className='text-sm text-gray-500 border-t border-b border-r p-2 bg-purple-500 rounded-tr-full rounded-br-full hover:bg-opacity-90'>Search</button>
                     </div>
                     <div className="flex bg-white rounded-xl w-[100%] border h-[85%] shadow-sm">
                         <table className='w-full'>

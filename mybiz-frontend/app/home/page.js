@@ -77,7 +77,7 @@ export default function LandingPage({ pathname }) {
     return (
         <div className="h-screen ml-[5%] mr-[5%]">
             {/* Apply blur only to the background when login form is active */}
-            <div className={`absolute inset-0 fixed ${isFormVisible ? 'bg-black bg-opacity-50' : ''}`}>
+            <div className={`absolute inset-0  ${isFormVisible ? 'bg-black bg-opacity-50' : ''}`}>
                 {/* Background content goes here */}
             </div>
             <nav className="relative h-[70px] flex items-center justify-between">

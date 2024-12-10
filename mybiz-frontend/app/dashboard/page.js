@@ -4,10 +4,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping, faGrip, faMoneyBill, faMoneyBillTrendUp, faGear, faArrowUpRightFromSquare, faCoins, faBox } from "@fortawesome/free-solid-svg-icons";
 
 
-export default function Dashboard(){
-    return(
+export default function Dashboard() {
+    return (
         <div className="h-screen box-border">
-           <NavBar />
+            <NavBar />
             <div className="flex flex-row w-full h-screen">
                 <SideNav />
                 <main className='w-[80%] pr-[5%] pl-[5%] pt-[5%] flex flex-row flex-wrap gap-4'>
@@ -30,7 +30,7 @@ export default function Dashboard(){
                             ALL PRODUCTS
                         </h5>
                         <FontAwesomeIcon className='text-7xl mt-4 text-[#A6AEBF]' icon={faBox} />
-                        <button className='border text-[#001F3F] rounded p-2 mt-4 hover:bg-[#FFEB3B]'>Go to sale point<FontAwesomeIcon className='ml-2' icon={faArrowUpRightFromSquare} /></button>
+                        <button className='border text-[#001F3F] rounded p-2 mt-4 hover:bg-[#FFEB3B]'>All products list<FontAwesomeIcon className='ml-2' icon={faArrowUpRightFromSquare} /></button>
                     </div>
                 </main>
             </div>
