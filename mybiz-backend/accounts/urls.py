@@ -9,4 +9,5 @@ from .views import RegisterView
 
 urlpatterns = [
     path('account/register/', RegisterView.as_view(), name='register'),
+    path('account/logout/', RegisterView.as_view(), name='logout'),
 ]
