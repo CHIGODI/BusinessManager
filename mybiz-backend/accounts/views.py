@@ -13,7 +13,7 @@ from django.contrib.auth import get_user_model
 from datetime import datetime, timedelta, timezone
 from rest_framework.exceptions import ValidationError
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny,  IsAuthenticated
 
 
 load_dotenv()
@@ -30,9 +30,13 @@ class RegisterView(generics.CreateAPIView):
 
 class LogoutView(generics.GenericAPIView):
     """Deletes the JWT"""
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
+
     def post(self, request):
         try:
             refresh_token = request.data.get("refresh")
+            print(refresh_token)
 
             if not refresh_token:
                 return Response({"detail": "Refresh token is required."},
