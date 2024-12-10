@@ -52,13 +52,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
-    'inventory',
     'allauth',
     'accounts',
     'products',
-    'sales',
-    'industries',
-    'notifications',
+    # 'sales',
+    # 'industries',
+    # 'notifications',
 ]
 
 MIDDLEWARE = [

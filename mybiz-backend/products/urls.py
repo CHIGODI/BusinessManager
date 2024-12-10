@@ -9,5 +9,5 @@ from .views import ProductListCreate
 
 urlpatterns = [
     path('products/', ProductListCreate.as_view(), name='all_products'),
-    path('products/<product_id> : str>/', ProductListCreate.as_view(), name='update_product'),
+    path('products/<str:product_id>/', ProductListCreate.as_view(), name='update_product'),
 ]
