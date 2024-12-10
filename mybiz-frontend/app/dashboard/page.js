@@ -1,5 +1,5 @@
-import SideNav from '../components/sidenav';
-import NavBar from '../components/navbar';
+import SideNav from './components/sidenav';
+import NavBar from './components/navbar';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping, faArrowUpRightFromSquare, faCoins, faBox } from "@fortawesome/free-solid-svg-icons";
 
