@@ -1,13 +1,29 @@
 'use client'
 import Link from 'next/link'
+import Image from "next/image";
+import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars, fas } from "@fortawesome/free-solid-svg-icons";
 
 export default function NavBar() {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const openMenu = () => {
+        setIsMenuOpen(isMenuOpen ? false : true);
+    };
+
     return (
-        <nav className="relative h-[70px] flex items-center justify-between">
-            <div className="w-[50%] Logo">
-                <h1 className="text-purple-800">myBIZ</h1>
+        <nav className="relative h-auto flex flex-col md:h-[70px] md:items-center md:flex-row md:justify-between">
+            <div className="mt-[5%] mb-[5%] flex justify-between items-center h-[70px] md:h-auto w-full md:w-[50%]">
+                <Image
+                    src="/Images/myBIZ2.png"
+                    alt="MyBiz Logo"
+                    width={60}
+                    height={40}
+                    className='flex items-start'
+                />
+                <FontAwesomeIcon className="text-purple-800 text-3xl md:invisible" icon={faBars} onClick={openMenu} />
             </div>
-            <ul className="w-[50%] flex items-center justify-around">
+            <ul className={`w-[50%] flex-col gap-8 md:flex md:flex-row md:items-center md:gap-0 md:justify-around ${isMenuOpen ? 'flex': 'hidden'}`}>
                 <Link href="/home">
                     <li className="cursor-pointer hover:text-purple-700 transition duration-300 ease-in-out">
                         Home
