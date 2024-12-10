@@ -1,4 +1,4 @@
-from .models import Product, Sale, Expense
+from .models import Product
 from rest_framework import serializers
 
 
