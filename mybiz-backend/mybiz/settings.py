@@ -58,9 +58,9 @@ INSTALLED_APPS = [
     'allauth',
     'accounts',
     'products',
-    'sales',
-    'industries',
-    'notifications',
+    # 'sales',
+    # 'industries',
+    # 'notifications',
 ]
 
 MIDDLEWARE = [

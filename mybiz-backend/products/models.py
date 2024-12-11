@@ -9,9 +9,9 @@ class Product(BaseModel):
     name = models.CharField(max_length=255, null=False, blank=False,
                             unique=True, verbose_name='Product Name')
     unit_buying_price = models.DecimalField(max_digits=6, default=0.0,
-                                       decimal_places=2, null=False)
+                                            decimal_places=2, null=False)
     unit_selling_price = models.DecimalField(max_digits=6, default=0.0,
-                                        decimal_places=2, null=False)
+                                             decimal_places=2, null=False)
     manufacturer = models.TextField(max_length=255, null=True)
     industry = models.TextField(max_length=255,
                                 default='Uncategorized',
