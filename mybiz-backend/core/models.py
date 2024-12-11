@@ -8,9 +8,7 @@ class BaseModel(models.Model):
     """This class contains the base model for all models in the application"""
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    id = models.CharField(primary_key=True,
-                          default=str(uuid.uuid4()),
-                          max_length=36,
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4,
                           editable=False)
 
     class Meta:

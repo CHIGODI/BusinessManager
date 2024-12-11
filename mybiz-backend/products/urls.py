@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-This module contains the URL configuration for the inventory app.
+This module contains the URL configuration for the Product app.
 """
 from django.urls import path
 from .views import ProductListCreate
@@ -9,5 +9,6 @@ from .views import ProductListCreate
 
 urlpatterns = [
     path('products/', ProductListCreate.as_view(), name='all_products'),
-    path('products/<str:product_id>/', ProductListCreate.as_view(), name='update_product'),
+    path('products/<str:product_id>/',
+         ProductListCreate.as_view(), name='update_product'),
 ]

@@ -11,6 +11,7 @@ class ProductListCreate(generics.ListCreateAPIView):
     serializer_class = ProductSerializer
     permission_classes = [IsAdminOrReadOnly]
 
+
 class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
     """View to retrieve, update or delete a product"""
     queryset = Product.objects.all()
