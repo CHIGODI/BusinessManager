@@ -47,9 +47,8 @@ const LoginPage = () => {
                             space-y-2
                             w-[90%]
                             justify-between
-                            h-[90%]
-                            md:h-[70%]
-                            mt-[10%]
+                            h-[70%]
+                            m-auto
                             md:mt-[2.5%]
                             md:w-1/3
                             rounded-md shadow-md
@@ -64,7 +63,7 @@ const LoginPage = () => {
                    Welcome Back!
                 </header>
                 {error && <p className="text-red-500 text-sm">{error}</p>}
-                <label htmlFor="username" className="text-gray-700 text-sm md:text-base">
+                <label htmlFor="username" className="text-gray-700 text-base">
                     Username
                     <span className="text-red-400 p-1">*</span>
                 </label>
@@ -74,10 +73,10 @@ const LoginPage = () => {
                     name="username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    className="p-2 border border-gray-300 rounded text-sm md:text-base"
+                    className="p-4 border border-gray-300 rounded text-base"
                     required
                 />
-                <label htmlFor="password" className="text-gray-700 text-sm md:text-base">
+                <label htmlFor="password" className="text-gray-700 text-base">
                     Password
                     <span className="text-red-400 p-1">*</span>
                 </label>
@@ -87,7 +86,7 @@ const LoginPage = () => {
                     name="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="p-2 border border-gray-300 rounded text-sm md:text-base"
+                    className="p-4 border border-gray-300 rounded text-base"
                     required
                 />
                 <button
