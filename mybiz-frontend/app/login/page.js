@@ -48,7 +48,7 @@ const LoginPage = () => {
                             w-[90%]
                             justify-between
                             h-[90%]
-                            md:h-auto
+                            md:h-[70%]
                             mt-[10%]
                             md:mt-[2.5%]
                             md:w-1/3
@@ -90,19 +90,6 @@ const LoginPage = () => {
                     className="p-2 border border-gray-300 rounded text-sm md:text-base"
                     required
                 />
-                <label htmlFor="confirmPassword" className="text-gray-700 text-sm md:text-base">
-                    Confirm Password
-                    <span className="text-red-400 p-1">*</span>
-                </label>
-                <input
-                    type="password"
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="p-2 border border-gray-300 rounded text-sm md:text-base"
-                    required
-                />
                 <button
                     type="submit"
                     className="w-full
@@ -118,9 +105,10 @@ const LoginPage = () => {
                 >
                     Sign Up
                 </button>
-                <div className="text-center flex flex-col">
-                    <Link href="/signup" className="text-blue-500 text-sm">Don't have an account? SignUp</Link>
-                    <Link href="/login" className="text-blue-500 text-sm">Forgot Password</Link>
+                <div className="text-center flex flex-row justify-center gap-2">
+                    <Link href="/signup" className="text-blue-500 text-sm hover:underline">Create Account</Link>
+                    <span className="text-gray-500 text-sm">|</span>
+                    <Link href="/login" className="text-blue-500 text-sm hover:underline">Forgot Password</Link>
                 </div>
             </form>
         </div>
