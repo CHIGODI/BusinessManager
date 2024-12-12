@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 
 const LoginPage = () => {
@@ -11,7 +12,7 @@ const LoginPage = () => {
     const [error, setError] = useState("");
     const router = useRouter();
 
-    const handleSignup = async (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
         if (!username || !password || !confirmPassword) {
             setError("All fields are required");
@@ -23,17 +24,31 @@ const LoginPage = () => {
         }
         setError("");
 
+        const data = {
+            "username": username,
+            "password": password
+        }
+
         try {
-            const res = await fetch('http://localhost:8000/api/token/')
-            console.log(res)
+            const res = await axios.post(
+                'http://localhost:8000/api/token/',
+                data,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    withCredentials: true,
+                }
+            );
+            if (response.status === 200) {
+                toast.success('successfully logged in');
+                router.push('/dashboard');
+            };
 
         } catch (error) {
             console.log(e)
         }
-
     };
-
-
 
     return (
         <div className="h-screen
@@ -53,7 +68,7 @@ const LoginPage = () => {
                             md:w-1/3
                             rounded-md shadow-md
                             "
-                onSubmit={handleSignup}
+                onSubmit={handleLogin}
             >
                 <header className="
                                 text-center mb-4
