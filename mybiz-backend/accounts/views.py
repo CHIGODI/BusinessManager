@@ -2,38 +2,38 @@
 API CBV endpoints for user registration,
 login, logout, and users listing
 """
-import jwt
-from os import getenv
-from dotenv import load_dotenv
-from django.db.models import Q
 from .serializers import UserSerializer
 from rest_framework import generics, status
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
-from datetime import datetime, timedelta, timezone
-from rest_framework.exceptions import ValidationError
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import AllowAny,  IsAuthenticated
 
 
-load_dotenv()
 CustomUser = get_user_model()
 
 
 class RegisterView(generics.CreateAPIView):
     """
     POST method to create new user
+    Endpoint: /api/v1/account/register/
     """
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
 
 
 class LogoutView(generics.GenericAPIView):
-    """Deletes the JWT"""
+    """
+    POST: method to logout user
+    Endpoint: /api/v1/account/logout/
+    """
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
+        """
+        Handles the token blacklisting to ensure user logged out
+        """
         try:
             refresh_token = request.data.get("refresh")
             print(refresh_token)
@@ -53,6 +53,9 @@ class LogoutView(generics.GenericAPIView):
 
 
 class UserList(generics.ListCreateAPIView):
-    """List all users"""
+    """
+    GET list all system users
+    Endpoint: /api/v1/account/users/
+    """
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
