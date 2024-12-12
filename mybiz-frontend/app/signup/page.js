@@ -1,6 +1,8 @@
 'use client';
-import React, { useState } from "react";
+import axios from "axios";
 import Link from "next/link";
+import toast from 'react-toastify';
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
 
@@ -15,33 +17,53 @@ const SignUpPage = () => {
     const handleSignup = async (e) => {
         e.preventDefault();
         if (!username || !password || !confirmPassword || !email) {
-            setError("All fields are required");
+            toast.error('All fields are required!');
             return;
         }
         if (password !== confirmPassword) {
-            setError("Passwords do not match");
+            toast.error("Passwords do not match");
             return;
         }
+
         setError("");
+        const data = {
+            'email': email,
+            'username': username,
+            'password': password
+        };
 
-        try{
-            const res = await fetch('http://localhost:8000/api/v1/account/register/');
-            console.log(res)
-
-        }catch (error){
-            console.log(e)
+        try {
+            const response = await axios.post(
+                "http://localhost:8000/api/v1/account/register/",
+                data,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    withCredentials: true,
+                }
+            );
+            if (response.status === 201){
+                toast.success('Account created successfully');
+                router.push('/login');
+            };
+        } catch (error) {
+            if (error.response.data.username && error.response.data.email) {
+                setError(error.response.data.username[0]);
+            } else if (error.response.data.email) {
+                setError(error.response.data.email[0]);
+            }   else {
+                setError("An error occurred. Please try again later.");
+            }
         }
-
     };
-
-
 
     return (
         <div className="h-screen
                         flex flex-col
                         items-center
                         "
-                        >
+        >
             <form className="bg-white
                             p-6 flex
                             flex-col
@@ -127,7 +149,6 @@ const SignUpPage = () => {
                                 focus:ring-purple-500
                                 text-sm
                                 md:text-base
-
                                 "
                 >
                     Sign Up
