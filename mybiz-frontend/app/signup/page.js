@@ -1,7 +1,7 @@
 'use client';
 import axios from "axios";
 import Link from "next/link";
-import toast from 'react-toastify';
+import { toast } from 'react-toastify';
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -11,7 +11,6 @@ const SignUpPage = () => {
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [error, setError] = useState("");
     const router = useRouter();
 
     const handleSignup = async (e) => {
@@ -25,7 +24,6 @@ const SignUpPage = () => {
             return;
         }
 
-        setError("");
         const data = {
             'email': email,
             'username': username,
@@ -49,11 +47,11 @@ const SignUpPage = () => {
             };
         } catch (error) {
             if (error.response.data.username && error.response.data.email) {
-                setError(error.response.data.username[0]);
+                toast.error(error.response.data.username[0]);
             } else if (error.response.data.email) {
-                setError(error.response.data.email[0]);
+                toast.error(error.response.data.email[0]);
             }   else {
-                setError("An error occurred. Please try again later.");
+                toast.error("An error occurred. Please try again later.");
             }
         }
     };
@@ -86,7 +84,6 @@ const SignUpPage = () => {
                 >
                     Get Started with myBIZ
                 </header>
-                {error && <p className="text-red-500 text-sm">{error}</p>}
                 <label htmlFor="email" className="text-gray-700 text-sm md:text-base">
                     Email
                     <span className="text-red-400 p-1">*</span>
@@ -97,8 +94,11 @@ const SignUpPage = () => {
                     name="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="p-2 border border-gray-300 rounded text-sm md:text-base"
-                    required
+                    className={`p-2 border
+                               border-gray-300
+                                rounded text-sm
+                                md:text-base
+                                `}
                 />
                 <label htmlFor="username" className="text-gray-700 text-sm md:text-base">
                     Username
@@ -110,8 +110,11 @@ const SignUpPage = () => {
                     name="username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    className="p-2 border border-gray-300 rounded text-sm md:text-base"
-                    required
+                    className={`p-2 border
+                               border-gray-300
+                               rounded text-sm
+                               md:text-base
+                               `}
                 />
                 <label htmlFor="password" className="text-gray-700 text-sm md:text-base">
                     Password
@@ -123,8 +126,11 @@ const SignUpPage = () => {
                     name="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="p-2 border border-gray-300 rounded text-sm md:text-base"
-                    required
+                    className={`p-2 border
+                               border-gray-300
+                               rounded text-sm
+                               md:text-base
+                               `}
                 />
                 <label htmlFor="confirmPassword" className="text-gray-700 text-sm md:text-base">
                     Confirm Password
@@ -136,8 +142,11 @@ const SignUpPage = () => {
                     name="confirmPassword"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="p-2 border border-gray-300 rounded text-sm md:text-base"
-                    required
+                    className={`p-2 border
+                               border-gray-300
+                               rounded text-sm
+                               md:text-base
+                               `}
                 />
                 <button
                     type="submit"
@@ -154,7 +163,7 @@ const SignUpPage = () => {
                     Sign Up
                 </button>
                 <div className="text-center">
-                    <Link href="/login" className="text-blue-500 text-sm md:text-base">Already have an account? Login</Link>
+                    <Link href="/login" className="text-blue-500 text-sm hover:underline hover:text-[#E73879] md:text-base">Already have an account? Login</Link>
                 </div>
             </form>
         </div>
