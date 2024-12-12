@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-This module contains the URL configuration for the inventory app.
+This module contains the URL configuration for the accounts app.
 """
 from django.urls import path
 from .views import RegisterView, LogoutView, UserList
