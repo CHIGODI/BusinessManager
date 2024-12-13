@@ -7,7 +7,7 @@ export default function SideNav(){
     const pathname = usePathname();
 
     return(
-        <div className="w-[20%] border-r border-b shadow-right-sm hidden md:block">
+        <div className="w-[20%] border-r border-b shadow-right-sm hidden lg:block">
             <ul className='flex flex-col justify-start'>
                 <Link href="/dashboard"
                     className={`links ${pathname.startsWith('/dashboard')?
