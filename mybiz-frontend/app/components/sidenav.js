@@ -1,31 +1,50 @@
+'use client';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGrip, faMoneyBill, faMoneyBillTrendUp, faGear } from "@fortawesome/free-solid-svg-icons";
 export default function SideNav(){
+    const pathname = usePathname();
 
     return(
         <div className="w-[20%] border-r border-b shadow-right-sm hidden md:block">
             <ul className='flex flex-col justify-start'>
-                <Link href="/dashboard">
-                    <li className="links">
+                <Link href="/dashboard"
+                    className={`links ${pathname.startsWith('/dashboard')?
+                        'bg-[#F5EFFF] text-[#4A007E]' : 'hover:bg-[#F5EFFF] hover:text-[#4A007E]'
+                        }`}
+                >
+                    <li>
                         <FontAwesomeIcon className="text-base mr-4 text-[#001F3F]" icon={faGrip} />
                         Dashboard
                     </li>
                 </Link>
-                <Link href="/Home">
-                    <li className="links">
+                <Link href="/expenses"
+                    className={`links ${pathname.startsWith('/expenses') ?
+                        'bg-[#F5EFFF] text-[#4A007E]' : 'hover:bg-[#F5EFFF] hover:text-[#4A007E]'
+                        }`}
+                >
+                    <li>
                         <FontAwesomeIcon className="text-base mr-4 text-[#001F3F]" icon={faMoneyBillTrendUp} />
                         Expenses
                     </li>
                 </Link>
-                <Link href="/dashboard">
-                    <li className="links">
+                <Link href="/sales"
+                    className={`links ${pathname.startsWith('/sales') ?
+                        'bg-[#F5EFFF] text-[#4A007E]' : 'hover:bg-[#F5EFFF] hover:text-[#4A007E]'
+                        }`}
+                >
+                    <li>
                         <FontAwesomeIcon className="text-base mr-4 text-[#001F3F]" icon={faMoneyBill} />
                         Sales
                     </li>
                 </Link>
-                <Link href="/dashboard">
-                    <li className="links">
+                <Link href="/settings"
+                    className={`links ${pathname.startsWith('/settings') ?
+                        'bg-[#F5EFFF] text-[#4A007E]' : 'hover:bg-[#F5EFFF] hover:text-[#4A007E]'
+                        }`}
+                >
+                    <li>
                         <FontAwesomeIcon className="text-base mr-4 text-[#001F3F]" icon={faGear} />
                         Settings
                     </li>
