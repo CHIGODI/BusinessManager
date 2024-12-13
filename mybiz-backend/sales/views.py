@@ -17,7 +17,7 @@ class SalesListCreate(APIView):
         sales = Sale.objects.all()
         serializer = SaleSerializer(sales, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
+
     def post(self, request):
         """ create a sale """
         serializer = SaleSerializer(data=request.data)
@@ -38,7 +38,7 @@ class SaleDetail(APIView):
         sale = get_object_or_404(Sale, pk=sale_id)
         serializer = SaleSerializer(sale)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
+
     def delete(self, request, sale_id):
         """ delete a sale """
         sale = get_object_or_404(Sale, pk=sale_id)
