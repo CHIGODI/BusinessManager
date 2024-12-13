@@ -1,4 +1,5 @@
 .env
+.venv
 inventory/__pycache__/
 mybiz/__pycache__/
 users/__pycache__/
