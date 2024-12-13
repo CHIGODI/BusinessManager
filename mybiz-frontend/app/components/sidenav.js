@@ -7,15 +7,15 @@ export default function SideNav(){
     const pathname = usePathname();
 
     return(
-        <div className="w-[20%] border-r border-b shadow-right-sm hidden lg:block">
+        <div className="w-[20%] border-r h-full border-b shadow-right-sm hidden lg:block">
             <ul className='flex flex-col justify-start'>
                 <Link href="/dashboard"
                     className={`links ${pathname.startsWith('/dashboard')?
                         'bg-[#F5EFFF] text-[#4A007E]' : 'hover:bg-[#F5EFFF] hover:text-[#4A007E]'
                         }`}
                 >
-                    <li>
-                        <FontAwesomeIcon className="text-base mr-4 text-[#001F3F]" icon={faGrip} />
+                    <li className='text-sm'>
+                        <FontAwesomeIcon className="text-sm mr-4 text-[#001F3F]" icon={faGrip} />
                         Dashboard
                     </li>
                 </Link>
@@ -24,8 +24,8 @@ export default function SideNav(){
                         'bg-[#F5EFFF] text-[#4A007E]' : 'hover:bg-[#F5EFFF] hover:text-[#4A007E]'
                         }`}
                 >
-                    <li>
-                        <FontAwesomeIcon className="text-base mr-4 text-[#001F3F]" icon={faMoneyBillTrendUp} />
+                    <li className='text-sm'>
+                        <FontAwesomeIcon className="text-sm mr-4 text-[#001F3F]" icon={faMoneyBillTrendUp} />
                         Expenses
                     </li>
                 </Link>
@@ -34,8 +34,8 @@ export default function SideNav(){
                         'bg-[#F5EFFF] text-[#4A007E]' : 'hover:bg-[#F5EFFF] hover:text-[#4A007E]'
                         }`}
                 >
-                    <li>
-                        <FontAwesomeIcon className="text-base mr-4 text-[#001F3F]" icon={faMoneyBill} />
+                    <li className='text-sm'>
+                        <FontAwesomeIcon className="text-sm mr-4 text-[#001F3F]" icon={faMoneyBill} />
                         Sales
                     </li>
                 </Link>
@@ -44,8 +44,8 @@ export default function SideNav(){
                         'bg-[#F5EFFF] text-[#4A007E]' : 'hover:bg-[#F5EFFF] hover:text-[#4A007E]'
                         }`}
                 >
-                    <li>
-                        <FontAwesomeIcon className="text-base mr-4 text-[#001F3F]" icon={faGear} />
+                    <li className='text-sm'>
+                        <FontAwesomeIcon className="text-sm mr-4 text-[#001F3F]" icon={faGear} />
                         Settings
                     </li>
                 </Link>
