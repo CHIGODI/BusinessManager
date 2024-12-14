@@ -10,6 +10,26 @@ import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
 
 export default function SalePage() {
     const [viewTotal, setViewTotal] = useState(true);
+    const products = [
+        { name: 'Neocidal', quantity: 5 },
+        { name: 'Okra', quantity: 10 },
+        { name: 'Kungunil', quantity: 8 },
+        { name: 'Tomato', quantity: 15 },
+        { name: 'Maize', quantity: 12 },
+        { name: 'Rice', quantity: 30 },
+        { name: 'Wheat', quantity: 20 },
+    ];
+
+    const [cart, setCart] = useState([]);
+
+    const addProductToCart = (product) => {
+        setCart((prevCart) => [...prevCart, product])
+    };
+    const removeProductFromCart = (productIndex) => {
+        setCart((prevCart) => prevCart.filter((_, index) => index !== productIndex));
+    };
+
+
     return (
         <div className="h-screen">
             <NavBar />
@@ -74,10 +94,14 @@ export default function SalePage() {
                         </div>
                     </div>
                     {/* all products card */}
-                    <ProductListCard />
+                    <ProductListCard
+                        addProductToCart={addProductToCart} />
                     {/* cart and checkout card */}
                     <div className='flex flex-col gap-4 h-[80%]'>
-                        <CartCard />
+                        <CartCard
+                            products={cart}
+                            removeProductFromCart={removeProductFromCart}
+                        />
                         <CheckoutCard />
                     </div>
                 </div>
