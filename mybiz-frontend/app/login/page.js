@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from "react";
 import Link from "next/link";
+import { toast } from 'react-toastify';
 import { useRouter } from "next/navigation";
 import axios from "axios";
 
@@ -8,20 +9,16 @@ import axios from "axios";
 const LoginPage = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
     const router = useRouter();
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        if (!username || !password || !confirmPassword) {
+        if (!username || !password) {
             setError("All fields are required");
             return;
         }
-        if (password !== confirmPassword) {
-            setError("Passwords do not match");
-            return;
-        }
+
         setError("");
 
         const data = {
@@ -30,7 +27,7 @@ const LoginPage = () => {
         }
 
         try {
-            const res = await axios.post(
+            const response = await axios.post(
                 'http://localhost:8000/api/token/',
                 data,
                 {
@@ -41,12 +38,14 @@ const LoginPage = () => {
                 }
             );
             if (response.status === 200) {
-                toast.success('successfully logged in');
+                localStorage.setItem('access_token', response.data.access);
+                axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.access}`;
                 router.push('/dashboard');
+                toast.success('successfully logged in');
             };
 
         } catch (error) {
-            console.log(e)
+            console.log(error)
         }
     };
 
@@ -113,10 +112,7 @@ const LoginPage = () => {
                                 focus:outline-none focus:ring-2
                                 focus:ring-purple-500
                                 text-sm
-                                md:text-base
-
-                                "
-                >
+                                md:text-base">
                     Sign Up
                 </button>
                 <div className="text-center flex flex-row justify-center gap-2">
