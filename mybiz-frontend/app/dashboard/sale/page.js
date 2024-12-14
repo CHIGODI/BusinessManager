@@ -7,28 +7,49 @@ import ProductListCard from './components/ProductListCard';
 import CartCard from './components/CartCard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
+import { useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 export default function SalePage() {
     const [viewTotal, setViewTotal] = useState(true);
-    const products = [
-        { name: 'Neocidal', quantity: 5 },
-        { name: 'Okra', quantity: 10 },
-        { name: 'Kungunil', quantity: 8 },
-        { name: 'Tomato', quantity: 15 },
-        { name: 'Maize', quantity: 12 },
-        { name: 'Rice', quantity: 30 },
-        { name: 'Wheat', quantity: 20 },
-    ];
-
+    const [products, setProducts] = useState([]);
     const [cart, setCart] = useState([]);
 
+    // add product to cart
     const addProductToCart = (product) => {
         setCart((prevCart) => [...prevCart, product])
     };
+
+    // remove product from cart
     const removeProductFromCart = (productIndex) => {
-        setCart((prevCart) => prevCart.filter((_, index) => index !== productIndex));
+        setCart((prevCart) => prevCart.filter(
+            (_, index) => index !== productIndex)
+        );
     };
 
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const response = await axios.get('http://localhost:8000/api/v1/products/',
+                    {
+                        headers: {
+                            "Authorization": `Bearer ${localStorage.getItem('access_token')}`,
+                        }
+                    }
+                );
+                if (response.status === 200) {
+                    setProducts(response.data);
+                    console.log(response.data);
+                }
+            } catch (error) {
+                console.log(error);
+                toast.error('No products found, or refresh the page');
+            }
+        };
+
+        fetchProducts();
+    }, []);
 
     return (
         <div className="h-screen">
@@ -95,7 +116,9 @@ export default function SalePage() {
                     </div>
                     {/* all products card */}
                     <ProductListCard
-                        addProductToCart={addProductToCart} />
+                        products={products}
+                        addProductToCart={addProductToCart}
+                     />
                     {/* cart and checkout card */}
                     <div className='flex flex-col gap-4 h-[80%]'>
                         <CartCard
