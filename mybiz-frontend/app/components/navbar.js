@@ -11,7 +11,7 @@ export default function NavBar(){
     };
 
     return(
-        <nav className="relative h-[70px] flex items-center justify-between border-b">
+        <nav className="sticky z-10 top-0 h-[70px] flex items-center justify-between border-b bg-white">
             <div className='w-[100%] pl-[2.5%] pr-[2.5%] h-full flex items-center justify-between lg:pl-[2%] lg:w-[20%] lg:pr-0'>
                 <Image
                     src="/Images/myBIZ.png"
