@@ -4,10 +4,12 @@ import Link from "next/link";
 import { toast } from 'react-toastify';
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 
 const LoginPage = () => {
     const [username, setUsername] = useState("");
+    const [ signin, setSigningin ] = useState('Sign In');
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const router = useRouter();
@@ -20,7 +22,7 @@ const LoginPage = () => {
         }
 
         setError("");
-
+        setSigningin('Signing in...');
         const data = {
             "username": username,
             "password": password
@@ -38,13 +40,28 @@ const LoginPage = () => {
                 }
             );
             if (response.status === 200) {
-                localStorage.setItem('access_token', response.data.access);
-                axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.access}`;
+                const { access, refresh } = response.data;
+                Cookies.set('access_token', access, {
+                    secure: true,
+                    sameSite: 'Strict',
+                    expires: 7,
+                });
+
+                Cookies.set('refresh_token', refresh, {
+                    secure: true,
+                    sameSite: 'Strict',
+                    expires: 7,
+                });
+                setSigningin('Sign In');
                 router.push('/dashboard');
                 toast.success('successfully logged in');
             };
-
         } catch (error) {
+            if (error.response) {
+                setError(error.response.data.detail);
+            }else{
+                toast.error('Error connecting to the server');
+            }
             console.log(error)
         }
     };
@@ -105,6 +122,7 @@ const LoginPage = () => {
                 />
                 <button
                     type="submit"
+                    onClick={handleLogin}
                     className="w-full
                                 py-3 bg-purple-700
                                 text-white rounded-lg
@@ -112,8 +130,9 @@ const LoginPage = () => {
                                 focus:outline-none focus:ring-2
                                 focus:ring-purple-500
                                 text-sm
-                                md:text-base">
-                    Sign Up
+                                md:text-base
+                                ">
+                    {signin}
                 </button>
                 <div className="text-center flex flex-row justify-center gap-2">
                     <Link href="/signup" className="text-blue-500 text-sm hover:underline">Create Account</Link>
