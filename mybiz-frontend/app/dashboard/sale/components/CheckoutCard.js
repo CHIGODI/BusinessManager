@@ -9,7 +9,11 @@ const CheckoutCard = () => {
                 <FontAwesomeIcon aria-hidden='true' className='text-sm mt-4 text-gray-600' icon={faMoneyBillWave} />
             </h2>
             <div className='flex flex-col p-4'>
-                <p className='text-sm text-purple-600 font-semibold'>Total Payable: <span className='text-gray-400'>KES</span> 2,580</p>
+                <p className='text-blackfont-semibold text-xl'>
+                    <span className='text-sm text-gray-400'>Total Payable:</span>
+                    <span className='text-gray-500 text-sm'> KES</span>
+                    <span className='text-md font-bold text-gray-600'> 2,580</span>
+                </p>
                 <div className="flex items-center space-x-4 py-2">
                     <div className="flex items-center space-x-2">
                         <input type="checkbox" id="mpesa" className="text-sm" />

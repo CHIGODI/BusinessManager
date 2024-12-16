@@ -10,6 +10,7 @@ import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
+import Cookies from 'js-cookie';
 
 export default function SalePage() {
     const [viewTotal, setViewTotal] = useState(true);
@@ -34,7 +35,7 @@ export default function SalePage() {
                 const response = await axios.get('http://localhost:8000/api/v1/products/',
                     {
                         headers: {
-                            "Authorization": `Bearer ${localStorage.getItem('access_token')}`,
+                            "Authorization": `Bearer ${Cookies.get('access_token')}`,
                         }
                     }
                 );

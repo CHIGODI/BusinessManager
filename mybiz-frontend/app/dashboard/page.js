@@ -6,7 +6,6 @@ import { faCartShopping, faArrowUpRightFromSquare, faCoins, faBox } from "@forta
 
 
 export default function Dashboard() {
-
     return (
         <div className="h-screen box-border">
             <NavBar />
