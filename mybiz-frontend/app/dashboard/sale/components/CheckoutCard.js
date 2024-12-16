@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMoneyBillWave } from '@fortawesome/free-solid-svg-icons';
 
-const CheckoutCard = () => {
+const CheckoutCard = ({total}) => {
     return (
         <div className='border rounded-xl shadow-sm h-[40%] bg-white'>
             <h2 className='p-4 text-gray-600 font-bold rounded-xl flex justify-between items-center'>
@@ -12,7 +12,7 @@ const CheckoutCard = () => {
                 <p className='text-blackfont-semibold text-xl'>
                     <span className='text-sm text-gray-400'>Total Payable:</span>
                     <span className='text-gray-500 text-sm'> KES</span>
-                    <span className='text-md font-bold text-gray-600'> 2,580</span>
+                    <span className='text-md font-bold text-gray-600'> {total? total: 0}</span>
                 </p>
                 <div className="flex items-center space-x-4 py-2">
                     <div className="flex items-center space-x-2">

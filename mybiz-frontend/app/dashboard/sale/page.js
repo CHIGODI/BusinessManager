@@ -16,18 +16,8 @@ export default function SalePage() {
     const [viewTotal, setViewTotal] = useState(true);
     const [products, setProducts] = useState([]);
     const [cart, setCart] = useState([]);
-
-    // add product to cart
-    const addProductToCart = (product) => {
-        setCart((prevCart) => [...prevCart, product])
-    };
-
-    // remove product from cart
-    const removeProductFromCart = (productIndex) => {
-        setCart((prevCart) => prevCart.filter(
-            (_, index) => index !== productIndex)
-        );
-    };
+    const [searchTerm, setSearchTerm] = useState('');
+    const [filteredProducts, setFilteredProducts] = useState(products);
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -41,6 +31,7 @@ export default function SalePage() {
                 );
                 if (response.status === 200) {
                     setProducts(response.data);
+                    setFilteredProducts(response.data);
                     console.log(response.data);
                 }
             } catch (error) {
@@ -51,6 +42,39 @@ export default function SalePage() {
 
         fetchProducts();
     }, []);
+
+
+    // add product to cart
+    const addProductToCart = (product) => {
+        setCart((prevCart) => [...prevCart, product])
+    };
+
+    // remove product from cart
+    const removeProductFromCart = (productIndex) => {
+        setCart((prevCart) => prevCart.filter(
+            (_, index) => index !== productIndex)
+        );
+    };
+
+    const handleSearch = (event) => {
+        const search = event.target.value;
+        setSearchTerm(search);
+        if (search.trim() === '') {
+            setFilteredProducts(filteredProducts);
+            return;
+        }
+        const filtered = products.filter(product =>
+            product.name.toLowerCase().includes(search.toLowerCase())
+        );
+        setFilteredProducts(filtered);
+    };
+
+    const totalSalePayable = () => {
+        const total = cart.reduce((accumulator, product) => {
+            return accumulator + Number(product.unit_selling_price);
+        }, 0);
+        return total;
+    };
 
     return (
         <div className="h-screen">
@@ -68,6 +92,8 @@ export default function SalePage() {
                             <input
                                 type="text"
                                 placeholder="Search product..."
+                                value={searchTerm}
+                                onChange={handleSearch}
                                 className="text-sm w-[80%]
                                             p-4 border border-gray-300
                                             rounded-tl-full rounded-bl-full
@@ -117,7 +143,7 @@ export default function SalePage() {
                     </div>
                     {/* all products card */}
                     <ProductListCard
-                        products={products}
+                        products={filteredProducts}
                         addProductToCart={addProductToCart}
                      />
                     {/* cart and checkout card */}
@@ -126,7 +152,7 @@ export default function SalePage() {
                             products={cart}
                             removeProductFromCart={removeProductFromCart}
                         />
-                        <CheckoutCard />
+                        <CheckoutCard  total={totalSalePayable()} />
                     </div>
                 </div>
             </div>
