@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGrip, faMoneyBill, faMoneyBillTrendUp, faGear } from "@fortawesome/free-solid-svg-icons";
+import { faGrip, faMoneyBill, faBox, faGear } from "@fortawesome/free-solid-svg-icons";
 export default function SideNav(){
     const pathname = usePathname();
 
@@ -19,14 +19,14 @@ export default function SideNav(){
                         Dashboard
                     </li>
                 </Link>
-                <Link href="/expenses"
-                    className={`links ${pathname.startsWith('/expenses') ?
+                <Link href="/products"
+                    className={`links ${pathname.startsWith('/products') ?
                         'bg-[#F5EFFF] text-[#4A007E]' : 'hover:bg-[#F5EFFF] hover:text-[#4A007E]'
                         }`}
                 >
                     <li className='text-sm'>
-                        <FontAwesomeIcon className="text-sm mr-4 text-[#001F3F]" icon={faMoneyBillTrendUp} />
-                        Expenses
+                        <FontAwesomeIcon className="text-sm mr-4 text-[#001F3F]" icon={faBox} />
+                        All products
                     </li>
                 </Link>
                 <Link href="/sales"
