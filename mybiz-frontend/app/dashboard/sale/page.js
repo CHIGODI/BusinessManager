@@ -11,6 +11,7 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
+import CheckoutFormSale from './components/CheckoutFormSale';
 
 export default function SalePage() {
     const [viewTotal, setViewTotal] = useState(true);
@@ -79,7 +80,7 @@ export default function SalePage() {
     return (
         <div className="h-screen">
             <NavBar />
-            <div className="flex flex-row w-full h-full">
+            <div className="relative flex flex-row w-full h-full">
                 <SideNav />
                 <div className="w-[80%] px-[2%] py-[2%]
                                 h-full grid grid-cols-2
@@ -147,12 +148,12 @@ export default function SalePage() {
                         addProductToCart={addProductToCart}
                      />
                     {/* cart and checkout card */}
-                    <div className='flex flex-col gap-4 h-[80%]'>
+                    <div className='flex flex-col gap-4 h-[29rem]'>
                         <CartCard
                             products={cart}
                             removeProductFromCart={removeProductFromCart}
                         />
-                        <CheckoutCard  total={totalSalePayable()} />
+                        <CheckoutCard  total={totalSalePayable()} products={cart}/>
                     </div>
                 </div>
             </div>
