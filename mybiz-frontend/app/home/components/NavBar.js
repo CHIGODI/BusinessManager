@@ -79,7 +79,7 @@ export default function NavBar() {
                         </button>
                     </li>
                 </Link>
-                <Link href="/signup">
+                <Link href="/login">
                     <li>
                         <button
                             className="
