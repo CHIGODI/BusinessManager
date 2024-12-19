@@ -4,10 +4,10 @@
 This module contains the URL configuration for the Sale app.
 """
 from django.urls import path
-from .views import ProductListCreate
+from .views import SalesListCreate, SaleDetail
 
 
 urlpatterns = [
-    path('products/', ProductListCreate.as_view(), name='all_products'),
-    path('products/<product_id> : str>/', ProductListCreate.as_view(), name='update_product'),
+    path('', SalesListCreate.as_view(), name='sales_list_create'),
+    path('<str:sale_id>/', SaleDetail.as_view(), name='sale_detail'),
 ]

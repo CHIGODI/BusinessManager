@@ -58,7 +58,7 @@ INSTALLED_APPS = [
     'allauth',
     'accounts',
     'products',
-    # 'sales',
+    'sales',
     # 'industries',
     # 'notifications',
 ]
