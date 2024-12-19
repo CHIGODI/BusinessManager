@@ -1,5 +1,7 @@
 from .models import Sale
+from uuid import UUID
 from rest_framework import status
+from products.models import Product
 from .serializers import SaleSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -11,6 +13,7 @@ class SalesListCreate(APIView):
     """ views for creating and listing sales
         /api/v1/sales
     """
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         """ get all sales """
@@ -20,7 +23,23 @@ class SalesListCreate(APIView):
 
     def post(self, request):
         """ create a sale """
-        serializer = SaleSerializer(data=request.data)
+        sales_data = request.data.get('sales', [])
+        if not sales_data:
+            return Response({'error': 'No sales data provided'},
+                            status=status.HTTP_400_BAD_REQUEST)
+
+        # calculating the total for each sale and apply the discount
+        product_ids = [UUID(str(sale['product'])) for sale in sales_data]
+        Products = Product.objects.filter(id__in=product_ids)
+        products = {product.id: product for product in Products}
+
+        for sale in sales_data:
+            price = products[UUID(sale['product'])].unit_selling_price
+            discount = sale.get('discount', 0) / 100
+            total = float(price) * sale['quantity']
+            sale['total'] = total - (total * discount)
+
+        serializer = SaleSerializer(data=sales_data, many=True)
         if serializer.is_valid():
             serializer.save(sold_by=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)

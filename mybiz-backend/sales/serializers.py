@@ -15,9 +15,9 @@ class SaleSerializer(serializers.ModelSerializer):
         return value
 
     def validate_discount(self, value):
-        if value < 0:
+        if value < 0 or value > 100:
             raise serializers.ValidationError(
-                "Discount must be greater than or equal to 0")
+                "Discount must be positive and below 101")
         return value
 
     def validate_total(self, value):

@@ -7,14 +7,15 @@ class Sale(BaseModel):
     product = models.ForeignKey('products.Product', on_delete=models.PROTECT,
                                 related_name='sales',
                                 verbose_name='Product Name')
-    quantity = models.IntegerField(null=False, default=0)
+    quantity = models.IntegerField(null=False, default=1)
     discount = models.DecimalField(max_digits=6, default=0.0,
                                    decimal_places=2, null=True)
     total = models.DecimalField(max_digits=6, default=0.0,
                                 decimal_places=2, null=False,
                                 verbose_name='Total Price')
     sold_by = models.ForeignKey('accounts.CustomUser',
-                                on_delete=models.PROTECT,)
+                                on_delete=models.PROTECT,
+                                null=True)
 
     class Meta:
         """Control behavior of the model"""
