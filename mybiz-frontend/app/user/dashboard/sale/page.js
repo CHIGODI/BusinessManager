@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
-import NavBar from '../../components/navbar';
-import SideNav from '../../components/sidenav';
+import NavBar from '../../../components/navbar';
+import SideNav from '../../../components/sidenav';
 import CheckoutCard from './components/CheckoutCard';
 import ProductListCard from './components/ProductListCard';
 import CartCard from './components/CartCard';
@@ -145,14 +145,14 @@ export default function SalePage() {
                     <ProductListCard
                         products={filteredProducts}
                         addProductToCart={addProductToCart}
-                     />
+                    />
                     {/* cart and checkout card */}
                     <div className='flex flex-col gap-4 h-[29rem]'>
                         <CartCard
                             products={cart}
                             removeProductFromCart={removeProductFromCart}
                         />
-                        <CheckoutCard  total={totalSalePayable()} products={cart}/>
+                        <CheckoutCard total={totalSalePayable()} products={cart} />
                     </div>
                 </div>
             </div>

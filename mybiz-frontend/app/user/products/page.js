@@ -1,6 +1,6 @@
 'use client'
-import NavBar from "../components/navbar";
-import SideNav from "../components/sidenav";
+import NavBar from "../../components/navbar";
+import SideNav from "../../components/sidenav";
 import AddProductsButtonAndForm from "./components/AddProductsButtonAndForm";
 import { useState } from "react";
 
@@ -53,7 +53,6 @@ const allProducts = () => {
                                 h-full flex flex-col gap-4">
                     <div className="flex justify-between items-center">
                         <h2 className="font-bold text-lg text-gray-600">All Products</h2>
-                        <AddProductsButtonAndForm />
                     </div>
                     <div className="rounded-xl border h-full
                                     shadow-sm overflow-y-scroll scrollbar-thin

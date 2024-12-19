@@ -30,7 +30,7 @@ const LoginPage = () => {
 
         try {
             const response = await axios.post(
-                'http://localhost:8000/api/token/',
+                'http://localhost:8000/api/v1/account/login/',
                 data,
                 {
                     headers: {
@@ -40,7 +40,9 @@ const LoginPage = () => {
                 }
             );
             if (response.status === 200) {
-                const { access, refresh } = response.data;
+                const { access, refresh, user } = response.data;
+                const is_staff = user.is_staff;
+                const dashboardPath = is_staff ? '/admin/dashboard' : '/user/dashboard';
                 Cookies.set('access_token', access, {
                     secure: true,
                     sameSite: 'Strict',
@@ -52,9 +54,15 @@ const LoginPage = () => {
                     sameSite: 'Strict',
                     expires: 7,
                 });
+                Cookies.set('is_staff', is_staff, {
+                    secure: true,
+                    sameSite: 'Strict',
+                    expires: 7,
+                });
+                // Redirect to dashboard bases on user role
+                router.push(dashboardPath);
+                toast.success('Successfully logged in');
                 setSigningin('Sign In');
-                router.push('/dashboard');
-                toast.success('successfully logged in');
             };
         } catch (error) {
             if (error.response) {
@@ -62,7 +70,6 @@ const LoginPage = () => {
             }else{
                 toast.error('Error connecting to the server');
             }
-            console.log(error)
         }
     };
 
