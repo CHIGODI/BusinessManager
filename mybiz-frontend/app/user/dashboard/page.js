@@ -1,11 +1,12 @@
-import SideNav from '../components/sidenav';
+import SideNav from '../../components/sidenav';
 import Link from 'next/link';
-import NavBar from '../components/navbar';
+import NavBar from '../../components/navbar';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping, faArrowUpRightFromSquare, faCoins, faBox } from "@fortawesome/free-solid-svg-icons";
+import withRole from '../../hoc/withRole';
 
 
-export default function Dashboard() {
+function Dashboard() {
     return (
         <div className="h-screen box-border">
             <NavBar />
@@ -20,7 +21,7 @@ export default function Dashboard() {
                             MAKE SALE
                         </h5>
                         <FontAwesomeIcon className='text-7xl mt-4 text-[#A6AEBF]' icon={faCartShopping} />
-                        <Link href='/dashboard/sale' className='flex items-center justify-center'>
+                        <Link href='/user/dashboard/sale' className='flex items-center justify-center'>
                             <button className='border text-[#001F3F]
                                                 rounded p-2 mt-4 hover:bg-gray-200'
                             >
@@ -62,3 +63,5 @@ export default function Dashboard() {
         </div>
     );
 };
+
+export default withRole(Dashboard, ['user']);
