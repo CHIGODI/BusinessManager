@@ -46,7 +46,7 @@ const CheckoutCard = ({total, products}) => {
                 <div className="flex flex-col space-x-4 py-2">
                     <div className="flex items-center space-x-2">
                         <label htmlFor="discount" className="text-sm">Discount</label>
-                        <input type="text" id="discount" className="text-sm w-1/4 p-1 border border-gray-200 rounded-xl outline-none focus:outline-purple-600 bg-[#F8FAFC]" />
+                        <input type="number" id="discount" className="text-sm w-1/4 p-1 border border-gray-200 rounded-xl outline-none focus:outline-purple-600 bg-[#F8FAFC]" />
                     </div>
                     <div className="flex items-center space-x-2">
                         <input type="checkbox" id="mpesa" className="text-sm" />

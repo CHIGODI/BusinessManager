@@ -11,7 +11,6 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
-import CheckoutFormSale from './components/CheckoutFormSale';
 
 export default function SalePage() {
     const [viewTotal, setViewTotal] = useState(true);
