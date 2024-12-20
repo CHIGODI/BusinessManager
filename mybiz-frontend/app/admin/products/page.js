@@ -1,6 +1,6 @@
 'use client'
-import NavBar from "../../components/navbar";
-import SideNav from "../../components/sidenav";
+import NavBar from "../../sharedComponents/NavBar";
+import SideNav from "../../sharedComponents/SideNav";
 import AddProductsButtonAndForm from "./components/AddProductsButtonAndForm";
 import { useState } from "react";
 
@@ -44,11 +44,11 @@ const allProducts = () => {
         }
     };
 
-    return(
-            <div className="h-screen">
-                <NavBar />
-                <div className="relative flex flex-row w-full h-full">
-                    <SideNav />
+    return (
+        <div className="h-screen">
+            <NavBar />
+            <div className="relative flex flex-row w-full h-full">
+                <SideNav />
                 <div className="w-[80%] px-[2%] py-[2%]
                                 h-full flex flex-col gap-4">
                     <div className="flex justify-between items-center">
@@ -85,8 +85,8 @@ const allProducts = () => {
                         )}
                     </div>
                 </div>
-                </div>
             </div>
+        </div>
     );
 };
 export default allProducts;

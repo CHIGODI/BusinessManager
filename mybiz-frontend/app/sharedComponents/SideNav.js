@@ -9,8 +9,8 @@ export default function SideNav(){
     return(
         <div className="w-[20%] border-r h-full border-b hidden sticky z-10 top-[70px] lg:block">
             <ul className='flex flex-col justify-start'>
-                <Link href="/dashboard"
-                    className={`links ${pathname.startsWith('/dashboard')?
+                <Link href="/user/dashboard"
+                    className={`links ${pathname.startsWith('/user/dashboard')?
                         'bg-[#F5EFFF] text-[#4A007E]' : 'hover:bg-[#F5EFFF] hover:text-[#4A007E]'
                         }`}
                 >
@@ -19,8 +19,8 @@ export default function SideNav(){
                         Dashboard
                     </li>
                 </Link>
-                <Link href="/products"
-                    className={`links ${pathname.startsWith('/products') ?
+                <Link href="/user/products"
+                    className={`links ${pathname.startsWith('/user/products') ?
                         'bg-[#F5EFFF] text-[#4A007E]' : 'hover:bg-[#F5EFFF] hover:text-[#4A007E]'
                         }`}
                 >
@@ -29,8 +29,8 @@ export default function SideNav(){
                         All products
                     </li>
                 </Link>
-                <Link href="/sales"
-                    className={`links ${pathname.startsWith('/sales') ?
+                <Link href="/user/sales"
+                    className={`links ${pathname.startsWith('/user/sales') ?
                         'bg-[#F5EFFF] text-[#4A007E]' : 'hover:bg-[#F5EFFF] hover:text-[#4A007E]'
                         }`}
                 >
@@ -39,8 +39,8 @@ export default function SideNav(){
                         Sales
                     </li>
                 </Link>
-                <Link href="/settings"
-                    className={`links ${pathname.startsWith('/settings') ?
+                <Link href="/user/settings"
+                    className={`links ${pathname.startsWith('/user/settings') ?
                         'bg-[#F5EFFF] text-[#4A007E]' : 'hover:bg-[#F5EFFF] hover:text-[#4A007E]'
                         }`}
                 >

@@ -1,6 +1,6 @@
-import SideNav from '../../components/sidenav';
+import SideNav from '../../sharedComponents/SideNav';
 import Link from 'next/link';
-import NavBar from '../../components/navbar';
+import NavBar from '../../sharedComponents/NavBar';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping, faArrowUpRightFromSquare, faCoins, faBox } from "@fortawesome/free-solid-svg-icons";
 import withRole from '../../hoc/withRole';

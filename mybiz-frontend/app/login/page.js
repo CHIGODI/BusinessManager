@@ -52,7 +52,6 @@ const LoginPage = () => {
                 Cookies.set('refresh_token', refresh, {
                     secure: true,
                     sameSite: 'Strict',
-                    expires: 7,
                 });
                 Cookies.set('is_staff', is_staff, {
                     secure: true,

@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
-import NavBar from '../../../components/navbar';
-import SideNav from '../../../components/sidenav';
+import NavBar from '../../../sharedComponents/NavBar';
+import SideNav from '../../../sharedComponents/SideNav';
 import CheckoutCard from './components/CheckoutCard';
 import ProductListCard from './components/ProductListCard';
 import CartCard from './components/CartCard';
