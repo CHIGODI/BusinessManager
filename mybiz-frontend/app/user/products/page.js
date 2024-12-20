@@ -1,6 +1,6 @@
 'use client'
-import NavBar from "../../components/navbar";
-import SideNav from "../../components/sidenav";
+import NavBar from "../../sharedComponents/Navbar";
+import SideNav from "../../sharedComponents/SideNav";
 import AddProductsButtonAndForm from "./components/AddProductsButtonAndForm";
 import { useState } from "react";
 
@@ -44,23 +44,23 @@ const allProducts = () => {
         }
     };
 
-    return(
-            <div className="h-screen">
-                <NavBar />
-                <div className="relative flex flex-row w-full h-full">
-                    <SideNav />
+    return (
+        <div className="h-screen">
+            <NavBar />
+            <div className="relative flex flex-row w-full h-full">
+                <SideNav />
                 <div className="w-[80%] px-[2%] py-[2%]
-                                h-full flex flex-col gap-4">
+                                    h-full flex flex-col gap-4">
                     <div className="flex justify-between items-center">
                         <h2 className="font-bold text-lg text-gray-600">All Products</h2>
                     </div>
                     <div className="rounded-xl border h-full
-                                    shadow-sm overflow-y-scroll scrollbar-thin
-                                    scrollbar-thumb-rounded-full
-                                    scrollbar-track-rounded
-                                    scrollbar-thumb-gray-500
-                                    scrollbar-track-gray-300
-                                    bg-white"
+                                        shadow-sm overflow-y-scroll scrollbar-thin
+                                        scrollbar-thumb-rounded-full
+                                        scrollbar-track-rounded
+                                        scrollbar-thumb-gray-500
+                                        scrollbar-track-gray-300
+                                        bg-white"
                     >
                         {products.length > 0 && (
                             <ul className="divide-y divide-gray-200">
@@ -84,8 +84,8 @@ const allProducts = () => {
                         )}
                     </div>
                 </div>
-                </div>
             </div>
+        </div>
     );
 };
 export default allProducts;

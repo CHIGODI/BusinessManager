@@ -48,11 +48,14 @@ const LoginPage = () => {
                     sameSite: 'Strict',
                     expires: 7,
                 });
+                Cookies.set('user_email', user.email, {
+                    secure: true,
+                    sameSite: 'Strict',
+                    expires: 7 });
 
                 Cookies.set('refresh_token', refresh, {
                     secure: true,
                     sameSite: 'Strict',
-                    expires: 7,
                 });
                 Cookies.set('is_staff', is_staff, {
                     secure: true,
@@ -70,6 +73,7 @@ const LoginPage = () => {
             }else{
                 toast.error('Error connecting to the server');
             }
+            setSigningin('Sign In');
         }
     };
 
@@ -129,7 +133,6 @@ const LoginPage = () => {
                 />
                 <button
                     type="submit"
-                    onClick={handleLogin}
                     className="w-full
                                 py-3 bg-purple-700
                                 text-white rounded-lg

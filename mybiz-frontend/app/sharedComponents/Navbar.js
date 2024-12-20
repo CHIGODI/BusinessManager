@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
 export default function NavBar(){
+    const user = Cookies.get('user_email');
     const Router = useRouter();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const openMenu = () => {
@@ -45,8 +46,9 @@ export default function NavBar(){
                 />
                 <FontAwesomeIcon className="text-purple-800 text-3xl lg:invisible" icon={faBars} onClick={openMenu} />
             </div>
-            <div className="hidden lg:flex w-1/6 h-1/2 mr-[5%] relative items-center justify-end">
-                <div className="w-[20%] h-[100%] rounded-[50%] mx-[5%] bg-gray-200">
+            <div className="hidden lg:flex w-1/3 h-1/2 mr-[5%] relative items-center justify-end border">
+                <div className="w-[50%] h-[100%] mx-[5%] bg-gray-200 border">
+                    <p>{user.email}</p>
                 </div>
                 <FontAwesomeIcon  onClick={handleLogout} className="text-sm text-[#001F3F] hover:text-[#4A007E] p-2 hover:bg-gray-200 rounded-md" icon={faRightFromBracket} />
                 <div className="absolute bg-green-500 w-full h-[20vh] invisible"></div>
