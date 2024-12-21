@@ -1,37 +1,36 @@
 'use client';
 import React, { useState } from "react";
 import Link from "next/link";
+import { toast } from 'react-toastify';
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 
 const LoginPage = () => {
     const [username, setUsername] = useState("");
+    const [ signin, setSigningin ] = useState('Sign In');
     const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
     const router = useRouter();
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        if (!username || !password || !confirmPassword) {
+        if (!username || !password) {
             setError("All fields are required");
             return;
         }
-        if (password !== confirmPassword) {
-            setError("Passwords do not match");
-            return;
-        }
-        setError("");
 
+        setError("");
+        setSigningin('Signing in...');
         const data = {
             "username": username,
             "password": password
         }
 
         try {
-            const res = await axios.post(
-                'http://localhost:8000/api/token/',
+            const response = await axios.post(
+                'http://localhost:8000/api/v1/account/login/',
                 data,
                 {
                     headers: {
@@ -41,12 +40,36 @@ const LoginPage = () => {
                 }
             );
             if (response.status === 200) {
-                toast.success('successfully logged in');
-                router.push('/dashboard');
-            };
+                const { access, refresh, user } = response.data;
+                const is_staff = user.is_staff;
+                const dashboardPath = is_staff ? '/admin/dashboard' : '/user/dashboard';
+                Cookies.set('access_token', access, {
+                    secure: true,
+                    sameSite: 'Strict',
+                    expires: 7,
+                });
 
+                Cookies.set('refresh_token', refresh, {
+                    secure: true,
+                    sameSite: 'Strict',
+                    expires: 7,
+                });
+                Cookies.set('is_staff', is_staff, {
+                    secure: true,
+                    sameSite: 'Strict',
+                    expires: 7,
+                });
+                // Redirect to dashboard bases on user role
+                router.push(dashboardPath);
+                toast.success('Successfully logged in');
+                setSigningin('Sign In');
+            };
         } catch (error) {
-            console.log(e)
+            if (error.response) {
+                setError(error.response.data.detail);
+            }else{
+                toast.error('Error connecting to the server');
+            }
         }
     };
 
@@ -106,6 +129,7 @@ const LoginPage = () => {
                 />
                 <button
                     type="submit"
+                    onClick={handleLogin}
                     className="w-full
                                 py-3 bg-purple-700
                                 text-white rounded-lg
@@ -114,10 +138,8 @@ const LoginPage = () => {
                                 focus:ring-purple-500
                                 text-sm
                                 md:text-base
-
-                                "
-                >
-                    Sign Up
+                                ">
+                    {signin}
                 </button>
                 <div className="text-center flex flex-row justify-center gap-2">
                     <Link href="/signup" className="text-blue-500 text-sm hover:underline">Create Account</Link>

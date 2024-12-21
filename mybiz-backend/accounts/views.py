@@ -8,6 +8,8 @@ from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import AllowAny,  IsAuthenticated
+from rest_framework_simplejwt.views import TokenObtainPairView
+from .serializers import MyTokenObtainPairSerializer
 
 
 CustomUser = get_user_model()
@@ -19,6 +21,15 @@ class RegisterView(generics.CreateAPIView):
     Endpoint: /api/v1/account/register/
     """
     serializer_class = UserSerializer
+    permission_classes = [AllowAny]
+
+
+class LoginViewTokenObtain(TokenObtainPairView):
+    """
+    POST: method to login user
+    Endpoint: /api/v1/account/login/
+    """
+    serializer_class = MyTokenObtainPairSerializer
     permission_classes = [AllowAny]
 
 
