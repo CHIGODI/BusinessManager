@@ -22,11 +22,46 @@ class SalesListCreate(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
-        """ create a sale """
+        """ Create a Sale
+            a dictionary with key - sales(list of sale items) is required.
+            a Sale has 2 required(quantity:int, product:uuid)
+            and 1 optional(discount:floatclear(by percent)) fields.
+            {
+                'sales': [
+                    {
+                        "quantity": 23,
+                        "discount": "15.00", 
+                        "product": "uuid",
+                    },
+                    {
+                        "quantity": 23,
+                        "discount": "15.00", 
+                        "product": "uuid",
+                    },
+                ],
+            }
+        """
         sales_data = request.data.get('sales', [])
         if not sales_data:
-            return Response({'error': 'No sales data provided'},
-                            status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {
+                    'error': 'No sales data provided',
+                    'expected_data': {
+                        'sales': [
+                            {
+                                "quantity": 23,
+                                "discount": "15.00", 
+                                "product": "uuid",
+                            },
+                            {
+                                "quantity": 23,
+                                "discount": "15.00", 
+                                "product": "uuid",
+                            },
+                        ],
+                    }
+                },
+                status=status.HTTP_400_BAD_REQUEST)
 
         # calculating the total for each sale and apply the discount
         product_ids = [UUID(str(sale['product'])) for sale in sales_data]
