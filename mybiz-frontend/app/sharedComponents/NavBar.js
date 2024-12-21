@@ -7,11 +7,12 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 
 export default function NavBar(){
     const Router = useRouter();
-    const token = Cookies.get('next-auth.session-token');
-    console.log(session);
+    const { data: session } = useSession();
+    console.log(session.user.access);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const openMenu = () => {
         setIsMenuOpen(isMenuOpen ? false : true);
@@ -24,8 +25,9 @@ export default function NavBar(){
                 headers: {
                     "Authorization": `Bearer ${session?.user?.access}`,
                 }
-            }
+            },
         ).then((response) => {
+            signOut({ callbackUrl: '/' })
             Router.push('/');
         }).catch((error) => {
             console.log(error);

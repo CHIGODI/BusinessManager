@@ -3,12 +3,13 @@ import NavBar from "../../sharedComponents/NavBar";
 import SideNav from "../../sharedComponents/SideNav";
 import AddProductsButtonAndForm from "./components/AddProductsButtonAndForm";
 import { useState } from "react";
-import withRole from "@/app/hoc/withRole";
+import { useSession } from "next-auth/react";
 
 const allProductsAdmin = () => {
     // const [products, setProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const { data: session } = useSession();
 
     const products = [
         { id: 1, name: "Product 1", unit_selling_price: 10.5, quantity: 50 },
@@ -30,10 +31,10 @@ const allProductsAdmin = () => {
         try {
             const response = await axios.post(
                 'http://localhost:8000/api/v1/products/',
-                product,
+                products,
                 {
                     headers: {
-                        "Authorization": `Bearer ${Cookies.get('access_token')}`,
+                        "Authorization": `Bearer ${session?.user?.access}`,
                     }
                 }
             );
@@ -90,4 +91,4 @@ const allProductsAdmin = () => {
         </div>
     );
 };
-export default withRole(allProductsAdmin, ['admin']);
+export default allProductsAdmin;

@@ -2,10 +2,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMoneyBillWave } from '@fortawesome/free-solid-svg-icons';
 import CheckoutButton from './CheckoutButton';
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
+import { useSession } from 'next-auth/react';
 
 const CheckoutCard = ({total, products}) => {
+    const { data: session } = useSession()
     const discount = 200
     const handleCheckoutCreateSale = async() => {
         const data = {
@@ -20,7 +21,7 @@ const CheckoutCard = ({total, products}) => {
             data,
             {
                 headers: {
-                    "Authorization": `Bearer ${Cookies.get('access_token')}`,
+                    "Authorization": `Bearer ${session?.user?.access}`,
                 }
             }
         );

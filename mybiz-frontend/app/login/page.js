@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { useSession } from "next-auth/react";
+import { toast } from "react-toastify";
 
 
 const LoginPage = () => {
@@ -29,14 +30,26 @@ const LoginPage = () => {
             password,
         });
         if (res?.error) {
-            console.log(res.error);
             setError("Invalid username or password");
         } else {
+            const session = await fetch('/api/auth/session').then((res) => res.json());
+
             if (session?.user?.role) {
-                const dashboardRoute = session.user.role === "admin" ? "/admin/dashboard" : "/user/dashboard";
-                router.push(dashboardRoute); // Redirect based on role
+                console.log("User role:", session.user.role);
+
+                // Determine the dashboard route based on the user's role
+                const dashboardRoute = session.user.role === "admin"
+                    ? "/admin/dashboard"
+                    : "/user/dashboard";
+
+                toast.success("Login successful");
+                router.push(dashboardRoute);
+            } else {
+                setError("Please try again");
+                router.push("/login");
             }
         }
+        setSigningin('Sign In');
     };
 
     return (
