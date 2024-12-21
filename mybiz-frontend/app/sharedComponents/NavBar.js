@@ -4,12 +4,14 @@ import { useState } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { useSession } from "next-auth/react";
 
 export default function NavBar(){
     const Router = useRouter();
+    const token = Cookies.get('next-auth.session-token');
+    console.log(session);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const openMenu = () => {
         setIsMenuOpen(isMenuOpen ? false : true);
@@ -17,16 +19,13 @@ export default function NavBar(){
     const handleLogout = async () => {
         await axios.post(
             'http://localhost:8000/api/v1/account/logout/',
-            { refresh: Cookies.get('refresh_token') },
+            { 'refresh': session?.user?.refresh },
             {
                 headers: {
-                    "Authorization": `Bearer ${Cookies.get('access_token')}`,
+                    "Authorization": `Bearer ${session?.user?.access}`,
                 }
             }
         ).then((response) => {
-            console.log(response);
-            Cookies.remove('access_token');
-            Cookies.remove('refresh_token');
             Router.push('/');
         }).catch((error) => {
             console.log(error);
@@ -45,8 +44,10 @@ export default function NavBar(){
                 />
                 <FontAwesomeIcon className="text-purple-800 text-3xl lg:invisible" icon={faBars} onClick={openMenu} />
             </div>
-            <div className="hidden lg:flex w-1/6 h-1/2 mr-[5%] relative items-center justify-end">
-                <div className="w-[20%] h-[100%] rounded-[50%] mx-[5%] bg-gray-200">
+            <div className="hidden lg:flex w-1/2 h-1/2 mr-[5%] relative items-center justify-end">
+                <div className="w-[30%] h-[100%] border mx-[5%] bg-gray-200">
+                    <p>hello</p>
+                    <p>here</p>
                 </div>
                 <FontAwesomeIcon  onClick={handleLogout} className="text-sm text-[#001F3F] hover:text-[#4A007E] p-2 hover:bg-gray-200 rounded-md" icon={faRightFromBracket} />
                 <div className="absolute bg-green-500 w-full h-[20vh] invisible"></div>

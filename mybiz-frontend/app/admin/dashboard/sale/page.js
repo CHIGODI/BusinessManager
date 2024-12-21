@@ -11,7 +11,7 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
-import { useSession } from 'next-auth/react';
+import withRole from '@/app/hoc/withRole';
 
 export default function SalePage() {
     const [viewTotal, setViewTotal] = useState(true);
@@ -19,7 +19,6 @@ export default function SalePage() {
     const [cart, setCart] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredProducts, setFilteredProducts] = useState(products);
-    const { data: session } = useSession()
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -27,7 +26,7 @@ export default function SalePage() {
                 const response = await axios.get('http://localhost:8000/api/v1/products/',
                     {
                         headers: {
-                            "Authorization": `Bearer ${session?.refresh}`,
+                            "Authorization": `Bearer ${Cookies.get('access_token')}`,
                         }
                     }
                 );
@@ -161,3 +160,5 @@ export default function SalePage() {
         </div>
     );
 }
+
+withRole(SalePage, ['user']);

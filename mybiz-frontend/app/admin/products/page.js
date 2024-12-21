@@ -3,8 +3,9 @@ import NavBar from "../../sharedComponents/NavBar";
 import SideNav from "../../sharedComponents/SideNav";
 import AddProductsButtonAndForm from "./components/AddProductsButtonAndForm";
 import { useState } from "react";
+import withRole from "@/app/hoc/withRole";
 
-const allProducts = () => {
+const allProductsAdmin = () => {
     // const [products, setProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -89,4 +90,4 @@ const allProducts = () => {
         </div>
     );
 };
-export default allProducts;
+export default withRole(allProductsAdmin, ['admin']);

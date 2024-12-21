@@ -1,4 +1,3 @@
-import withRole from "@/app/hoc/withRole";
 import NavBar from "@/app/sharedComponents/NavBar";
 import SideNav from "@/app/sharedComponents/SideNav";
 
@@ -17,4 +16,4 @@ const SettingsPage = () => {
     );
 };
 
-export default withRole(SettingsPage, ['user']);
+export default SettingsPage;
