@@ -3,11 +3,13 @@ import NavBar from "../../sharedComponents/NavBar";
 import SideNav from "../../sharedComponents/SideNav";
 import AddProductsButtonAndForm from "./components/AddProductsButtonAndForm";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 
 const allProducts = () => {
     // const [products, setProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const { data: session } = useSession();
 
     const products = [
         { id: 1, name: "Product 1", unit_selling_price: 10.5, quantity: 50 },
@@ -32,7 +34,7 @@ const allProducts = () => {
                 product,
                 {
                     headers: {
-                        "Authorization": `Bearer ${Cookies.get('access_token')}`,
+                        "Authorization": `Bearer ${session?.user?.access}`,
                     }
                 }
             );

@@ -10,7 +10,6 @@ import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
-import Cookies from 'js-cookie';
 import { useSession } from 'next-auth/react';
 
 export default function SalePage() {
@@ -27,7 +26,7 @@ export default function SalePage() {
                 const response = await axios.get('http://localhost:8000/api/v1/products/',
                     {
                         headers: {
-                            "Authorization": `Bearer ${session?.refresh}`,
+                            "Authorization": `Bearer ${session?.user?.access}`,
                         }
                     }
                 );
