@@ -1,6 +1,9 @@
 import axios from 'axios';
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import { isTokenExpired, refreshAccessToken } from '../../../lib/tokenUtils';
+
+const SECRET = process.env.NEXTAUTH_SECRET;
 
 const handler = NextAuth({
     providers: [
@@ -49,8 +52,25 @@ const handler = NextAuth({
                 token.access = user.access;  // Store access token in JWT
                 token.refresh = user.refresh; // Store refresh token in JWT
             }
+            const isExpired = await isTokenExpired(token.access, SECRET);
+            console.log('Is token expired:', isExpired);
+            if (isExpired) {
+                const newAccessToken = await refreshAccessToken(token.refresh);
+
+                if (newAccessToken) {
+                    token.access = newAccessToken;
+                } else {
+                    console.log("Failed to refresh token. User may need to log in again.");
+                    return {
+                        ...token,
+                        error: "RefreshAccessTokenError",
+                    };
+                }
+            }
             return token;
         },
+
+
         async session({ session, token }) {
             session.user.role = token.role;
             session.user.access = token.access; // Attach access token to session
@@ -58,7 +78,7 @@ const handler = NextAuth({
             return session;
         },
     },
-    secret: process.env.NEXTAUTH_SECRET,
+    secret: SECRET,
 });
 
 export { handler as GET, handler as POST };

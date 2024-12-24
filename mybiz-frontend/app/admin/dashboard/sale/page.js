@@ -20,6 +20,7 @@ export default function SalePage() {
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredProducts, setFilteredProducts] = useState(products);
     const { data: session } = useSession()
+    console.log('session is ',session);
 
     useEffect(() => {
         const fetchProducts = async () => {

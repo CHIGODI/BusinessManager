@@ -18,9 +18,12 @@ export default function SalePage() {
     const [cart, setCart] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredProducts, setFilteredProducts] = useState(products);
-    const { data: session } = useSession()
+    const { data: session, status} = useSession()
+    const isLoading = status === "loading";
 
     useEffect(() => {
+        if (isLoading) return;
+
         const fetchProducts = async () => {
             try {
                 const response = await axios.get('http://localhost:8000/api/v1/products/',
@@ -33,16 +36,14 @@ export default function SalePage() {
                 if (response.status === 200) {
                     setProducts(response.data);
                     setFilteredProducts(response.data);
-                    console.log(response.data);
                 }
             } catch (error) {
-                console.log(error);
                 toast.error('No products found, or refresh the page');
             }
         };
 
         fetchProducts();
-    }, []);
+    }, [isLoading, session]);
 
 
     // add product to cart
@@ -153,7 +154,10 @@ export default function SalePage() {
                             products={cart}
                             removeProductFromCart={removeProductFromCart}
                         />
-                        <CheckoutCard total={totalSalePayable()} products={cart} />
+                        <CheckoutCard total={totalSalePayable()}
+                                      products={cart}
+                                      session={session}
+                        />
                     </div>
                 </div>
             </div>

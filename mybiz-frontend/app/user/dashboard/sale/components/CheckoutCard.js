@@ -2,25 +2,26 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMoneyBillWave } from '@fortawesome/free-solid-svg-icons';
 import CheckoutButton from './CheckoutButton';
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
+import { useState } from 'react';
 
-const CheckoutCard = ({total, products}) => {
-    const discount = 200
+const CheckoutCard = ({total, products, session}) => {
+    const [discount, setDiscount] = useState(0);
+    // const [paymentMethod, setPaymentMethod] = useState([]);
     const handleCheckoutCreateSale = async() => {
+        console.log('products',products);
+
         const data = {
-            'products': products,
+            'product': products,
             'discount': discount,
-            'total': total,
-            'sold_by': user,
-            'quantity': Cookies.get('user')
+            'quantity': products.length,
         }
         try {
-            const response = await axios.get('http://localhost:8000/api/v1/sales/',
+            const response = await axios.post('http://localhost:8000/api/v1/sales/',
             data,
             {
                 headers: {
-                    "Authorization": `Bearer ${Cookies.get('access_token')}`,
+                    "Authorization": `Bearer ${session?.user?.access}`,
                 }
             }
         );
@@ -46,7 +47,7 @@ const CheckoutCard = ({total, products}) => {
                 <div className="flex flex-col space-x-4 py-2">
                     <div className="flex items-center space-x-2">
                         <label htmlFor="discount" className="text-sm">Discount</label>
-                        <input type="number" id="discount" className="text-sm w-1/4 p-1 border border-gray-200 rounded-xl outline-none focus:outline-purple-600 bg-[#F8FAFC]" />
+                        <input type="number" id="discount" onChange={(e) => {setDiscount(e.target.value)}} className="text-sm w-1/4 p-1 border border-gray-200 rounded-xl outline-none focus:outline-purple-600 bg-[#F8FAFC]" />
                     </div>
                     <div className="flex items-center space-x-2">
                         <input type="checkbox" id="mpesa" className="text-sm" />
