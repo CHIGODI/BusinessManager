@@ -1,6 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMoneyBillWave } from '@fortawesome/free-solid-svg-icons';
-import CheckoutButton from './CheckoutButton';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
@@ -12,7 +11,7 @@ const CheckoutCard = ({total, products, session}) => {
         console.log('products',products);
 
         const data = {
-            'product': products,
+            'sales': products,
             'discount': discount,
             'quantity': products.length,
         }
@@ -63,7 +62,14 @@ const CheckoutCard = ({total, products, session}) => {
                     <span className='text-gray-500 text-sm'> KES</span>
                     <span className='text-md font-bold text-gray-600'> {total ? total - discount : 0}</span>
                 </p>
-                <CheckoutButton handleCheckoutCreateSale={handleCheckoutCreateSale} />
+                <button onClick={handleCheckoutCreateSale}
+                    className='w-1/2 bg-purple-600
+                           text-white text-sm
+                           p-2 rounded-lg
+                           hover:bg-purple-700
+                    '>
+                    Checkout
+                </button>
             </div>
         </div>
     );

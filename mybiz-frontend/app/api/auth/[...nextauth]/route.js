@@ -53,14 +53,12 @@ const handler = NextAuth({
                 token.refresh = user.refresh; // Store refresh token in JWT
             }
             const isExpired = await isTokenExpired(token.access, SECRET);
-            console.log('Is token expired:', isExpired);
             if (isExpired) {
                 const newAccessToken = await refreshAccessToken(token.refresh);
 
                 if (newAccessToken) {
                     token.access = newAccessToken;
                 } else {
-                    console.log("Failed to refresh token. User may need to log in again.");
                     return {
                         ...token,
                         error: "RefreshAccessTokenError",
