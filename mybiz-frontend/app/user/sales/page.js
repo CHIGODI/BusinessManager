@@ -1,15 +1,12 @@
 'use client'
 import NavBar from "../../sharedComponents/NavBar";
 import SideNav from "../../sharedComponents/SideNav";
-import AddProductsButtonAndForm from "./components/AddProductsButtonAndForm";
 import { useState } from "react";
-import { useSession } from "next-auth/react";
 
-const allProducts = () => {
+const SalesSummary = () => {
     // const [products, setProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-    const { data: session } = useSession();
 
     const products = [
         { id: 1, name: "Product 1", unit_selling_price: 10.5, quantity: 50 },
@@ -34,7 +31,7 @@ const allProducts = () => {
                 product,
                 {
                     headers: {
-                        "Authorization": `Bearer ${session?.user?.access}`,
+                        "Authorization": `Bearer ${Cookies.get('access_token')}`,
                     }
                 }
             );
@@ -54,7 +51,7 @@ const allProducts = () => {
                 <div className="w-[80%] px-[2%] py-[2%]
                                 h-full flex flex-col gap-4">
                     <div className="flex justify-between items-center">
-                        <h2 className="font-bold text-lg text-gray-600">All Products</h2>
+                        <h2 className="font-bold text-lg text-gray-600">Today Sales</h2>
                     </div>
                     <div className="rounded-xl border h-full
                                     shadow-sm overflow-y-scroll scrollbar-thin
@@ -90,4 +87,4 @@ const allProducts = () => {
         </div>
     );
 };
-export default allProducts;
+export default SalesSummary;

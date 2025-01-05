@@ -1,22 +1,23 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMoneyBillWave } from '@fortawesome/free-solid-svg-icons';
+import CheckoutButton from './CheckoutButton';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { useState } from 'react';
+import { useSession } from 'next-auth/react';
 
-const CheckoutCard = ({total, products, session}) => {
-    const [discount, setDiscount] = useState(0);
-    // const [paymentMethod, setPaymentMethod] = useState([]);
+const CheckoutCard = ({total, products}) => {
+    const { data: session } = useSession()
+    const discount = 200
     const handleCheckoutCreateSale = async() => {
-        console.log('products',products);
-
         const data = {
-            'sales': products,
+            'products': products,
             'discount': discount,
-            'quantity': products.length,
+            'total': total,
+            'sold_by': user,
+            'quantity': Cookies.get('user')
         }
         try {
-            const response = await axios.post('http://localhost:8000/api/v1/sales/',
+            const response = await axios.get('http://localhost:8000/api/v1/sales/',
             data,
             {
                 headers: {
@@ -46,7 +47,7 @@ const CheckoutCard = ({total, products, session}) => {
                 <div className="flex flex-col space-x-4 py-2">
                     <div className="flex items-center space-x-2">
                         <label htmlFor="discount" className="text-sm">Discount</label>
-                        <input type="number" id="discount" onChange={(e) => {setDiscount(e.target.value)}} className="text-sm w-1/4 p-1 border border-gray-200 rounded-xl outline-none focus:outline-purple-600 bg-[#F8FAFC]" />
+                        <input type="number" id="discount" className="text-sm w-1/4 p-1 border border-gray-200 rounded-xl outline-none focus:outline-purple-600 bg-[#F8FAFC]" />
                     </div>
                     <div className="flex items-center space-x-2">
                         <input type="checkbox" id="mpesa" className="text-sm" />
@@ -62,14 +63,7 @@ const CheckoutCard = ({total, products, session}) => {
                     <span className='text-gray-500 text-sm'> KES</span>
                     <span className='text-md font-bold text-gray-600'> {total ? total - discount : 0}</span>
                 </p>
-                <button onClick={handleCheckoutCreateSale}
-                    className='w-1/2 bg-purple-600
-                           text-white text-sm
-                           p-2 rounded-lg
-                           hover:bg-purple-700
-                    '>
-                    Checkout
-                </button>
+                <CheckoutButton handleCheckoutCreateSale={handleCheckoutCreateSale} />
             </div>
         </div>
     );

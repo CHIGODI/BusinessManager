@@ -1,13 +1,15 @@
 'use client'
-import NavBar from "../../components/navbar";
-import SideNav from "../../components/sidenav";
+import NavBar from "../../sharedComponents/NavBar";
+import SideNav from "../../sharedComponents/SideNav";
 import AddProductsButtonAndForm from "./components/AddProductsButtonAndForm";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 
-const allProducts = () => {
+const allProductsAdmin = () => {
     // const [products, setProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const { data: session } = useSession();
 
     const products = [
         { id: 1, name: "Product 1", unit_selling_price: 10.5, quantity: 50 },
@@ -29,10 +31,10 @@ const allProducts = () => {
         try {
             const response = await axios.post(
                 'http://localhost:8000/api/v1/products/',
-                product,
+                products,
                 {
                     headers: {
-                        "Authorization": `Bearer ${Cookies.get('access_token')}`,
+                        "Authorization": `Bearer ${session?.user?.access}`,
                     }
                 }
             );
@@ -44,11 +46,11 @@ const allProducts = () => {
         }
     };
 
-    return(
-            <div className="h-screen">
-                <NavBar />
-                <div className="relative flex flex-row w-full h-full">
-                    <SideNav />
+    return (
+        <div className="h-screen">
+            <NavBar />
+            <div className="relative flex flex-row w-full h-full">
+                <SideNav />
                 <div className="w-[80%] px-[2%] py-[2%]
                                 h-full flex flex-col gap-4">
                     <div className="flex justify-between items-center">
@@ -85,8 +87,8 @@ const allProducts = () => {
                         )}
                     </div>
                 </div>
-                </div>
             </div>
+        </div>
     );
 };
-export default allProducts;
+export default allProductsAdmin;

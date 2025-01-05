@@ -1,10 +1,10 @@
 'use client';
 import React, { useState } from "react";
 import Link from "next/link";
-import { toast } from 'react-toastify';
 import { useRouter } from "next/navigation";
-import axios from "axios";
-import Cookies from "js-cookie";
+import { signIn } from "next-auth/react";
+import { useSession } from "next-auth/react";
+import { toast } from "react-toastify";
 
 
 const LoginPage = () => {
@@ -13,6 +13,7 @@ const LoginPage = () => {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const router = useRouter();
+    const { data: session } = useSession();
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -23,54 +24,32 @@ const LoginPage = () => {
 
         setError("");
         setSigningin('Signing in...');
-        const data = {
-            "username": username,
-            "password": password
-        }
+        const res = await signIn('credentials', {
+            redirect: false,
+            username,
+            password,
+        });
+        if (res?.error) {
+            setError("Invalid username or password");
+        } else {
+            const session = await fetch('/api/auth/session').then((res) => res.json());
 
-        try {
-            const response = await axios.post(
-                'http://localhost:8000/api/v1/account/login/',
-                data,
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    withCredentials: true,
-                }
-            );
-            if (response.status === 200) {
-                const { access, refresh, user } = response.data;
-                const is_staff = user.is_staff;
-                const dashboardPath = is_staff ? '/admin/dashboard' : '/user/dashboard';
-                Cookies.set('access_token', access, {
-                    secure: true,
-                    sameSite: 'Strict',
-                    expires: 7,
-                });
+            if (session?.user?.role) {
+                console.log("User role:", session.user.role);
 
-                Cookies.set('refresh_token', refresh, {
-                    secure: true,
-                    sameSite: 'Strict',
-                    expires: 7,
-                });
-                Cookies.set('is_staff', is_staff, {
-                    secure: true,
-                    sameSite: 'Strict',
-                    expires: 7,
-                });
-                // Redirect to dashboard bases on user role
-                router.push(dashboardPath);
-                toast.success('Successfully logged in');
-                setSigningin('Sign In');
-            };
-        } catch (error) {
-            if (error.response) {
-                setError(error.response.data.detail);
-            }else{
-                toast.error('Error connecting to the server');
+                // Determine the dashboard route based on the user's role
+                const dashboardRoute = session.user.role === "admin"
+                    ? "/admin/dashboard"
+                    : "/user/dashboard";
+
+                toast.success("Login successful");
+                router.push(dashboardRoute);
+            } else {
+                setError("Please try again");
+                router.push("/login");
             }
         }
+        setSigningin('Sign In');
     };
 
     return (

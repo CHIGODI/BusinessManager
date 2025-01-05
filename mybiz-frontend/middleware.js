@@ -1,54 +1,51 @@
-import { NextResponse } from 'next/server';
-import { jwtVerify } from 'jose';
+import { NextResponse } from "next/server";
+import { getToken } from "next-auth/jwt"; // To extract the JWT from the request
 
 export async function middleware(req) {
-    const access_token = req.cookies.get('access_token')?.value;
-    const refresh_token = req.cookies.get('refresh_token')?.value;
+    const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
 
-    if (req.nextUrl.pathname === '/' || req.nextUrl.pathname === '/login' || req.nextUrl.pathname === '/signup') {
-        return NextResponse.next();
-    }
-
-    if (!access_token && !refresh_token) {
-        return NextResponse.redirect(new URL('/login', req.url));
-    }
-
-    if (access_token) {
-        try {
-            const { payload } = await jwtVerify(access_token, new TextEncoder().encode(process.env.JWT_SECRET));
-            return NextResponse.next();
-        } catch (error) {
-            console.log('Access token is invalid:', error);
-
-            if (refresh_token) {
-                try {
-                    const refreshResponse = await fetch('http://localhost:8000/api/token/refresh/', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ refresh_token })
-                    });
-
-                    if (refreshResponse.ok) {
-                        const data = await refreshResponse.json();
-                        const response = NextResponse.next();
-                        response.cookies.set('access_token', data.access);
-                        return response;
-                    } else {
-                        return NextResponse.redirect(new URL('/login', req.url));
-                    }
-                } catch (error) {
-                    console.log('Error refreshing token:', error);
-                    return NextResponse.redirect(new URL('/login', req.url));
-                }
-            } else {
-                return NextResponse.redirect(new URL('/login', req.url));
-            }
+    // If there is no token, the user is not authenticated
+    if (!token) {
+        // Allow access to the following public pages
+        if (
+            req.nextUrl.pathname === "/" ||
+            req.nextUrl.pathname === "/login" ||
+            req.nextUrl.pathname === "/signup"
+        ) {
+            return NextResponse.next();s
         }
+        // Redirect unauthenticated users to login page
+        return NextResponse.redirect(new URL("/login", req.url));
     }
-    // If no conditions match, proceed to the next request
+
+    // Handle Role-Based Access Control (RBAC)
+    const { role } = token;
+
+    // Define which routes are restricted based on roles
+    if (req.nextUrl.pathname.startsWith("/admin") && role !== "admin") {
+        // Redirect users who are not admins to the homepage or any other page
+        return NextResponse.redirect(new URL("/unauthorised", req.url));
+    }
+    if (req.nextUrl.pathname.startsWith("/user") && role !== "user") {
+        // Redirect users who are not admins to the homepage or any other page
+        return NextResponse.redirect(new URL("/unauthorised", req.url));
+    }
+
+    if (req.nextUrl.pathname.startsWith("/user") && role !== "user" && role !== "admin") {
+        // Redirect users who are neither admins nor users to the homepage
+        return NextResponse.redirect(new URL("/", req.url));
+    }
+
+    // Allow authenticated users to continue to their requested route
     return NextResponse.next();
 }
 
+// Apply middleware to all routes except public routes
 export const config = {
-    matcher: ['/dashboard/:path*', '/settings', '/products', '/sales', '/customers'],
+    matcher: [
+        "/user/:path*",
+        "/admin/:path*",
+        "/settings",
+        "/dashboard",
+    ],
 };
