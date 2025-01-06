@@ -70,7 +70,7 @@ class SalesListCreate(APIView):
                 product_inst = get_object_or_404(Product, pk=product['id'])
                 quantity = product_count.get(product['id'])
                 if product_inst.quantity < quantity:
-                    return Response({'error': f"Not enough stock available"\
+                    return Response({'error': f"Not enough stock available"
                                      "for {product_inst.name}"},
                                     status=status.HTTP_400_BAD_REQUEST)
 
