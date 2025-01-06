@@ -50,7 +50,7 @@ class SalesListCreate(APIView):
                     product=product_inst,
                     quantity=quantity
                 )
-            sale.total = total_sales - discount
+            sale.total = total_sales
             sale.save()
 
             return Response({'message': 'Sale created successfully',
