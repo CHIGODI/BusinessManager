@@ -3,6 +3,7 @@ from django.dispatch import receiver
 from .models import SaleItem
 from products.models import Product
 
+
 @receiver(post_save, sender=SaleItem)
 def update_product_quantity(sender, instance, created, **kwargs):
     """ Reduce the product quantity when a sale item is created. """

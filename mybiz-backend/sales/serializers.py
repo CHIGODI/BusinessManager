@@ -9,7 +9,7 @@ class SaleSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def validate_discount(self, value):
-        if value < 0 :
+        if value < 0:
             raise serializers.ValidationError(
                 "Discount cannot be less than 1.00")
         return value
