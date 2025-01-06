@@ -1,3 +1,4 @@
+import uuid
 from decimal import Decimal
 from collections import Counter
 from rest_framework import status
@@ -5,6 +6,7 @@ from .models import Sale, SaleItem
 from products.models import Product
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.db.models.signals import post_save
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticated
@@ -29,26 +31,22 @@ class SalesListCreate(APIView):
             "sales_data": {
                 "products": [
                     {
-                        "created_at": "2024-12-14T16:24:11.213529+03:00",
-                        "id": "ab01ccb1-f90e-4d14-97d9-f32038f613b2",
-                        "industry": "Agriculture",
-                        "low_stock_threshold": 5,
-                        "manufacturer": "Twiga",
-                        "name": "duduthrin",
-                        "quantity": 20,
-                        "size": "50ml",
-                        "unit_buying_price": 140.00,
-                        "unit_selling_price": 200.00,
-                        "updated_at": "2024-12-14T16:24:11.213547+03:00"
+                        "id":"ab01ccb1-f90e-4d14-97d9-f32038f613b2",
+                        "quantity_bought": 5
+                    },
+                    {
+                        "id": "7f25cc9a-24b1-4867-bf93-8e730d870a4a",
+                        "quantity_bought": 10
+
                     }
                 ],
-                "discount": 200,
+                "discount": 4,
                 "payment_method": "Mpesa"
             }
         }
         """
         sales_data = request.data.get('sales_data', {})
-        products = sales_data.get('products', [])
+        products = sales_data.get('products', {})
         discount = sales_data.get('discount', 0)
         payment_method = sales_data.get('payment_method', 'Cash')
 
@@ -66,22 +64,25 @@ class SalesListCreate(APIView):
 
         sale = sale_serializer.save()
         total_sales = Decimal(0)
-        product_count = Counter(product['id'] for product in products)
 
         sale_items = []
         try:
             for product in products:
                 product_inst = get_object_or_404(Product, pk=product['id'])
-                quantity = product_count.get(product['id'])
+                quantity = product.get('quantity_bought', 1)
+
                 if product_inst.quantity < quantity:
-                    return Response({'error': f"Not enough stock available"
-                                     "for {product_inst.name}"},
+                    return Response({'error': f"Not enough stock available "
+                                     f"for {product_inst.name}"},
                                     status=status.HTTP_400_BAD_REQUEST)
-                total_sales += Decimal(product['unit_selling_price']) * Decimal(quantity)
+                total_sales += Decimal(product_inst.unit_buying_price) * quantity
                 sale_items.append(SaleItem(sale=sale, product=product_inst,
                                            quantity=quantity))
 
             SaleItem.objects.bulk_create(sale_items)
+            for sale_item in sale_items:
+                post_save.send(sender=SaleItem, instance=sale_item, created=True)
+
             sale.total = total_sales - Decimal(discount)
             sale.save()
 
