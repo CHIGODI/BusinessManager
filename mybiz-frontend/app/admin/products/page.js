@@ -1,13 +1,19 @@
 'use client'
+<<<<<<< HEAD
 import NavBar from "../../sharedComponents/Navbar";
+=======
+import NavBar from "../../sharedComponents/NavBar";
+>>>>>>> 6cee555cbafd553f2de6682c9f5c893e57551141
 import SideNav from "../../sharedComponents/SideNav";
 import AddProductsButtonAndForm from "./components/AddProductsButtonAndForm";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 
-const allProducts = () => {
+const allProductsAdmin = () => {
     // const [products, setProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const { data: session } = useSession();
 
     const products = [
         { id: 1, name: "Product 1", unit_selling_price: 10.5, quantity: 50 },
@@ -29,10 +35,10 @@ const allProducts = () => {
         try {
             const response = await axios.post(
                 'http://localhost:8000/api/v1/products/',
-                product,
+                products,
                 {
                     headers: {
-                        "Authorization": `Bearer ${Cookies.get('access_token')}`,
+                        "Authorization": `Bearer ${session?.user?.access}`,
                     }
                 }
             );
@@ -89,4 +95,4 @@ const allProducts = () => {
         </div>
     );
 };
-export default allProducts;
+export default allProductsAdmin;

@@ -1,12 +1,11 @@
-import Link from 'next/link';
-import NavBar from '../../sharedComponents/Navbar';
-import withRole from '../../hoc/withRole';
 import SideNav from '../../sharedComponents/SideNav';
+import Link from 'next/link';
+import NavBar from '../../sharedComponents/NavBar';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping, faArrowUpRightFromSquare, faCoins, faBox } from "@fortawesome/free-solid-svg-icons";
 
 
-function Dashboard() {
+function UserDashboard() {
     return (
         <div className="h-screen box-border">
             <NavBar />
@@ -64,4 +63,4 @@ function Dashboard() {
     );
 };
 
-export default withRole(Dashboard, ['user']);
+export default UserDashboard;

@@ -1,22 +1,19 @@
-import NavBar from "@/app/sharedComponents/Navbar";
+import NavBar from "@/app/sharedComponents/NavBar";
 import SideNav from "@/app/sharedComponents/SideNav";
-import withRole from "@/app/hoc/withRole";
-import Settings from "@/app/sharedComponents/Settings";
 
 const SettingsPage = () => {
     return (
-        <div className="h-screen box-border">
-            <NavBar />
-            <div className="flex flex-row w-full h-screen justify-center">
-                <SideNav />
-                <div className='w-[80%] pr-[5%] pl-[5%] pt-[5%]
-                                flex flex-col lg:flex-row
-                                lg:flex-wrap gap-4'
-                >
-                    <Settings />
+            <div className="h-screen">
+                <NavBar />
+                <div className="relative flex flex-row w-full h-full">
+                    <SideNav />
+                    <div className="w-[80%] px-[2%] py-[2%]
+                                h-full flex flex-col gap-4">
+                        <p>Settings Page</p>
+                    </div>
                 </div>
             </div>
-        </div>
     );
-}
-export default withRole(SettingsPage, ["user"]);
+};
+
+export default SettingsPage;

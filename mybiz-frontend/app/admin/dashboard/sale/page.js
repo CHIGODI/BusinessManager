@@ -1,10 +1,6 @@
 'use client';
 import { useState } from 'react';
-<<<<<<< HEAD
-import NavBar from '../../../sharedComponents/Navbar';
-=======
 import NavBar from '../../../sharedComponents/NavBar';
->>>>>>> 6cee555cbafd553f2de6682c9f5c893e57551141
 import SideNav from '../../../sharedComponents/SideNav';
 import CheckoutCard from './components/CheckoutCard';
 import ProductListCard from './components/ProductListCard';
@@ -16,18 +12,17 @@ import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { useSession } from 'next-auth/react';
 
+
 export default function SalePage() {
     const [viewTotal, setViewTotal] = useState(true);
     const [products, setProducts] = useState([]);
     const [cart, setCart] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredProducts, setFilteredProducts] = useState(products);
-    const { data: session, status} = useSession()
-    const isLoading = status === "loading";
+    const { data: session } = useSession()
+    console.log('session is ',session);
 
     useEffect(() => {
-        if (isLoading) return;
-
         const fetchProducts = async () => {
             try {
                 const response = await axios.get('http://localhost:8000/api/v1/products/',
@@ -40,14 +35,16 @@ export default function SalePage() {
                 if (response.status === 200) {
                     setProducts(response.data);
                     setFilteredProducts(response.data);
+                    console.log(response.data);
                 }
             } catch (error) {
+                console.log(error);
                 toast.error('No products found, or refresh the page');
             }
         };
 
         fetchProducts();
-    }, [isLoading, session]);
+    }, []);
 
 
     // add product to cart
@@ -158,13 +155,12 @@ export default function SalePage() {
                             products={cart}
                             removeProductFromCart={removeProductFromCart}
                         />
-                        <CheckoutCard total={totalSalePayable()}
-                                      products={cart}
-                                      session={session}
-                        />
+                        <CheckoutCard total={totalSalePayable()} products={cart} />
                     </div>
                 </div>
             </div>
         </div>
     );
 }
+
+withRole(SalePage, ['user']);
