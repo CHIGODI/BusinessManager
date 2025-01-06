@@ -10,9 +10,5 @@ def update_product_quantity(sender, instance, created, **kwargs):
     if created:
         product = instance.product
         quantity_sold = instance.quantity
-
-        if product.quantity >= quantity_sold:
-            product.quantity -= quantity_sold
-            product.save()
-        else:
-            raise ValueError(f"Not enough stock for product {product.name}.")
+        product.quantity -= quantity_sold
+        product.save()

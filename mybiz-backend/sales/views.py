@@ -49,7 +49,7 @@ class SalesListCreate(APIView):
         products = sales_data.get('products', [])
         discount = sales_data.get('discount', 0)
 
-        if not sales_data:
+        if not products:
             return Response({'error': 'No products provided'},
                             status=status.HTTP_400_BAD_REQUEST)
 
@@ -63,23 +63,31 @@ class SalesListCreate(APIView):
         sale = sale_serializer.save()
         total_sales = 0
         product_count = Counter(product['id'] for product in products)
+
+        sale_items = []
         try:
             for product in products:
-                quantity = product_count.get(product['id'])
-                total_sales += (product['unit_selling_price'] * quantity)
                 product_inst = get_object_or_404(Product, pk=product['id'])
-                sale_item = SaleItem.objects.create(
-                    sale=sale,
-                    product=product_inst,
-                    quantity=quantity
-                )
-            sale.total = total_sales
+                quantity = product_count.get(product['id'])
+                if product_inst.quantity < quantity:
+                    return Response({'error': f"Not enough stock available"\
+                                     "for {product_inst.name}"},
+                                    status=status.HTTP_400_BAD_REQUEST)
+
+                total_sales += product['unit_selling_price'] * quantity
+                product_inst.quantity -= quantity
+                product_inst.save()
+
+                sale_items.append(SaleItem(sale=sale, product=product_inst,
+                                           quantity=quantity))
+
+            SaleItem.objects.bulk_create(sale_items)
+            sale.total = total_sales - sale.discount
             sale.save()
 
             return Response({'message': 'Sale created successfully',
                              'sale': SaleSerializer(sale).data},
                             status=status.HTTP_201_CREATED)
-
         except ValidationError as e:
             return Response({'error': str(e)},
                             status=status.HTTP_400_BAD_REQUEST)
