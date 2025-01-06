@@ -1,3 +1,4 @@
+from decimal import Decimal
 from collections import Counter
 from rest_framework import status
 from .models import Sale, SaleItem
@@ -41,13 +42,15 @@ class SalesListCreate(APIView):
                         "updated_at": "2024-12-14T16:24:11.213547+03:00"
                     }
                 ],
-                "discount": 200
+                "discount": 200,
+                "payment_method": "Mpesa"
             }
         }
         """
         sales_data = request.data.get('sales_data', {})
         products = sales_data.get('products', [])
         discount = sales_data.get('discount', 0)
+        payment_method = sales_data.get('payment_method', 'Cash')
 
         if not products:
             return Response({'error': 'No products provided'},
@@ -55,13 +58,14 @@ class SalesListCreate(APIView):
 
         # Validate discount using the serializer
         sale_serializer = SaleSerializer(data={'discount': discount,
-                                               'sold_by': request.user.id})
+                                               'sold_by': request.user.id,
+                                               'payment_method': payment_method})
         if not sale_serializer.is_valid():
             return Response(sale_serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)
 
         sale = sale_serializer.save()
-        total_sales = 0
+        total_sales = Decimal(0)
         product_count = Counter(product['id'] for product in products)
 
         sale_items = []
@@ -73,16 +77,12 @@ class SalesListCreate(APIView):
                     return Response({'error': f"Not enough stock available"
                                      "for {product_inst.name}"},
                                     status=status.HTTP_400_BAD_REQUEST)
-
-                total_sales += product['unit_selling_price'] * quantity
-                product_inst.quantity -= quantity
-                product_inst.save()
-
+                total_sales += Decimal(product['unit_selling_price']) * Decimal(quantity)
                 sale_items.append(SaleItem(sale=sale, product=product_inst,
                                            quantity=quantity))
 
             SaleItem.objects.bulk_create(sale_items)
-            sale.total = total_sales - sale.discount
+            sale.total = total_sales - Decimal(discount)
             sale.save()
 
             return Response({'message': 'Sale created successfully',

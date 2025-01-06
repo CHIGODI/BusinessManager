@@ -5,6 +5,15 @@ from core.models import BaseModel
 
 class Sale(BaseModel):
     """Model for sales"""
+    PAYMENT_METHOD_CHOICES = [
+        ('Mpesa', 'Mpesa'),
+        ('Cash', 'Cash'),
+    ]
+    payment_method = models.CharField(
+        max_length=50,
+        choices=PAYMENT_METHOD_CHOICES,
+        null=True
+    )
     discount = models.DecimalField(max_digits=6,
                                    decimal_places=2,
                                    default=Decimal('0.00'),
