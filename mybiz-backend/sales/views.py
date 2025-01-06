@@ -1,6 +1,6 @@
-from .models import Sale
-from uuid import UUID
+from collections import Counter
 from rest_framework import status
+from .models import Sale, SaleItem
 from products.models import Product
 from .serializers import SaleSerializer
 from rest_framework.views import APIView
@@ -22,57 +22,30 @@ class SalesListCreate(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
-        """ Create a Sale
-            a dictionary with key - sales(list of sale items) is required.
-            a Sale has 2 required(quantity:int, product:uuid)
-            and 1 optional(discount:floatclear(by percent)) fields.
-            {
-                'sales': [
-                    {
-                        "quantity": 23,
-                        "discount": "15.00", 
-                        "product": "uuid",
-                    },
-                    {
-                        "quantity": 23,
-                        "discount": "15.00", 
-                        "product": "uuid",
-                    },
-                ],
-            }
-        """
-        sales_data = request.data.get('sales', [])
+        """ create a sale """
+        sales_data = request.data.get('sales_data', [])
         if not sales_data:
-            return Response(
-                {
-                    'error': 'No sales data provided',
-                    'expected_data': {
-                        'sales': [
-                            {
-                                "quantity": 23,
-                                "discount": "15.00", 
-                                "product": "uuid",
-                            },
-                            {
-                                "quantity": 23,
-                                "discount": "15.00", 
-                                "product": "uuid",
-                            },
-                        ],
-                    }
-                },
-                status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'No sales data provided'},
+                            status=status.HTTP_400_BAD_REQUEST)
 
-        # calculating the total for each sale and apply the discount
-        product_ids = [UUID(str(sale['product'])) for sale in sales_data]
-        Products = Product.objects.filter(id__in=product_ids)
-        products = {product.id: product for product in Products}
+        discount = sales_data.get('discount', 0)
+        user = request.user
+        sale = Sale.objects.create(discount=discount, sold_by=user)
 
-        for sale in sales_data:
-            price = products[UUID(sale['product'])].unit_selling_price
-            discount = sale.get('discount', 0) / 100
-            total = float(price) * sale['quantity']
-            sale['total'] = total - (total * discount)
+        products = sales_data.get('products', [])
+        product_count = Counter(product['id'] for product in products)
+
+        for product in products:
+            quantity = product_count.get(product['id'])
+            product_inst = get_object_or_404(Product, pk=product['id'])
+            sale_item = SaleItem.objects.create(
+                sale=sale,
+                product=product_inst,
+                quantity=quantity
+            )
+        return Response({'message': 'Sale created successfully',
+                         'sale': SaleSerializer(sale_item).data},
+                        status=status.HTTP_201_CREATED)
 
         serializer = SaleSerializer(data=sales_data, many=True)
         if serializer.is_valid():
