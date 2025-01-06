@@ -9,9 +9,9 @@ class SaleSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def validate_discount(self, value):
-        if value < 0 or value > 100:
+        if value < 0 :
             raise serializers.ValidationError(
-                "Discount must be positive number")
+                "Discount cannot be less than 1.00")
         return value
 
 
@@ -20,9 +20,3 @@ class SaleItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = SaleItem
         fields = '__all__'
-
-    def validate_quantity(self, value):
-        if value <= 0:
-            raise serializers.ValidationError(
-                "Quantity must be greater than 0")
-        return value

@@ -5,7 +5,7 @@ from decimal import Decimal
 
 class Sale(BaseModel):
     """Model for sales"""
-    discount = models.DecimalField(max_digits=6, decimal_places=2, default=Decimal('0.00'), null=True)
+    discount = models.DecimalField(max_digits=6, decimal_places=2, default=Decimal('0.00'), null=False)
     total = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal('0.00'), null=False, verbose_name='Total Price')
     sold_by = models.ForeignKey('accounts.CustomUser', on_delete=models.PROTECT, null=True)
 
