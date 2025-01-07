@@ -38,7 +38,8 @@ class SalesListCreate(APIView):
                     "name": sale_item.product.name,
                     "price": sale_item.product.unit_selling_price,
                     "quantity": sale_item.quantity,
-                    "total": sale_item.product.unit_selling_price * sale_item.quantity
+                    "total": (sale_item.product.unit_selling_price *
+                              sale_item.quantity)
                 }
                 for sale_item in sale_items
             ]
@@ -88,6 +89,7 @@ class SalesListCreate(APIView):
         sale_serializer = SaleSerializer(data={'discount': discount,
                                                'sold_by': request.user.id,
                                                'payment_method': payment_method})
+
         if not sale_serializer.is_valid():
             return Response(sale_serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)
@@ -102,8 +104,8 @@ class SalesListCreate(APIView):
                 quantity = product.get('quantity_bought', 1)
 
                 if product_inst.quantity < quantity:
-                    return Response({'error': f"Not enough stock available "
-                                     f"for {product_inst.name}"},
+                    return Response({'error': f"Not enough stock "
+                                     f" available for {product_inst.name}"},
                                     status=status.HTTP_400_BAD_REQUEST)
                 total_sales += Decimal(product_inst.unit_buying_price) * quantity
                 sale_items.append(SaleItem(sale=sale, product=product_inst,
@@ -111,7 +113,8 @@ class SalesListCreate(APIView):
 
             SaleItem.objects.bulk_create(sale_items)
             for sale_item in sale_items:
-                post_save.send(sender=SaleItem, instance=sale_item, created=True)
+                post_save.send(sender=SaleItem, instance=sale_item,
+                               created=True)
 
             sale.total = total_sales - Decimal(discount)
             sale.save()
