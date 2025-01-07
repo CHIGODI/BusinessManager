@@ -16,14 +16,44 @@ from .serializers import SaleSerializer, SaleItemSerializer
 class SalesListCreate(APIView):
     """ views for creating and listing sales
         /api/v1/sales
+        methods: GET, POST
     """
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        """ get all sales """
-        sales = SaleItem.objects.all()
-        serializer = SaleItemSerializer(sales, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        """ Get all sales grouped by sale ID """
+        # Query all Sale objects
+        sales = Sale.objects.all()
+
+        # Prepare the response data
+        response_data = []
+
+        for sale in sales:
+            # Get all SaleItems related to this Sale
+            sale_items = SaleItem.objects.filter(sale=sale)
+
+            # Prepare product details for this sale
+            products = [
+                {
+                    "name": sale_item.product.name,
+                    "price": sale_item.product.unit_selling_price,
+                    "quantity": sale_item.quantity,
+                    "total": sale_item.product.unit_selling_price * sale_item.quantity
+                }
+                for sale_item in sale_items
+            ]
+
+            # Calculate the total for this sale
+            total_amount = sum(item["total"] for item in products)
+
+            response_data.append({
+                "sale_id": sale.id,
+                "total_amount": total_amount,
+                "discounted_total": sale.discount,
+                "products": products,
+            })
+
+        return Response(response_data, status=status.HTTP_200_OK)
 
     def post(self, request):
         """ create a sale
@@ -97,6 +127,7 @@ class SalesListCreate(APIView):
 class SaleDetail(APIView):
     """ views for retrieving, updating and deleting a sale
         /api/v1/sales/<int:id>
+        methods: GET, DELETE
     """
     permission_classes = [IsAuthenticated]
 
