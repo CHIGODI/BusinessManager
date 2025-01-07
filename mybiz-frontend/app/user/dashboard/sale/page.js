@@ -1,10 +1,6 @@
 'use client';
 import { useState } from 'react';
-<<<<<<< HEAD
-import NavBar from '../../../sharedComponents/Navbar';
-=======
 import NavBar from '../../../sharedComponents/NavBar';
->>>>>>> 6cee555cbafd553f2de6682c9f5c893e57551141
 import SideNav from '../../../sharedComponents/SideNav';
 import CheckoutCard from './components/CheckoutCard';
 import ProductListCard from './components/ProductListCard';
