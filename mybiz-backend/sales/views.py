@@ -76,7 +76,6 @@ class SalesListCreate(APIView):
             }
         }
         """
-        print(f"{request.data} \n\n\n\n\n")
         sales_data = request.data.get('sales_data', {})
         products = sales_data.get('products', {})
         discount = sales_data.get('discount', 0)
