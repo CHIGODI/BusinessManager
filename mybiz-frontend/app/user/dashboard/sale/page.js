@@ -157,6 +157,7 @@ export default function SalePage() {
                         <CheckoutCard total={totalSalePayable()}
                                       products={cart}
                                       session={session}
+                                      setCart={setCart}
                         />
                     </div>
                 </div>
