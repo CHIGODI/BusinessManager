@@ -4,13 +4,13 @@ import { faBagShopping } from '@fortawesome/free-solid-svg-icons';
 
 const ProductListCard = ({products, addProductToCart}) => {
     return(
-        <div className="rounded-xl border h-[29rem]
-                                    shadow-sm overflow-y-scroll scrollbar-thin
-                                    scrollbar-thumb-rounded-full
+        <div className="md:rounded-xl md:border h-screen md:h-[29rem]
+                                    md:shadow-sm md:overflow-y-scroll scrollbar-thin
+                                    md:scrollbar-thumb-rounded-full
                                     scrollbar-track-rounded
                                     scrollbar-thumb-gray-500
                                     scrollbar-track-gray-300
-                                    bg-white"
+                                    md:bg-white"
         >
             <Link href='/products' className='hover:underline hover:text-[#01F3F]'>
                 <h2 className='top-0 z-10 p-4 text-gray-600 font-bold bg-white flex justify-between items-center'>

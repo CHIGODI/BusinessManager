@@ -45,7 +45,7 @@ const CheckoutCard = ({ total, products, session, setCart }) => {
     };
 
     return (
-        <div className='border rounded-xl shadow-sm h-1/2 bg-white'>
+        <div className='hidden md:block border rounded-xl shadow-sm h-1/2 bg-white'>
             <h2 className='p-4 text-gray-600 font-bold rounded-xl flex justify-between items-center bg-white'>
                 CHECKOUT
                 <FontAwesomeIcon aria-hidden='true' className='text-sm mt-4 text-gray-600' icon={faMoneyBillWave} />

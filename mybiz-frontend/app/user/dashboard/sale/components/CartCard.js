@@ -5,7 +5,7 @@ import { faCartShopping, faXmark } from '@fortawesome/free-solid-svg-icons';
 const CartCard = ({products, removeProductFromCart}) => {
 
     return(
-        <div className='h-1/2 border rounded-xl shadow-sm overflow-y-scroll scrollbar-thin '>
+        <div className='hidden md:block h-1/2 border rounded-xl shadow-sm overflow-y-scroll scrollbar-thin '>
             <div className=' relative p-4 text-gray-600 font-bold bg-white flex justify-between items-center'>
                 <h2>CART</h2>
                 <FontAwesomeIcon aria-hidden='true' className='text-sm mt-4 text-gray-600 pr-1' icon={faCartShopping} />

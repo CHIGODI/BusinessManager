@@ -83,12 +83,14 @@ export default function SalePage() {
             <NavBar />
             <div className="relative flex flex-row w-full h-full">
                 <SideNav />
-                <div className="w-[80%] px-[2%] py-[2%]
-                                h-full grid grid-cols-2
-                                gap-x-4 bg-[#F8FAFC]">
+                <div className="flex flex-col w-full lg:w-[80%] px-[2%] py-[2%]
+                                h-full md:grid md:grid-cols-2
+                                lg:gap-x-4 bg-[#F8FAFC]">
                     {/* search products and days total  */}
                     <div className="col-span-2 flex items-center h-3/5">
-                        <div className='w-1/2 flex
+                        <div className='
+                        w-full
+                                        lg:w-1/2 flex
                                         items-center
                                         h-full'>
                             <input
@@ -113,9 +115,10 @@ export default function SalePage() {
                                 Search
                             </button>
                         </div>
-                        <div className='ml-auto p-4 w-2/6
+                        <div className='hidden
+                                        ml-auto p-4 w-2/6
                                         border rounded-xl shadow-sm
-                                        flex flex-row justify-center
+                                        lg:flex flex-row justify-center
                                         items-center text-[#001F3F]
                                         bg-white
                                         h-full'>
@@ -149,7 +152,7 @@ export default function SalePage() {
                         addProductToCart={addProductToCart}
                     />
                     {/* cart and checkout card */}
-                    <div className='flex flex-col gap-4 h-[29rem]'>
+                    <div className='flex flex-row md:flex-col gap-4 h-[29rem]'>
                         <CartCard
                             products={cart}
                             removeProductFromCart={removeProductFromCart}
