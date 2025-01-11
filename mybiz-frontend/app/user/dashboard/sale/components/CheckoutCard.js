@@ -7,15 +7,27 @@ import getProductCount from '../../../../lib/productCount';
 
 const CheckoutCard = ({ total, products, session, setCart }) => {
     const [discount, setDiscount] = useState(0.0);
-    const [paymentMethod, setPaymentMethod] = useState('Cash');
+    const [paymentMethod, setPaymentMethod] = useState('');
 
     const productAndCount = getProductCount(products);
-    const handleCheckoutCreateSale = async () => {
 
+    const validateInputs = () => {
         if (discount < 0) {
             toast.error('Discount cannot be less than Kes 0');
-            return;
+            return false;
         }
+        if (paymentMethod === '') {
+            toast.error('Please select a payment method');
+            return false;
+        }
+        if (productAndCount.length === 0) {
+            toast.error('Please add products to the cart');
+            return false;
+        }
+        return true;
+    };
+    const handleCheckoutCreateSale = async () => {
+        if (!validateInputs()) return;
         const data = {
             'sales_data': {
                 'products': productAndCount,
