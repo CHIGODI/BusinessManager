@@ -2,11 +2,15 @@
 import NavBar from "../../sharedComponents/NavBar";
 import SideNav from "../../sharedComponents/SideNav";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
+import axios from "axios";
 
 const SalesSummary = () => {
     // const [products, setProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const { data: session } = useSession();
+
 
     const products = [
         { id: 1, name: "Product 1", unit_selling_price: 10.5, quantity: 50 },
@@ -24,24 +28,25 @@ const SalesSummary = () => {
         { id: 13, name: "Product 13", unit_selling_price: 19.99, quantity: 20 },
         { id: 14, name: "Product 14", unit_selling_price: 8.25, quantity: 8 },
     ]
-    const handleAddProduct = async () => {
+
+
+    const getSales = async () => {
+        console.log('running getSales');
         try {
-            const response = await axios.post(
-                'http://localhost:8000/api/v1/products/',
-                product,
+            const response = await axios.get(
+                'http://localhost:8000/api/v1/sales/',
                 {
                     headers: {
-                        "Authorization": `Bearer ${Cookies.get('access_token')}`,
+                        "Authorization": `Bearer ${session?.user?.access}`,
                     }
                 }
             );
-            if (response.status === 200) {
-
-            }
+           console.log(response.data);
         } catch (error) {
-
+                console.log(error);
         }
     };
+    getSales();
 
     return (
         <div className="h-screen">

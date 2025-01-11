@@ -45,11 +45,11 @@ const CheckoutCard = ({ total, products, session, setCart }) => {
     };
 
     return (
-        <div className='hidden md:block border rounded-xl shadow-sm h-1/2 bg-white'>
-            <h2 className='p-4 text-gray-600 font-bold rounded-xl flex justify-between items-center bg-white'>
+        <div className='absolute bottom-0 left-0 md:relative border shadow-sm w-full md:h-1/2'>
+            <div className='p-4 text-gray-600 font-bold  hidden md:flex justify-between items-center bg-white'>
                 CHECKOUT
-                <FontAwesomeIcon aria-hidden='true' className='text-sm mt-4 text-gray-600' icon={faMoneyBillWave} />
-            </h2>
+                <FontAwesomeIcon aria-hidden='true' className='text-sm text-gray-600' icon={faMoneyBillWave} />
+            </div>
             <div className='flex flex-col px-4 bg-[#F8FAFC]'>
                 <div className="flex flex-col space-x-4 py-2">
                     <div className="flex items-center space-x-2">

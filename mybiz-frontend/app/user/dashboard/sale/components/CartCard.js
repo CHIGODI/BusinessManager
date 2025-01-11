@@ -5,10 +5,10 @@ import { faCartShopping, faXmark } from '@fortawesome/free-solid-svg-icons';
 const CartCard = ({products, removeProductFromCart}) => {
 
     return(
-        <div className='hidden md:block h-1/2 border rounded-xl shadow-sm overflow-y-scroll scrollbar-thin '>
+        <div className='h-3/4 md:h-1/2 border overflow-y-scroll scrollbar-hide'>
             <div className=' relative p-4 text-gray-600 font-bold bg-white flex justify-between items-center'>
                 <h2>CART</h2>
-                <FontAwesomeIcon aria-hidden='true' className='text-sm mt-4 text-gray-600 pr-1' icon={faCartShopping} />
+                <FontAwesomeIcon aria-hidden='true' className='text-sm text-gray-600 pr-1' icon={faCartShopping} />
                 {products.length > 0 && (
                     <span
                         className="bg-gray-600 text-white text-xs absolute top-5 right-3 transform translate-x-2 -translate-y-2 rounded-full px-2 py-1"

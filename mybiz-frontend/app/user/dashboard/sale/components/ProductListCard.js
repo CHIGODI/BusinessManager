@@ -4,23 +4,19 @@ import { faBagShopping } from '@fortawesome/free-solid-svg-icons';
 
 const ProductListCard = ({products, addProductToCart}) => {
     return(
-        <div className="md:rounded-xl md:border h-screen md:h-[29rem]
-                                    md:shadow-sm md:overflow-y-scroll scrollbar-thin
-                                    md:scrollbar-thumb-rounded-full
-                                    scrollbar-track-rounded
-                                    scrollbar-thumb-gray-500
-                                    scrollbar-track-gray-300
+        <div className="w-1/2 border h-3/4 md:h-full
+                                    overflow-y-scroll scrollbar-hide
                                     md:bg-white"
         >
             <Link href='/products' className='hover:underline hover:text-[#01F3F]'>
-                <h2 className='top-0 z-10 p-4 text-gray-600 font-bold bg-white flex justify-between items-center'>
+                <div className='top-0 z-10 p-4 text-gray-600 font-bold bg-white flex justify-between items-center'>
                     ALL PRODUCTS
-                    <FontAwesomeIcon aria-hidden='true' className='text-sm mt-4 text-gray-600' icon={faBagShopping} />
-                </h2>
+                    <FontAwesomeIcon aria-hidden='true' className='text-sm text-gray-600' icon={faBagShopping} />
+                </div>
             </Link>
             {/* conditionally render list of products */}
-            {products.length > 0 ? (
-                <table className='w-full'>
+            {/* {products.length > 0 ? (
+                <table className='md:w-full w-1/2'>
                     <thead className="sticky top-0 bg-gray-100 z-10">
                         <tr>
                             <th className="border-b px-4 py-2 text-left text-sm text-gray-600">Item</th>
@@ -45,7 +41,7 @@ const ProductListCard = ({products, addProductToCart}) => {
                     <p className="text-gray-400 text-sm">No products in store</p>
                     <p className="text-gray-400 text-sm">Add products to store to make a sale</p>
                 </div>
-            )}
+            )} */}
         </div>
     );
 };
