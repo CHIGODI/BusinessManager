@@ -17,7 +17,7 @@ const ProductListCard = ({products, addProductToCart}) => {
             {/* conditionally render list of products */}
             {products.length > 0 ? (
                 <table className='w-full'>
-                    <thead className="sticky top-0 bg-gray-100 z-10">
+                    <thead className="sticky top-0 bg-gray-100 z-5">
                         <tr>
                             <th className="hidden md:table-cell border-b px-4 py-2 text-left text-sm text-gray-600">Item</th>
                             <th className="hidden md:table-cell border-b px-4 py-2 text-left text-sm text-gray-600">Qty</th>
@@ -28,13 +28,13 @@ const ProductListCard = ({products, addProductToCart}) => {
                     <tbody>
                             {products.map((product, index) => (
                                 <tr key={index} className="hover:bg-gray-50 h-[2%]" onClick={() => { addProductToCart(product); console.log(product); }}>
-                                    <td className=" md:table-cell border-b px-4 py-2 text-sm text-[#4A4A4A] flex flex-col">{product.name} {product.size}
+                                    <td className=" md:table-cell border-b px-4 py-2 text-sm text-[#4A4A4A] flex flex-col text-wrap">{product.name} {product.size}
                                         <span className="text-xs text-gray-400 space-x-1 md:hidden">S.P | {product.unit_selling_price}</span>
                                         <span className="text-xs text-gray-400 space-x-1 md:hidden">Qty | {product.quantity}</span>
                                     </td>
-                                    <td className="hidden md:table-cell border-b px-4 py-2 text-sm text-[#4A4A4A]">{product.quantity}</td>
-                                    <td className="hidden md:table-cell border-b px-4 py-2 text-sm text-[#4A4A4A]">{product.unit_selling_price}</td>
-                                    <td className="hidden md:table-cell border-b px-4 py-2 text-sm text-[#4A4A4A]">{product.manufacturer}</td>
+                                    <td className="hidden md:table-cell border-b px-4 py-2 text-sm text-[#4A4A4A] text-wrap">{product.quantity}</td>
+                                    <td className="hidden md:table-cell border-b px-4 py-2 text-sm text-[#4A4A4A] text-wrap">{product.unit_selling_price}</td>
+                                    <td className="hidden md:table-cell border-b px-4 py-2 text-sm text-[#4A4A4A] text-wrap">{product.manufacturer}</td>
                                 </tr>
                             ))}
 

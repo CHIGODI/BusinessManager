@@ -21,7 +21,7 @@ const CartCard = ({products, removeProductFromCart}) => {
             {/* conditionally render list of producst if added to cart */}
             {products.length > 0 ? (
                 <table className="w-full border-collapse">
-                    <thead className="sticky top-0 bg-gray-100 z-10">
+                    <thead className="sticky top-0 bg-gray-100 z-5">
                         <tr>
                             <th className="border-b px-4 py-2 text-left text-sm text-gray-600">Item</th>
                             <th className="border-b px-4 py-2 text-left text-sm text-gray-600">Qty</th>
@@ -31,10 +31,10 @@ const CartCard = ({products, removeProductFromCart}) => {
                     <tbody>
                         {products.map((product, index) => (
                             <tr key={index} className='rounded-full hover:bg-gray-50'>
-                                <td className="border-b px-4 py-2 text-sm">{product.name}</td>
-                                <td className="border-b px-4 py-2 text-sm">{product.quantity}</td>
-                                <td className="border-b px-4 py-2 text-sm">
-                                    <FontAwesomeIcon className='text-sm text-gray-400 rounded-full hover:bg-gray-200 p-1'
+                                <td className=" border-b px-4 py-2 text-sm text-[#4A4A4A]">{product.name}</td>
+                                <td className=" border-b px-4 py-2 text-sm text-[#4A4A4A]">{product.quantity}</td>
+                                <td className=" border-b px-4 py-2 text-sm text-[#4A4A4A]">
+                                    <FontAwesomeIcon className='text-xs text-gray-400 rounded-full hover:bg-gray-200 p-1'
                                                     icon={faXmark} onClick={() => removeProductFromCart(index)}
                                      />
                                 </td>
