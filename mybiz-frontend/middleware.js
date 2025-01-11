@@ -27,6 +27,7 @@ export async function middleware(req) {
         return NextResponse.redirect(new URL("/unauthorised", req.url));
     }
     if (req.nextUrl.pathname.startsWith("/user") && role !== "user") {
+        console.log(req.nextUrl.pathname);
         // Redirect users who are not admins to the homepage or any other page
         return NextResponse.redirect(new URL("/unauthorised", req.url));
     }

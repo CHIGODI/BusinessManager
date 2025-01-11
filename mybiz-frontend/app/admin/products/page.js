@@ -1,11 +1,11 @@
 'use client'
 import NavBar from "../../sharedComponents/NavBar";
-import SideNav from "../../sharedComponents/SideNav";
+import SideNav from "../components/SideNav";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import editProductButton from "./components/EditProductButton";
+import EditProductButton from "./components/EditProductButton";
 
 
 const AllProducts = () => {
@@ -120,7 +120,7 @@ const AllProducts = () => {
                                                     </li>
                                                 </div>
                                                 <div className="w-1/2 h-full flex justify-end">
-                                                   <editProductButton />
+                                                   <EditProductButton />
                                                 </div>
                                             </ul>
                                         )}
