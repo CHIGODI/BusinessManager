@@ -47,35 +47,61 @@ const CheckoutCard = ({ total, products, session, setCart }) => {
     return (
         <div className='absolute bottom-0 left-0 md:relative border shadow-sm w-full md:h-1/2'>
             <div className='p-4 text-gray-600 font-bold  hidden md:flex justify-between items-center bg-white'>
-                CHECKOUT
+                <h2>CHECKOUT</h2>
                 <FontAwesomeIcon aria-hidden='true' className='text-sm text-gray-600' icon={faMoneyBillWave} />
             </div>
-            <div className='flex flex-col px-4 bg-[#F8FAFC]'>
-                <div className="flex flex-col space-x-4 py-2">
-                    <div className="flex items-center space-x-2">
-                        <label htmlFor="discount" className="text-sm">Discount</label>
-                        <input type="number" id="discount" value={discount} onChange={(e) => { setDiscount(parseFloat(e.target.value)) }} className="text-sm w-1/4 p-1 border border-gray-200 rounded-xl outline-none focus:outline-purple-600 bg-[#F8FAFC]" />
+            <div className='flex flex-col px-4 space-y-2 bg-[#F8FAFC]'>
+                {/* Discount */}
+                <div className="flex flex-row space-x-2 pt-2 items-center">
+                    <label htmlFor="discount" className="text-sm font-medium text-gray-600">Discount:</label>
+                    <input
+                        type="number"
+                        id="discount"
+                        value={discount}
+                        onChange={(e) => { setDiscount(parseFloat(e.target.value)) }}
+                        className="text-sm w-full p-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-purple-600"
+                    />
+                </div>
+                {/* Payment Methods */}
+                <div className="flex flex-row space-x-2">
+                    <span className="text-sm font-medium text-gray-500">Payment Method:</span>
+                    <div className="flex items-center space-x-3">
+                        <input
+                            type="radio"
+                            id="mpesa"
+                            name="payment_method"
+                            value="Mpesa"
+                            onChange={(e) => { setPaymentMethod(e.target.value) }}
+                            className="text-purple-600 focus:ring-2 focus:ring-purple-600"
+                        />
+                        <label htmlFor="mpesa" className="text-sm font-medium text-gray-600">
+                            M-pesa
+                        </label>
                     </div>
-                    <div className="flex items-center space-x-2">
-                        <input type="radio" id="mpesa" name="payment_method" value="Mpesa" onChange={(e) => { setPaymentMethod(e.target.value) }} className="text-sm" />
-                        <label htmlFor="mpesa" className="text-sm text-green-600">M<span className='text-red-500'>-</span>pesa</label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                        <input type="radio" id="cash" name="payment_method" value="Cash" onChange={(e) => { setPaymentMethod(e.target.value) }} className="text-sm" />
-                        <label htmlFor="cash" className="text-sm">Cash</label>
+                    <div className="flex items-center space-x-3">
+                        <input
+                            type="radio"
+                            id="cash"
+                            name="payment_method"
+                            value="Cash"
+                            onChange={(e) => { setPaymentMethod(e.target.value) }}
+                            className="text-purple-600 focus:ring-2 focus:ring-purple-600"
+                        />
+                        <label htmlFor="cash" className="text-sm font-medium text-gray-600">Cash</label>
                     </div>
                 </div>
-                <p className='text-black font-semibold text-xl'>
-                    <span className='text-sm text-gray-400'>Total Payable:</span>
-                    <span className='text-gray-500 text-sm'> KES</span>
-                    <span className='text-md font-bold text-gray-600'> {total ? total - discount : 0}</span>
-                </p>
-                <button onClick={handleCheckoutCreateSale}
-                    className='w-1/2 bg-purple-600
-                           text-white text-sm
-                           p-2 rounded-lg
-                           hover:bg-purple-700
-                    '>
+
+                {/* Grand Total */}
+                <div className="flex justify-between items-center text-lg font-semibold text-gray-700">
+                    <span className="text-sm text-gray-500">Grand Total:</span>
+                    <span className="text-purple-700"><span className='text-sm'>KES </span>{total ? total - discount : 0}</span>
+                </div>
+
+                {/* Checkout Button */}
+                <button
+                    onClick={handleCheckoutCreateSale}
+                    className=" p-0 w-full bg-purple-600 text-white font-medium text-sm py-2  transition duration-200 hover:bg-purple-700 shadow-sm"
+                >
                     Checkout
                 </button>
             </div>

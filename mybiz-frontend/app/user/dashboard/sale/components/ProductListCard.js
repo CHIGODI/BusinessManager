@@ -10,7 +10,7 @@ const ProductListCard = ({products, addProductToCart}) => {
         >
             <Link href='/products' className='hover:underline hover:text-[#01F3F]'>
                 <div className='top-0 z-10 p-4 text-gray-600 font-bold bg-white flex justify-between items-center'>
-                    ALL PRODUCTS
+                    PRODUCTS
                     <FontAwesomeIcon aria-hidden='true' className='text-sm text-gray-600' icon={faBagShopping} />
                 </div>
             </Link>

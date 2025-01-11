@@ -91,7 +91,7 @@ export default function SalePage() {
                         addProductToCart={addProductToCart}
                     />
                     {/* cart and checkout card */}
-                    <div className='w-1/2 flex flex-row md:flex-col gap-4 h-full'>
+                    <div className='w-1/2 flex flex-row md:flex-col md:gap-4 h-full'>
                         <CartCard
                             products={cart}
                             removeProductFromCart={removeProductFromCart}
