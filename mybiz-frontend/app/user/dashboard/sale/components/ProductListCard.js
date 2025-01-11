@@ -28,10 +28,9 @@ const ProductListCard = ({products, addProductToCart}) => {
                     <tbody>
                             {products.map((product, index) => (
                                 <tr key={index} className="hover:bg-gray-50 h-[2%]" onClick={() => { addProductToCart(product); console.log(product); }}>
-                                    <td className=" md:table-cell border-b px-4 py-2 text-sm text-[#4A4A4A] flex flex-col">{product.name}
+                                    <td className=" md:table-cell border-b px-4 py-2 text-sm text-[#4A4A4A] flex flex-col">{product.name} {product.size}
                                         <span className="text-xs text-gray-400 space-x-1 md:hidden">S.P | {product.unit_selling_price}</span>
                                         <span className="text-xs text-gray-400 space-x-1 md:hidden">Qty | {product.quantity}</span>
-                                        <span className="text-xs text-gray-400 space-x-1 md:hidden">Manufacturer | {product.manufacturer}</span>
                                     </td>
                                     <td className="hidden md:table-cell border-b px-4 py-2 text-sm text-[#4A4A4A]">{product.quantity}</td>
                                     <td className="hidden md:table-cell border-b px-4 py-2 text-sm text-[#4A4A4A]">{product.unit_selling_price}</td>
