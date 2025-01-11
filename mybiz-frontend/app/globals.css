@@ -17,8 +17,9 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-}
+  font-family: 'Poppins', Arial, Helvetica, sans-serif;
+    /* Apply Poppins font */
+  }
 
 .skeleton-logo {
   width: 60px;

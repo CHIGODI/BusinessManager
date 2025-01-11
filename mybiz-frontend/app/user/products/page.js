@@ -91,12 +91,6 @@ const AllProducts = () => {
                                                 Price: KES {product.unit_selling_price} | Quantity: {product.quantity}
                                             </p>
                                         </div>
-                                        <button
-                                            className="text-purple-600 hover:text-purple-800 text-sm"
-                                            onClick={() => console.log(`Viewing details for ${product.name}`)}
-                                        >
-                                            View Details
-                                        </button>
                                     </li>
                                 ))}
                             </ul>
