@@ -1,6 +1,6 @@
 'use client';
 import Image from "next/image";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faRightFromBracket, faUser } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
@@ -19,6 +19,9 @@ export default function NavBar() {
     };
 
     const handleLogout = async () => {
+        if (!session) {
+            return;
+        }
         await axios.post(
             'http://localhost:8000/api/v1/account/logout/',
             { 'refresh': session?.user?.refresh },
@@ -33,6 +36,7 @@ export default function NavBar() {
                 Router.push('/');
             }
         }).catch((error) => {
+            console.log(error);
             toast.error('Error logging out');
         });
     };

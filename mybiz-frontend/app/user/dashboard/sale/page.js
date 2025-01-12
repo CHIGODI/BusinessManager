@@ -43,7 +43,7 @@ export default function SalePage() {
         };
 
         fetchProducts();
-    }, [isLoading, session]);
+    }, [isLoading, session, cart]);
 
 
     // add product to cart
