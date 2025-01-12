@@ -34,18 +34,18 @@ const AddProductButton = () => {
         <>
             <button
                 onClick={handleButtonClick}
-                className="px-4 py-2 bg-black text-white rounded-lg shadow hover:bg-opacity-[85%]"
+                className="px-4 py-2 bg-gray-950 text-white shadow hover:bg-opacity-[85%]"
             >
                 Add Product
             </button>
             {isFormVisible && (
                 <div
-                    className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-30"
+                    className="pr-1 pl-1 fixed inset-0 flex items-center justify-center bg-gray-950 bg-opacity-50 z-30"
                 >
-                    <div className="bg-white p-6 rounded-lg shadow-lg w-1/2 max-h-[596px]">
+                    <div className="bg-white p-6 shadow-lg w-full md:w-1/2 max-h-[596px]">
                         <h2 className="text-xl font-bold text-purple-600 mb-2">Add New Product</h2>
                         <form
-                            className="bg-white p-6 rounded-lg shadow-md max-h-[500px]"
+                            className="bg-white pt-4 lg:p-6 max-h-[500px] w-full "
                         >
                             <div className="grid grid-cols-2 gap-2">
                                 {/* Product Name */}
@@ -178,17 +178,17 @@ const AddProductButton = () => {
                                 />
                             </div>
 
-                            <div className="flex justify-end mt-4">
+                            <div className="flex justify-end mt-4 space-x-4 lg:w-[50%] ml-auto">
                                 <button
                                     type="button"
                                     onClick={() => setIsFormVisible(false)}
-                                    className="mr-2 px-4 py-2 bg-gray-950 text-white rounded-lg text-sm"
+                                    className="w-1/2 mr-2 px-4 py-3 bg-gray-950 text-white text-sm"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
-                                    className="px-4 py-2 bg-[#FCC737] text-white rounded-lg text-sm"
+                                    className="w-1/2 px-4 py-3 bg-[#FCC737] text-white text-sm"
                                 >
                                     Save
                                 </button>

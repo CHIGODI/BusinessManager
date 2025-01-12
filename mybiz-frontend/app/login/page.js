@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
-import { useSession } from "next-auth/react";
 import { toast } from "react-toastify";
+import Image from "next/image";
 
 
 const LoginPage = () => {
@@ -13,7 +13,6 @@ const LoginPage = () => {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const router = useRouter();
-    const { data: session } = useSession();
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -33,14 +32,8 @@ const LoginPage = () => {
             setError("Invalid username or password");
         } else {
             const session = await fetch('/api/auth/session').then((res) => res.json());
-
-            if (session?.user?.role) {
-                console.log("User role:", session.user.role);
-
-                // Determine the dashboard route based on the user's role
-                const dashboardRoute = session.user.role === "admin"
-                    ? "/admin/dashboard"
-                    : "/user/dashboard";
+            if (session?.user) {
+                const dashboardRoute = session.user.is_staff ? "/admin/dashboard" : "/user/dashboard";
 
                 toast.success("Login successful");
                 router.push(dashboardRoute);
@@ -54,77 +47,89 @@ const LoginPage = () => {
 
     return (
         <div className="h-screen
-                        flex flex-col
+                        flex flex-row
                         items-center
                         "
         >
-            <form className="bg-white
-                            p-6 flex
+            <div className="
+                            flex
                             flex-col
-                            space-y-2
-                            w-[90%]
-                            justify-between
-                            h-[70%]
-                            m-auto
-                            md:mt-[2.5%]
-                            md:w-1/3
-                            rounded-md shadow-md
-                            "
-                onSubmit={handleLogin}
-            >
-                <header className="
+                            items-center
+                            justify-center
+                            w-full
+                            lg:w-1/2
+                            h-full
+                            m-auto">
+
+                <div className="w-[90%] lg:w-[70%]
+                                h-[60%]
+                                p-8
+                                shadow-md
+                                bg-purple-600
+                                ">
+                    <header className="
                                 text-center mb-4
                                 text-2xl font-bold
-                                text-purple-700"
-                >
-                   Welcome Back!
-                </header>
-                {error && <p className="text-red-500 text-sm">{error}</p>}
-                <label htmlFor="username" className="text-gray-700 text-base">
-                    Username
-                    <span className="text-red-400 p-1">*</span>
-                </label>
-                <input
-                    type="text"
-                    id="username"
-                    name="username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    className="p-4 border border-gray-300 rounded text-base"
-                    required
-                />
-                <label htmlFor="password" className="text-gray-700 text-base">
-                    Password
-                    <span className="text-red-400 p-1">*</span>
-                </label>
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="p-4 border border-gray-300 rounded text-base"
-                    required
-                />
-                <button
-                    type="submit"
-                    className="w-full
-                                py-3 bg-purple-700
-                                text-white rounded-lg
-                                hover:bg-purple-600
+                                text-white"
+                    >
+                        Welcome Back!
+                    </header>
+                    <form className="flex flex-col
+
+                            "
+                        onSubmit={handleLogin}
+                    >
+
+                        {error && <p className="text-red-500 text-sm">{error}</p>}
+                        <label htmlFor="username" className="text-gray-300 text-base">
+                            Username
+                            <span className="text-red-400 p-1">*</span>
+                        </label>
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            className="p-2 border border-gray-300 text-base"
+                            required
+                        />
+                        <label htmlFor="password" className="text-gray-300 text-base pt-4">
+                            Password
+                            <span className="text-red-400 p-1">*</span>
+                        </label>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className="p-2 border border-gray-300  text-base"
+                            required
+                        />
+                        <button
+                            type="submit"
+                            className="w-full
+                                my-4
+                                py-3 bg-purple-950
+                                text-white -lg
+                                hover:bg-opacity[90%]
                                 focus:outline-none focus:ring-2
                                 focus:ring-purple-500
                                 text-sm
                                 md:text-base
                                 ">
-                    {signin}
-                </button>
-                <div className="text-center flex flex-row justify-center gap-2">
-                    <Link href="/signup" className="text-blue-500 text-sm hover:underline">Create Account</Link>
-                    <span className="text-gray-500 text-sm">|</span>
-                    <Link href="/login" className="text-blue-500 text-sm hover:underline">Forgot Password</Link>
+                            {signin}
+                        </button>
+                        <div className="text-center flex flex-row justify-center gap-2">
+                            <Link href="/signup" className="text-blue-500 text-sm hover:underline">Create Account</Link>
+                            <span className="text-gray-500 text-sm">|</span>
+                            <Link href="/login" className="text-blue-500 text-sm hover:underline">Forgot Password</Link>
+                        </div>
+                    </form>
                 </div>
-            </form>
+
+            </div>
         </div>
     );
 };

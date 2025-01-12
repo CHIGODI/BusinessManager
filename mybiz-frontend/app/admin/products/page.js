@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import EditProductButton from "./components/EditProductButton";
+import AddProductButton from "./components/AddProductsButtonAndForm";
 
 
 const AllProducts = () => {
@@ -82,8 +83,9 @@ const AllProducts = () => {
                 <SideNav />
                 <div className="w-[100%] lg:w-[80%] md:px-[2%] md:py-[2%]
                                     h-full flex flex-col gap-4">
-                    <div className="flex justify-between items-center">
-                        <h2 className="font-bold text-lg text-gray-600 pt-4 pl-4">All Products</h2>
+                    <div className="flex justify-between items-center p-4">
+                        <h2 className="font-bold text-lg text-gray-600">All Products</h2>
+                        <AddProductButton />
                     </div>
                     <div className="h-full border overflow-y-scroll scrollbar-hidden bg-white">
                         {products.length === 0 ? (

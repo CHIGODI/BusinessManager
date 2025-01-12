@@ -30,8 +30,7 @@ const handler = NextAuth({
 
                 if (res.status === 200) {
                     const { user, access, refresh } = res.data;
-                    // Returning user with tokens to NextAuth
-                    return { ...user, access, refresh }; // Return user and tokens
+                    return { ...user, access, refresh };
                 }
 
                 return null;
@@ -49,8 +48,9 @@ const handler = NextAuth({
             if (user) {
                 const role = user.is_staff ? 'admin' : 'user';
                 token.role = role;
-                token.access = user.access;  // Store access token in JWT
-                token.refresh = user.refresh; // Store refresh token in JWT
+                token.user = user;
+                token.access = user.access;
+                token.refresh = user.refresh;
             }
             const isExpired = await isTokenExpired(token.access, SECRET);
             if (isExpired) {
@@ -68,11 +68,8 @@ const handler = NextAuth({
             return token;
         },
 
-
         async session({ session, token }) {
-            session.user.role = token.role;
-            session.user.access = token.access; // Attach access token to session
-            session.user.refresh = token.refresh; // Attach refresh token to session
+            session.user = token.user;
             return session;
         },
     },

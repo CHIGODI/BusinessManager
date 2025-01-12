@@ -9,7 +9,6 @@ import { useSession } from 'next-auth/react';
 
 function UserDashboard() {
     const { data: session, status } = useSession();
-    console.log(session);
 
     if(status === 'loading') return null;
 
@@ -21,7 +20,7 @@ function UserDashboard() {
                 <main className="w-[100%] md:w-[80%] md:px-[2%] md:py-[2%] h-full flex flex-col gap-4">
                     {/* welcome message */}
                     <div className="flex justify-between items-center">
-                        <h2 className="font-bold text-lg text-gray-600 pt-4 pl-4">Hello 👋🏽</h2>
+                        <h2 className="font-bold text-lg text-gray-600 pt-4 pl-4">Hello {session?.user?.username}👋🏽</h2>
                     </div>
                     {/* action cards */}
                     <div className="h-full overflow-y-scroll flex flex-col gap-4  items-center lg:items-start lg:flex-row lg:flex-wrap p-4 md:p-0">
