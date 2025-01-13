@@ -6,10 +6,15 @@ import { useState } from 'react';
 import getProductCount from '../../../../lib/productCount';
 
 const CheckoutCard = ({ total, products, session, setCart }) => {
-    const [discount, setDiscount] = useState(0.0);
+    const [discount, setDiscount] = useState(0);
     const [paymentMethod, setPaymentMethod] = useState('');
 
     const productAndCount = getProductCount(products);
+
+    const handleDiscountChange = (e) => {
+        const value = e.target.value;
+        setDiscount(value ? parseFloat(value) : 0);
+    };
 
     const validateInputs = () => {
         if (discount < 0) {
@@ -47,7 +52,6 @@ const CheckoutCard = ({ total, products, session, setCart }) => {
                 setCart([]);
             }
         } catch (error) {
-            console.log(error);
             if (error.response) {
                 toast.error(error.response.data);
             } else {
@@ -64,19 +68,19 @@ const CheckoutCard = ({ total, products, session, setCart }) => {
             </div>
             <div className='flex flex-col px-4 space-y-2 bg-[#F8FAFC]'>
                 {/* Discount */}
-                <div className="flex flex-row space-x-2 pt-2 items-center">
+                <div className="flex flex-row space-x-4 pt-2 items-center">
                     <label htmlFor="discount" className="text-sm font-medium text-gray-600">Discount:</label>
                     <input
                         type="number"
                         id="discount"
-                        value={discount}
-                        onChange={(e) => { setDiscount(parseFloat(e.target.value)) }}
-                        className="text-sm w-full p-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-purple-600"
+                        value={discount.toString()}
+                        onChange={handleDiscountChange}
+                        className="text-sm w-full rounded-full p-2 border border-gray-300 outline-none text-gray-400 focus:ring-2 focus:ring-purple-600"
                     />
                 </div>
                 {/* Payment Methods */}
-                <div className="flex flex-row space-x-2">
-                    <span className="text-sm font-medium text-gray-500">Payment Method:</span>
+                <div className="flex flex-row space-x-4">
+                    <span className="text-sm font-medium text-gray-600">Payment Method:</span>
                     <div className="flex items-center space-x-3">
                         <input
                             type="radio"
@@ -86,7 +90,7 @@ const CheckoutCard = ({ total, products, session, setCart }) => {
                             onChange={(e) => { setPaymentMethod(e.target.value) }}
                             className="text-purple-600 focus:ring-2 focus:ring-purple-600"
                         />
-                        <label htmlFor="mpesa" className="text-sm font-medium text-gray-600">
+                        <label htmlFor="mpesa" className="text-sm font-medium text-gray-400">
                             M-pesa
                         </label>
                     </div>
@@ -97,16 +101,16 @@ const CheckoutCard = ({ total, products, session, setCart }) => {
                             name="payment_method"
                             value="Cash"
                             onChange={(e) => { setPaymentMethod(e.target.value) }}
-                            className="text-purple-600 focus:ring-2 focus:ring-purple-600"
+                            className="bg-gray-100 text-purple-600 focus:ring-2 focus:ring-purple-600"
                         />
-                        <label htmlFor="cash" className="text-sm font-medium text-gray-600">Cash</label>
+                        <label htmlFor="cash" className="text-sm font-medium text-gray-400">Cash</label>
                     </div>
                 </div>
 
                 {/* Grand Total */}
                 <div className="flex justify-between items-center text-lg font-semibold text-gray-700">
-                    <span className="text-sm text-gray-500">Grand Total:</span>
-                    <span className="text-purple-700"><span className='text-sm'>KES </span>{total ? total - discount : 0}</span>
+                    <span className="text-sm text-gray-700 font-bold tracking-wide">Grand Total:</span>
+                    <span className="text-purple-600"><span className='text-sm'>KES </span>{total ? total - discount : 0}</span>
                 </div>
 
                 {/* Checkout Button */}
