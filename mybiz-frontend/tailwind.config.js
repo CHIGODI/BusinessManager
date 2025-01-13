@@ -24,10 +24,10 @@ module.exports = {
     function ({ addComponents }) {
       addComponents({
         '.links': {
-          '@apply text-[#001F3F] text-base w-[90%] ml-[2%] my-4 p-4 rounded-lg transition duration-300 ease-in-out': {},
+          '@apply text-[#001F3F] text-base w-[90%] ml-[2%] my-4 p-4 transition duration-300 ease-in-out': {},
         },
         '.cards': {
-          '@apply bg-white rounded-lg p-6 h-[40%] w-[100%] border shadow-sm lg:w-[30%]': {},
+          '@apply bg-white p-6 h-[50%] md:h-[50%] w-[80%] border shadow-sm lg:w-[30%]': {},
         },
       });
     },

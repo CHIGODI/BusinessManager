@@ -43,7 +43,7 @@ export default function SalePage() {
         };
 
         fetchProducts();
-    }, [isLoading, session]);
+    }, [isLoading, session, cart]);
 
 
     // add product to cart
@@ -81,75 +81,17 @@ export default function SalePage() {
     return (
         <div className="h-screen">
             <NavBar />
-            <div className="relative flex flex-row w-full h-full">
+            <div className="relative flex flex-row w-full h-[calc(100vh-70px)]">
                 <SideNav />
-                <div className="w-[80%] px-[2%] py-[2%]
-                                h-full grid grid-cols-2
-                                gap-x-4 bg-[#F8FAFC]">
-                    {/* search products and days total  */}
-                    <div className="col-span-2 flex items-center h-3/5">
-                        <div className='w-1/2 flex
-                                        items-center
-                                        h-full'>
-                            <input
-                                type="text"
-                                placeholder="Search product..."
-                                value={searchTerm}
-                                onChange={handleSearch}
-                                className="text-sm w-[80%]
-                                            p-4 border border-gray-300
-                                            rounded-tl-full rounded-bl-full
-                                            mt-4 mb-4 outline-none
-                                            focus:border-purple-500
-                                            "/>
-                            <button className='text-sm
-                                               text-white
-                                               border-t border-b
-                                               border-r p-4 rounded-tr-full
-                                               rounded-br-full
-                                               hover:bg-opacity-90
-                                                w-[20%]
-                                               bg-purple-600'>
-                                Search
-                            </button>
-                        </div>
-                        <div className='ml-auto p-4 w-2/6
-                                        border rounded-xl shadow-sm
-                                        flex flex-row justify-center
-                                        items-center text-[#001F3F]
-                                        bg-white
-                                        h-full'>
-                            <FontAwesomeIcon icon={faEye} aria-hidden="true"
-                                className={`text-sm ${viewTotal ? 'block' : 'invisible'}
-                                            cursor-pointer
-                                            p-2 rounded-lg
-                                            hover:bg-gray-200
-                                            text-gray-600
-                                        `}
-                                onClick={() => setViewTotal(!viewTotal)}
-                            />
-                            <FontAwesomeIcon icon={faEyeSlash} aria-hidden="true"
-                                className={`text-sm ${viewTotal ? 'invisible' : 'block'}
-                                            cursor-pointer
-                                            p-2 rounded-lg
-                                            hover:bg-gray-200
-                                            text-gray-600
-                                        `}
-                                onClick={() => setViewTotal(!viewTotal)}
-                            />
-                            <h2 className={`${viewTotal ? '' : 'filter blur-sm'}
-                                            text-purple-600 font-bold`}>
-                                Today's Total: 10,000
-                            </h2>
-                        </div>
-                    </div>
+                <div className="w-full lg:w-[80%] md:px-[2%] md:py-[2%]
+                                h-full flex flex-row md:gap-4 bg-[#F8FAFC]">
                     {/* all products card */}
                     <ProductListCard
                         products={filteredProducts}
                         addProductToCart={addProductToCart}
                     />
                     {/* cart and checkout card */}
-                    <div className='flex flex-col gap-4 h-[29rem]'>
+                    <div className='w-1/2 flex flex-row md:flex-col md:gap-4 h-full'>
                         <CartCard
                             products={cart}
                             removeProductFromCart={removeProductFromCart}
@@ -157,6 +99,7 @@ export default function SalePage() {
                         <CheckoutCard total={totalSalePayable()}
                                       products={cart}
                                       session={session}
+                                      setCart={setCart}
                         />
                     </div>
                 </div>

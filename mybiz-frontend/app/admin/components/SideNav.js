@@ -3,14 +3,14 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGrip, faMoneyBill, faBox, faGear } from "@fortawesome/free-solid-svg-icons";
-export default function SideNav(){
+export default function SideNav() {
     const pathname = usePathname();
 
-    return(
+    return (
         <div className="w-[20%] border-r h-full border-b hidden sticky z-10 top-[70px] lg:block">
             <ul className='flex flex-col justify-start'>
                 <Link href="/admin/dashboard"
-                    className={`links ${pathname.startsWith('/admin/dashboard')?
+                    className={`links ${pathname.startsWith('/admin/dashboard') ?
                         'bg-[#F5EFFF] text-[#4A007E]' : 'hover:bg-[#F5EFFF] hover:text-[#4A007E]'
                         }`}
                 >

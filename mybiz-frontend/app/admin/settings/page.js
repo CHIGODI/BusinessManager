@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from "react";
 import NavBar from "@/app/sharedComponents/NavBar";
-import SideNav from "@/app/sharedComponents/SideNav";
+import SideNav from "../components/SideNav";
 
 const SettingsPage = () => {
     // State to manage active tab

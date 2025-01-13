@@ -4,6 +4,7 @@ import Link from "next/link";
 import { toast } from 'react-toastify';
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 
 const SignUpPage = () => {
@@ -56,118 +57,114 @@ const SignUpPage = () => {
         }
     };
 
-    return (
-        <div className="h-screen
-                        flex flex-col
+return (
+    <div className="h-screen
+                        flex flex-row
                         items-center
                         "
-        >
-            <form className="bg-white
-                            p-6 flex
+    >
+        <div className="
+                            flex
                             flex-col
-                            space-y-2
-                            w-[90%]
-                            justify-between
-                            h-[90%]
-                            md:h-auto
-                            mt-[10%]
-                            md:mt-[2.5%]
-                            md:w-1/3
-                            rounded-md shadow-md
-                            "
-                onSubmit={handleSignup}
-            >
+                            items-center
+                            justify-center
+                            w-full
+                            lg:w-1/2
+                            m-auto
+                            h-full">
+
+            <div className="flex flex-col justify-center bg-purple-600
+                                w-[90%] lg:w-[70%]
+                                h-[70%]
+                                p-8
+                                shadow-md
+                                ">
                 <header className="
                                 text-center mb-4
                                 text-2xl font-bold
-                                text-purple-700"
+                                text-white"
                 >
-                    Get Started with myBIZ
+                   Create an Account
                 </header>
-                <label htmlFor="email" className="text-gray-700 text-sm md:text-base">
-                    Email
-                    <span className="text-red-400 p-1">*</span>
-                </label>
-                <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className={`p-2 border
-                               border-gray-300
-                                rounded text-sm
-                                md:text-base
+                <form className="flex flex-col
+                            space-y-4
+                            "
+                    onSubmit={handleSignup}
+                >
+                    <div className="flex flex-row gap-2 w-full">
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="john@example.com"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className={`p-2
+                                w-1/2
+                                text-sm
+                                lg:text-base
                                 `}
-                />
-                <label htmlFor="username" className="text-gray-700 text-sm md:text-base">
-                    Username
-                    <span className="text-red-400 p-1">*</span>
-                </label>
-                <input
-                    type="text"
-                    id="username"
-                    name="username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    className={`p-2 border
-                               border-gray-300
-                               rounded text-sm
-                               md:text-base
+                        />
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            placeholder="John"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            className={`p-2 border
+                                w-1/2
+                                text-sm
+                                lg:text-base
                                `}
-                />
-                <label htmlFor="password" className="text-gray-700 text-sm md:text-base">
-                    Password
-                    <span className="text-red-400 p-1">*</span>
-                </label>
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className={`p-2 border
-                               border-gray-300
-                               rounded text-sm
-                               md:text-base
+                        />
+                    </div>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className={`p-2 border
+                                text-sm
+                                lg:text-base
                                `}
-                />
-                <label htmlFor="confirmPassword" className="text-gray-700 text-sm md:text-base">
-                    Confirm Password
-                    <span className="text-red-400 p-1">*</span>
-                </label>
-                <input
-                    type="password"
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    className={`p-2 border
-                               border-gray-300
-                               rounded text-sm
-                               md:text-base
+                    />
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        placeholder="Retype password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        className={`p-2 border
+                                text-sm
+                               lg:text-base
                                `}
-                />
-                <button
-                    type="submit"
-                    className="w-full
-                                py-3 bg-purple-700
-                                text-white rounded-lg
+                    />
+                    <button
+                        type="submit"
+                        className="my-4
+                                w-full
+                                py-3 bg-purple-950
+                                text-white -lg
                                 hover:bg-purple-600
                                 focus:outline-none focus:ring-2
                                 focus:ring-purple-500
                                 text-sm
-                                md:text-base
+                                lg:text-base
                                 "
-                >
-                    Sign Up
-                </button>
-                <div className="text-center">
-                    <Link href="/login" className="text-blue-500 text-sm hover:underline hover:text-[#E73879] md:text-base">Already have an account? Login</Link>
-                </div>
-            </form>
+                    >
+                        Create Account
+                    </button>
+                    <div className="text-center">
+                        <Link href="/login" className="text-gray-300 text-sm hover:underline hover:text-white lg:text-base">Already have an account? Login</Link>
+                    </div>
+                </form>
+            </div>
         </div>
-    );
-};
+    </div>
+)};
 
 export default SignUpPage;

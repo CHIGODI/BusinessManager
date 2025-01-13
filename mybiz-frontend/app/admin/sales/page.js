@@ -1,9 +1,8 @@
 'use client';
-'use client';
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import axios from "axios";
-import SideNav from "../../sharedComponents/SideNav";
+import SideNav from "../components/SideNav";
 import NavBar from "../../sharedComponents/NavBar";
 import { toast } from "react-toastify";
 
