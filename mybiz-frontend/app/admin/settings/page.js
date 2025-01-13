@@ -23,7 +23,7 @@ const SettingsPage = () => {
                                 <input
                                     type="text"
                                     placeholder="JohnDoe"
-                                    className="border rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-400 focus:outline-none"
+                                    className="border px-4 py-2 focus:ring-2 focus:ring-indigo-400 focus:outline-none text-sm"
                                 />
                             </div>
                             <div className="flex flex-col gap-2">
@@ -31,11 +31,11 @@ const SettingsPage = () => {
                                 <input
                                     type="email"
                                     placeholder="johndoe@example.com"
-                                    className="border rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-400 focus:outline-none"
+                                    className="border px-4 py-2 focus:ring-2 focus:ring-indigo-400 focus:outline-none text-sm"
                                 />
                             </div>
                         </div>
-                        <button className="mt-6 bg-indigo-500 text-white px-6 py-2 rounded-lg hover:bg-indigo-600">
+                        <button className="mt-6 bg-indigo-500 text-white text-sm px-6 py-2 hover:bg-indigo-600">
                             Save Changes
                         </button>
                     </div>
@@ -70,7 +70,7 @@ const SettingsPage = () => {
                     </div>
 
                     {/* Content Section */}
-                    <div className="border h-full shadow-sm rounded-lg overflow-y-scroll scrollbar-thin scrollbar-thumb-rounded-full
+                    <div className="border h-full shadow-sm overflow-y-scroll scrollbar-thin scrollbar-thumb-rounded-full
                                     scrollbar-track-gray-100 scrollbar-thumb-gray-400 bg-white p-6">
 
                         {/* Tabs Section */}
