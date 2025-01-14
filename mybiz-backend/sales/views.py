@@ -1,5 +1,6 @@
 import uuid
 from decimal import Decimal
+from datetime import datetime
 from collections import Counter
 from rest_framework import status
 from .models import Sale, SaleItem
@@ -47,12 +48,14 @@ class SalesListCreate(APIView):
             # Calculate the total for this sale
             total_amount = sum(item["total"] for item in products)
 
-            response_data.append({
-                "sale_id": sale.id,
-                "total_amount": total_amount,
-                "discounted_total": sale.discount,
-                "products": products,
-            })
+            if datetime.today().date() == sale.created_at.date():
+                response_data.append({
+                    "sale_id": sale.id,
+                    "total_amount": total_amount,
+                    "discounted_total": sale.discount,
+                    "products": products,
+                    "created_at": sale.created_at,
+                })
 
         return Response(response_data, status=status.HTTP_200_OK)
 
