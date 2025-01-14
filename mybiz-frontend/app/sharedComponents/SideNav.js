@@ -8,10 +8,13 @@ export default function SideNav(){
     const pathname = usePathname();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     useEffect(() => {
-        if (pathname.startsWith('/user/dashboard/sale')) {
-            setIsDropdownOpen(true);
-        }
+        const paths = ['sale', 'summary', 'products'];
+
+        const isMatchingPath = paths.some((path) => pathname.startsWith(`/user/dashboard/${path}`));
+
+        setIsDropdownOpen(isMatchingPath);
     }, [pathname]);
+
 
     const handleDropdownToggle = () => {
         setIsDropdownOpen(!isDropdownOpen);
@@ -35,17 +38,17 @@ export default function SideNav(){
                 {/* pages in dashboard path */}
                 <ul className={`w-[82%] ml-[10%] transition-all duration-300 ease-in-out overflow-hidden ${isDropdownOpen ? 'max-h-40' : 'max-h-0'}`}>
                     <Link href="/user/dashboard/sale">
-                        <li className={`p-2 mb-1 text-sm bg-gray-50 text-[#001F3F] ${pathname === '/user/dashboard/sale' ? 'bg-[#AA80FF] text-white' : 'hover:bg-[#F5EFFF] hover:text-[#4A007E]'}`}>
+                        <li className={`p-2 mb-1 text-sm bg-gray-50 text-[#001F3F] ${pathname === '/user/dashboard/sale' ? 'bg-[#A294F9] text-white' : 'hover:bg-[#F5EFFF] hover:text-[#4A007E]'}`}>
                             Sale
                         </li>
                     </Link>
                     <Link href="/user/dashboard/summary">
-                        <li className={`p-2 mb-1 text-sm bg-gray-50  text-[#001F3F] ${pathname === '/user/dashboard/summary' ? 'bg-purple-100 text-white' : 'hover:bg-[#F5EFFF] hover:text-[#4A007E]'}`}>
+                        <li className={`p-2 mb-1 text-sm bg-gray-50  text-[#001F3F] ${pathname === '/user/dashboard/summary' ? 'bg-[#A294F9] text-white' : 'hover:bg-[#F5EFFF] hover:text-[#4A007E]'}`}>
                             Summary
                         </li>
                     </Link>
                     <Link href="/user/dashboard/products">
-                        <li className={`p-2 mb-1 text-sm bg-gray-50 text-[#001F3F] ${pathname === '/user/dashboard/products' ? 'bg-purple-200 text-white' : 'hover:bg-[#F5EFFF] hover:text-[#4A007E]'}`}>
+                        <li className={`p-2 mb-1 text-sm bg-gray-50 text-[#001F3F] ${pathname === '/user/dashboard/products' ? 'bg-[#A294F9] text-white' : 'hover:bg-[#F5EFFF] hover:text-[#4A007E]'}`}>
                             Products
                         </li>
                     </Link>

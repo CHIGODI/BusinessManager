@@ -49,9 +49,12 @@ const AllSales = () => {
                 <NavBar />
                 <div className="relative flex flex-row w-full h-[calc(100vh-70px)]">
                     <SideNav />
-                    <div className="w-[100%] md:w-[80%] md:px-[2%] md:py-[2%] h-full flex flex-col gap-4">
+                    <div className="w-[100%] lg:w-[80%] md:px-[2%] md:py-[2%] h-full flex flex-col gap-4">
                         <div className="flex justify-between items-center">
                             <h2 className="font-bold text-lg text-gray-600 pt-4 pl-4">All Sales</h2>
+                            <div className="p-4">
+                                <p className="text-sm text-gray-600 font-bold ">Today's Total: 12,000</p>
+                            </div>
                         </div>
                         <div className="h-full border overflow-y-scroll scrollbar-hidden bg-white">
                             <div className="p-4">
@@ -82,9 +85,12 @@ const AllSales = () => {
             <NavBar />
             <div className="relative flex flex-row w-full h-[calc(100vh-70px)]">
                 <SideNav />
-                <div className="w-[100%] md:w-[80%] md:px-[2%] md:py-[2%] h-full flex flex-col gap-4">
+                <div className="w-[100%] lg:w-[80%] md:px-[2%] md:py-[2%] h-full flex flex-col gap-4">
                     <div className="flex justify-between items-center">
-                        <h2 className="font-bold text-lg text-gray-600 pt-4 pl-4">All Sales</h2>
+                        <h2 className="font-bold text-lg text-gray-600 p-2 lg:pt-4 pl-4">All Sales</h2>
+                        <div className="p-4">
+                            <p className="text-sm text-gray-600 font-bold ">Today's Total: 12,000</p>
+                        </div>
                     </div>
                     <div className="border h-full shadow-sm overflow-y-scroll scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded scrollbar-thumb-gray-400 scrollbar-track-gray-300 bg-white">
                         {sales.length > 0 ? (

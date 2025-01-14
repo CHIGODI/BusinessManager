@@ -28,7 +28,7 @@ const AllProducts = () => {
                     setIsLoading(false);
                 }
             } catch (error) {
-                toast.error('No products found, or refresh the page');
+                toast.error('Error loading products');
                 setIsLoading(false);
             }
         };
