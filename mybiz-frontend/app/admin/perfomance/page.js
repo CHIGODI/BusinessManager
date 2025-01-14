@@ -1,12 +1,13 @@
-"use client";
+'use client';
 import NavBar from "@/app/sharedComponents/NavBar";
-import SideNav from "../../components/SideNav";
+import SideNav from "../components/SideNav";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowUp, faArrowDown } from "@fortawesome/free-solid-svg-icons";
+import { faArrowDown, faArrowUp } from "@fortawesome/free-solid-svg-icons";
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, Legend } from 'chart.js';
 
-const Summary = () => {
+
+const Perfomance = () => {
     ChartJS.register(
         CategoryScale,
         LinearScale,
@@ -45,9 +46,8 @@ const Summary = () => {
             <div className="relative flex flex-row w-full h-[calc(100vh-70px)]">
                 <SideNav />
                 <div className="w-[100%] lg:w-[80%] md:px-[2%] md:py-[2%] h-full bg-[#F8FAFC] flex flex-col
-                                items-center lg:items-start lg:flex-row lg:flex-wrap gap-4
+                                gap-4
                                 overflow-y-scroll scrollbar-hidden">
-                    {/* Total summary */}
                     <div className="border bg-white shadow-sm rounded-xl h-[20%] lg:h-1/4 w-[90%] lg:w-1/4 mt-4 lg:mt-0">
                         <div className="p-4">
                             <p className="pb-2 text-sm text-gray-400">Total Today</p>
@@ -62,7 +62,6 @@ const Summary = () => {
                                 2.5%
                             </span>
                             <p className="text-xs text-gray-400 inline-block pl-2">Compared to yesterday</p>
-
                         </div>
                     </div>
 
@@ -110,6 +109,6 @@ const Summary = () => {
                 </div>
             </div>
         </div>
-    )
+    );
 };
-export default Summary;
+export default Perfomance;

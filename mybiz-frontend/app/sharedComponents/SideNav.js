@@ -21,7 +21,7 @@ export default function SideNav(){
     };
 
     return(
-        <div className="w-[20%] h-full border-r border-b sticky z-10 top-[70px] hidden lg:block">
+        <div className="w-[20%] h-[calc(100vh-70px)] border-r border-b sticky z-10 top-[70px] hidden lg:block">
             <ul className='flex flex-col justify-start'>
                 <Link href="/user/dashboard"
                     className={`links mb-1 ${pathname.startsWith('/user/dashboard')?

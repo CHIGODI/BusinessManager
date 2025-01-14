@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation'
 import { FontAwesomeIcon  } from "@fortawesome/react-fontawesome";
-import { faGrip, faMoneyBill, faBox, faGear, faCircleChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { faGrip, faMoneyBill, faBox, faGear, faCircleChevronDown, faChartLine } from "@fortawesome/free-solid-svg-icons";
 export default function SideNav() {
     const pathname = usePathname();
         const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -21,7 +21,7 @@ export default function SideNav() {
         };
 
     return (
-        <div className="w-[20%] border-r h-full border-b hidden sticky z-10 top-[70px] lg:block">
+        <div className="w-[20%] border-r h-[calc(100vh-70px)] border-b hidden sticky z-10 top-[70px] lg:block">
             <ul className='flex flex-col justify-start'>
                 <Link href="/admin/dashboard"
                     className={`mb-1 links ${pathname.startsWith('/admin/dashboard') ?
@@ -56,6 +56,16 @@ export default function SideNav() {
                     <li className='text-sm'>
                         <FontAwesomeIcon className="text-sm mr-4 text-[#001F3F]" icon={faBox} />
                         All products
+                    </li>
+                </Link>
+                <Link href="/admin/perfomance"
+                    className={`links ${pathname.startsWith('/admin/perfomance') ?
+                        'bg-[#F5EFFF] text-[#4A007E]' : 'hover:bg-[#F5EFFF] hover:text-[#4A007E]'
+                        }`}
+                >
+                    <li className='text-sm'>
+                        <FontAwesomeIcon className="text-sm mr-4 text-[#001F3F]" icon={faChartLine} />
+                       Perfomance
                     </li>
                 </Link>
                 <Link href="/admin/sales"
