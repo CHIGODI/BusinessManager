@@ -1,9 +1,15 @@
 'use client';
 
 import { useState } from 'react';
+import { useSession } from 'next-auth/react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const AddProductButton = () => {
     const [isFormVisible, setIsFormVisible] = useState(false);
+    const { data: session } = useSession();
     // const [industries, setIndustries] = useState([]); // Holds predefined industries
     const [formData, setFormData] = useState({
         name: '',
@@ -29,14 +35,34 @@ const AddProductButton = () => {
 
         {'name':'Agriculture', 'id': 2}, {'name': 'Vetenary', 'id': 3}, {'name': 'Health', 'id': 4}
     ]
+    const handleFormSubmit = async (e) => {
+        e.preventDefault();
+        try{
+            const response = await axios.post('http://localhost:8000/api/v1/products/',
+                formData,
+                {
+                    headers: {
+                        "Authorization": `Bearer ${session?.user?.access}`,
+                    },
+                    withCredentials: true,
+                }
+            );
+            if (response.status === 201){
+                setIsFormVisible(false);
+                toast.success('Product added successfully');
+            }
+        }catch(error){
+            toast.error('An error occurred. Please try again later');
+        }
+    };
 
     return (
         <>
             <button
                 onClick={handleButtonClick}
-                className="px-4 py-2 bg-gray-950 text-white shadow hover:bg-opacity-[85%]"
+                className="px-4 py-3 bg-gray-950 text-white text-sm shadow hover:bg-opacity-[85%]"
             >
-                Add Product
+                New Product <FontAwesomeIcon className='pl-2' icon={faPlus} />
             </button>
             {isFormVisible && (
                 <div
@@ -45,6 +71,7 @@ const AddProductButton = () => {
                     <div className="bg-white p-6 shadow-lg w-full md:w-1/2 max-h-[596px]">
                         <h2 className="text-xl font-bold text-purple-600 mb-2">Add New Product</h2>
                         <form
+                            onSubmit={handleFormSubmit}
                             className="bg-white pt-4 lg:p-6 max-h-[500px] w-full "
                         >
                             <div className="grid grid-cols-2 gap-2">

@@ -19,16 +19,7 @@ function AdminDashboard() {
     }, [status]);
 
     if (loading) {
-        return (
-            <div className="flex flex-col gap-4">
-                <div className="animate-pulse flex space-x-4">
-                    <div className="rounded-lg bg-gray-300 h-24 w-full"></div>
-                </div>
-                <div className="animate-pulse flex space-x-4">
-                    <div className="rounded-lg bg-gray-300 h-24 w-full"></div>
-                </div>
-            </div>
-        );
+        return null
     }
 
     return (
@@ -62,7 +53,7 @@ function AdminDashboard() {
                                 DAY SUMMARY
                             </h5>
                             <FontAwesomeIcon className='text-5xl md:text-7xl mt-4 text-[#A6AEBF]' icon={faCoins} />
-                            <Link href='#' className='flex items-center justify-center'>
+                            <Link href='/admin/dashboard/summary' className='flex items-center justify-center'>
                                 <button className='border text-[#001F3F]
                                             rounded p-2 mt-4 hover:bg-gray-100'
                                 >

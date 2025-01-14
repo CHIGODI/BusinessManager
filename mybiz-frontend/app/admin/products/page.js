@@ -122,7 +122,10 @@ const AllProducts = () => {
                                                     </li>
                                                 </div>
                                                 <div className="w-1/2 h-full flex justify-end">
-                                                   <EditProductButton />
+                                                   <EditProductButton product={product} />
+                                                   <button className="text-red-600 hover:text-red-800 text-sm px-4 py-2">
+                                                        Delete
+                                                    </button>
                                                 </div>
                                             </ul>
                                         )}
