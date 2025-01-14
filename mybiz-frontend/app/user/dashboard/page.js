@@ -52,20 +52,6 @@ function UserDashboard() {
                                 </button>
                             </Link>
                         </div>
-                        <div className='cards flex flex-col justify-center'>
-                            <h5 className='text-center text-[#001F3F]'>
-                                ALL PRODUCTS
-                            </h5>
-                            <FontAwesomeIcon className='text-5xl md:text-7xl mt-4 text-[#A6AEBF]' icon={faBox} />
-                            <Link href='/products' className='flex items-center justify-center'>
-                                <button className='border text-[#001F3F]
-                                            p-2 mt-4 hover:bg-gray-100'
-                                >
-                                    All products list
-                                    <FontAwesomeIcon className='ml-2' icon={faArrowUpRightFromSquare} />
-                                </button>
-                            </Link>
-                        </div>
                     </div>
                 </main>
             </div>

@@ -19,16 +19,7 @@ function AdminDashboard() {
     }, [status]);
 
     if (loading) {
-        return (
-            <div className="flex flex-col gap-4">
-                <div className="animate-pulse flex space-x-4">
-                    <div className="rounded-lg bg-gray-300 h-24 w-full"></div>
-                </div>
-                <div className="animate-pulse flex space-x-4">
-                    <div className="rounded-lg bg-gray-300 h-24 w-full"></div>
-                </div>
-            </div>
-        );
+        return null
     }
 
     return (
