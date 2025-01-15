@@ -48,56 +48,58 @@ const Perfomance = () => {
                 <div className="w-[100%] lg:w-[80%] md:px-[2%] md:py-[2%] h-full bg-[#F8FAFC] flex flex-col
                                 gap-4
                                 overflow-y-scroll scrollbar-hidden">
-                    <div className="border bg-white shadow-sm rounded-xl h-[20%] lg:h-1/4 w-[90%] lg:w-1/4 mt-4 lg:mt-0">
-                        <div className="p-4">
-                            <p className="pb-2 text-sm text-gray-400">Total Today</p>
-                            <h2 className="text-xl text-gray-800 font-bold"><span className="text-gray-600 text-sm mr-1">KES</span>22,0000</h2>
-                            {/* <span className="bg-green-100 text-green-600 text-xs px-2 py-1 rounded-xl gap-2">
+                    <div className="w-full flex flex-row justify-between">
+                        <div className="border bg-white shadow-sm rounded-xl h-full w-[90%] lg:w-[30%] mt-4 lg:mt-0">
+                            <div className="p-4">
+                                <p className="pb-2 text-sm text-gray-400">Total Today</p>
+                                <h2 className="text-xl text-gray-800 font-bold"><span className="text-gray-600 text-sm mr-1">KES</span>22,0000</h2>
+                                {/* <span className="bg-green-100 text-green-600 text-xs px-2 py-1 rounded-xl gap-2">
                                 <FontAwesomeIcon className="pr-2" icon={faArrowUp} />
                                 2.5%
                             </span>
                             <p className="text-xs text-gray-400 inline-block pl-2">Compared to yesterday</p> */}
-                            <span className="bg-red-100 text-red-600 text-xs px-2 py-1 rounded-xl gap-2">
-                                <FontAwesomeIcon className="pr-2" icon={faArrowDown} />
-                                2.5%
-                            </span>
-                            <p className="text-xs text-gray-400 inline-block pl-2">Compared to yesterday</p>
+                                <span className="bg-red-100 text-red-600 text-xs px-2 py-1 rounded-xl gap-2">
+                                    <FontAwesomeIcon className="pr-2" icon={faArrowDown} />
+                                    2.5%
+                                </span>
+                                <p className="text-xs text-gray-400 inline-block pl-2">Compared to yesterday</p>
+                            </div>
                         </div>
-                    </div>
 
-                    {/* profits */}
-                    <div className="border bg-white shadow-sm rounded-xl h-[20%] lg:h-1/4 w-[90%] lg:w-1/4">
-                        <div className="p-4">
-                            <p className="pb-2 text-sm text-gray-400">Profit Today</p>
-                            <h2 className="text-xl text-gray-800 font-bold"><span className="text-gray-600 text-sm mr-1">KES</span>22,0000</h2>
-                            <span className="bg-green-100 text-green-600 text-xs px-2 py-1 rounded-xl gap-2">
-                                <FontAwesomeIcon className="pr-2" icon={faArrowUp} />
-                                2.5%
-                            </span>
-                            <p className="text-xs text-gray-400 inline-block pl-2">Compared to yesterday</p>
-                            {/* <span className="bg-red-100 text-red-600 text-xs px-2 py-1 rounded-xl gap-2">
+                        {/* profits */}
+                        <div className="border bg-white shadow-sm rounded-xl h-full w-[90%] lg:w-[30%]">
+                            <div className="p-4">
+                                <p className="pb-2 text-sm text-gray-400">Profit Today</p>
+                                <h2 className="text-xl text-gray-800 font-bold"><span className="text-gray-600 text-sm mr-1">KES</span>22,0000</h2>
+                                <span className="bg-green-100 text-green-600 text-xs px-2 py-1 rounded-xl gap-2">
+                                    <FontAwesomeIcon className="pr-2" icon={faArrowUp} />
+                                    2.5%
+                                </span>
+                                <p className="text-xs text-gray-400 inline-block pl-2">Compared to yesterday</p>
+                                {/* <span className="bg-red-100 text-red-600 text-xs px-2 py-1 rounded-xl gap-2">
                                 <FontAwesomeIcon className="pr-2" icon={faArrowDown} />
                                 2.5%
                             </span>
                             <p className="text-xs text-gray-400 inline-block pl-2">Compared to yesterday</p> */}
 
+                            </div>
                         </div>
-                    </div>
-                    <div className="border bg-white shadow-sm rounded-xl h-[20%] lg:h-1/4 w-[90%] lg:w-1/4">
-                        <div className="p-4">
-                            <p className="pb-2 text-sm text-gray-400">Total Products Sold Today</p>
-                            <h2 className="text-xl text-gray-800 font-bold">100</h2>
-                            <span className="bg-green-100 text-green-600 text-xs px-2 py-1 rounded-xl gap-2">
-                                <FontAwesomeIcon className="pr-2" icon={faArrowUp} />
-                                2.5%
-                            </span>
-                            <p className="text-xs text-gray-400 inline-block pl-2">Compared to yesterday</p>
-                            {/* <span className="bg-red-100 text-red-600 text-xs px-2 py-1 rounded-xl gap-2">
+                        <div className="border bg-white shadow-sm rounded-xl h-full w-[90%] lg:w-[30%]">
+                            <div className="p-4">
+                                <p className="pb-2 text-sm text-gray-400">Total Products Sold Today</p>
+                                <h2 className="text-xl text-gray-800 font-bold">100</h2>
+                                <span className="bg-green-100 text-green-600 text-xs px-2 py-1 rounded-xl gap-2">
+                                    <FontAwesomeIcon className="pr-2" icon={faArrowUp} />
+                                    2.5%
+                                </span>
+                                <p className="text-xs text-gray-400 inline-block pl-2">Compared to yesterday</p>
+                                {/* <span className="bg-red-100 text-red-600 text-xs px-2 py-1 rounded-xl gap-2">
                                 <FontAwesomeIcon className="pr-2" icon={faArrowDown} />
                                 2.5%
                             </span>
                             <p className="text-xs text-gray-400 inline-block pl-2">Compared to yesterday</p> */}
 
+                            </div>
                         </div>
                     </div>
                     <div className="w-[90%] lg:w-full bg-white border">
