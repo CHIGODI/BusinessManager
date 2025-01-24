@@ -32,7 +32,7 @@ class Sale(BaseModel):
         verbose_name_plural = "Sales"
 
     def __str__(self):
-        return f'{self.sold_by} - {self.total}'
+        return f'{self.sold_by}  ({self.total})'
 
 
 class SaleItem(BaseModel):
@@ -51,4 +51,4 @@ class SaleItem(BaseModel):
         verbose_name_plural = "Sale Items"
 
     def __str__(self):
-        return f'{self.product} - {self.quantity}'
+        return f'{self.product} ({self.quantity})'
