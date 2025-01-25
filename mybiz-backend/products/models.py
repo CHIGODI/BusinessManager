@@ -11,8 +11,13 @@ class Product(BaseModel):
         max_length=255,
         null=False,
         blank=False,
-        unique=True,
         verbose_name='Product Name'
+    )
+    size = models.CharField(
+        max_length=50,
+        null=False,
+        blank=False,
+        verbose_name='Product Size'
     )
     unit_buying_price = models.DecimalField(
         max_digits=6,
@@ -36,6 +41,7 @@ class Product(BaseModel):
         db_table = 'products'
         verbose_name = "Product"
         verbose_name_plural = "Products"
+        unique_together = ['name', 'size']
 
     def __str__(self):
         return self.name
