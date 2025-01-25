@@ -16,7 +16,7 @@ const AllProducts = () => {
         const fetchProducts = async () => {
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/api/v1/products/',
+                    'http://104.248.235.64/api/v1/products/',
                     {
                         headers: {
                             "Authorization": `Bearer ${session?.user?.access}`,

@@ -33,7 +33,7 @@ const SignUpPage = () => {
 
         try {
             const response = await axios.post(
-                "http://localhost:8000/api/v1/account/register/",
+                "http://104.248.235.64//api/v1/account/register/",
                 data,
                 {
                     headers: {

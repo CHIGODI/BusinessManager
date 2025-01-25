@@ -42,7 +42,7 @@ const CheckoutCard = ({ total, products, session, setCart }) => {
         };
 
         try {
-            const response = await axios.post('http://localhost:8000/api/v1/sales/', data, {
+            const response = await axios.post('http://104.248.235.64/api/v1/sales/', data, {
                 headers: {
                     "Authorization": `Bearer ${session?.user?.access}`,
                 }

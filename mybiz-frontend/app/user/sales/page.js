@@ -18,7 +18,7 @@ const AllSales = () => {
         const fetchSales = async () => {
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/api/v1/sales/',
+                    'http://104.248.235.64/api/v1/sales/',
                     {
                         headers: {
                             "Authorization": `Bearer ${session?.user?.access}`,
