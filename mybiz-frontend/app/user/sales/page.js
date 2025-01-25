@@ -89,7 +89,7 @@ const AllSales = () => {
                     <div className="flex justify-between items-center">
                         <h2 className="font-bold text-lg text-gray-600 p-2 lg:pt-4 pl-4">All Sales</h2>
                         <div className="p-4">
-                            <p className="text-sm text-gray-600 font-bold ">Today's Total: 12,000</p>
+                            <p className="text-sm text-gray-600 font-bold ">Today&apos;s Total: 12,000</p>
                         </div>
                     </div>
                     <div className="border h-full shadow-sm overflow-y-scroll scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded scrollbar-thumb-gray-400 scrollbar-track-gray-300 bg-white">
