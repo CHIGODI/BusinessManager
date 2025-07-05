@@ -32,10 +32,10 @@ export default function SideNav() {
                     <li className='text-sm'>
                         <FontAwesomeIcon className="text-sm mr-4 text-[#001F3F]" icon={faGrip} />
                         Dashboard
-                        <FontAwesomeIcon className='ml-20' icon={faCircleChevronDown} />
+                        {/* <FontAwesomeIcon className='ml-20' icon={faCircleChevronDown} /> */}
                     </li>
                 </Link>
-                {/* pages in dashboard path */}
+                {/* pages in dashboard path
                 <ul className={`w-[82%] ml-[10%] transition-all duration-300 ease-in-out overflow-hidden ${isDropdownOpen ? 'max-h-40' : 'max-h-0'}`}>
                     <Link href="/admin/dashboard/sale">
                         <li className={`p-2 mb-1 text-sm bg-gray-50 text-[#001F3F] ${pathname === '/admin/dashboard/sale' ? 'bg-[#A29] text-white' : 'hover:bg-[#F5EFFF] hover:text-[#4A007E]'}`}>
@@ -47,7 +47,7 @@ export default function SideNav() {
                             Summary
                         </li>
                     </Link>
-                </ul>
+                </ul> */}
                 <Link href="/admin/products"
                     className={`links ${pathname.startsWith('/admin/products') ?
                         'bg-[#F5EFFF] text-[#4A007E]' : 'hover:bg-[#F5EFFF] hover:text-[#4A007E]'

@@ -33,8 +33,7 @@ const SignUpPage = () => {
 
         try {
             const response = await axios.post(
-                // "http://104.248.235.64//api/v1/account/register/", (deployment)
-                "http://localhost:8000/api/v1/account/register/",
+                `${process.env.NEXT_PUBLIC_API_URL}/account/register/`,
                 data,
                 {
                     headers: {
@@ -48,11 +47,7 @@ const SignUpPage = () => {
                 router.push('/login');
             };
         } catch (error) {
-            if (error.response.data.username && error.response.data.email) {
-                toast.error(error.response.data.username[0]);
-            } else if (error.response.data.email) {
-                toast.error(error.response.data.email[0]);
-            }   else {
+            if (error) {
                 toast.error("An error occurred. Please try again later.");
             }
         }

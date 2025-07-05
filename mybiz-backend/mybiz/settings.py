@@ -35,7 +35,7 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 CORS_ALLOW_CREDENTIALS = True
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '104.248.235.64' ]
+ALLOWED_HOSTS = ['localhost', '127.0.0.1' ]
 # Application definition
 
 INSTALLED_APPS = [
