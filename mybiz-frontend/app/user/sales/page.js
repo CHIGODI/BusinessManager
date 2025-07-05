@@ -18,7 +18,7 @@ const AllSales = () => {
         const fetchSales = async () => {
             try {
                 const response = await axios.get(
-                    'http://104.248.235.64/api/v1/sales/',
+                    `${process.env.NEXT_PUBLIC_API_URL}/sales/`,
                     {
                         headers: {
                             "Authorization": `Bearer ${session?.user?.access}`,

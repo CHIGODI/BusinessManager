@@ -17,7 +17,7 @@ const AllSales = () => {
         const fetchSales = async () => {
             try {
                 const response = await axios.get(
-                    'http://localhost:8000/api/v1/sales/',
+                    `${process.env.NEXT_PUBLIC_API_URL}/sales/`,
                     {
                         headers: {
                             "Authorization": `Bearer ${session?.user?.access}`,
