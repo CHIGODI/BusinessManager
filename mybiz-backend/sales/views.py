@@ -110,7 +110,7 @@ class SalesListCreate(APIView):
                     return Response({'error': f"Not enough stock "
                                      f" available for {product_inst.name}"},
                                     status=status.HTTP_400_BAD_REQUEST)
-                total_sales += Decimal(product_inst.unit_buying_price) * quantity
+                total_sales += Decimal(product_inst.unit_selling_price) * quantity
                 sale_items.append(SaleItem(sale=sale, product=product_inst,
                                            quantity=quantity))
 

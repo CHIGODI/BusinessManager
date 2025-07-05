@@ -1,5 +1,4 @@
 'use client';
-'use client';
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import axios from "axios";
@@ -13,19 +12,34 @@ const AllSales = () => {
     const [sales, setSales] = useState([]);
     const { data: session } = useSession();
     const [openSaleId, setOpenSaleId] = useState(null);
+    const [totalSales, setTotalSales] = useState(0);
 
     useEffect(() => {
         const fetchSales = async () => {
             try {
-                const response = await axios.get(
-                    `${process.env.NEXT_PUBLIC_API_URL}/sales/`,
-                    {
-                        headers: {
-                            "Authorization": `Bearer ${session?.user?.access}`,
+                const [allSales, totalSales] = await Promise.all([
+                    axios.get(
+                        `${process.env.NEXT_PUBLIC_API_URL}/sales/`,
+                        {
+                            headers: {
+                                "Authorization": `Bearer ${session?.user?.access}`,
+                            }
+                        }),
+                    axios.get(
+                        `${process.env.NEXT_PUBLIC_API_URL}/analytics/sales/`,
+                        {
+                            headers: {
+                                "Authorization": `Bearer ${session?.user?.access}`,
+                            },
+                            params: {
+                                start_date: new Date().toISOString().split('T')[0],
+                                end_date: new Date().toISOString().split('T')[0],
+                            }
                         }
-                    }
-                );
-                setSales(response.data);
+                    )
+                ]);
+                setSales(allSales.data);
+                setTotalSales(totalSales.data.total_sales_for_period.total_sales.toLocaleString());
                 setIsLoading(false);
             } catch (error) {
                 toast.error('No sales found, or refresh the page');
@@ -53,7 +67,7 @@ const AllSales = () => {
                         <div className="flex justify-between items-center">
                             <h2 className="font-bold text-lg text-gray-600 pt-4 pl-4">All Sales</h2>
                             <div className="p-4">
-                                <p className="text-sm text-gray-600 font-bold ">Today's Total: 12,000</p>
+                                <p className="text-sm text-gray-600 font-bold ">Today's Total: <span className="bg-gray-200 m-2"></span></p>
                             </div>
                         </div>
                         <div className="h-full border overflow-y-scroll scrollbar-hidden bg-white">
@@ -89,7 +103,7 @@ const AllSales = () => {
                     <div className="flex justify-between items-center">
                         <h2 className="font-bold text-lg text-gray-600 p-2 lg:pt-4 pl-4">All Sales</h2>
                         <div className="p-4">
-                            <p className="text-sm text-gray-600 font-bold ">Today&apos;s Total: 12,000</p>
+                            <p className="text-sm text-gray-600 font-bold ">Today&apos;s Total: {totalSales}</p>
                         </div>
                     </div>
                     <div className="border h-full shadow-sm overflow-y-scroll scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded scrollbar-thumb-gray-400 scrollbar-track-gray-300 bg-white">

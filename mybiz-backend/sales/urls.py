@@ -9,5 +9,5 @@ from .views import SalesListCreate, SaleDetail
 
 urlpatterns = [
     path('', SalesListCreate.as_view(), name='sales_list_create'),
-    path('<str:sale_id>/', SaleDetail.as_view(), name='sale_detail'),
+    # path('<str:sale_id>/', SaleDetail.as_view(), name='sale_detail'),
 ]
