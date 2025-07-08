@@ -48,6 +48,7 @@ const LoginPage = () => {
         <div className="h-screen
                         flex flex-row
                         items-center
+                        bg-green-200
                         "
         >
             <div className="
@@ -59,12 +60,12 @@ const LoginPage = () => {
                             lg:w-1/2
                             h-full
                             m-auto">
-
+                <h2 className="text-center text-green-500 font-bold pb-4">NDEWA AGROVET MAZERAS</h2>
                 <div className="w-[90%] lg:w-[70%]
                                 h-[60%]
                                 p-8
                                 shadow-md
-                                bg-purple-600
+                                bg-green-600
                                 ">
                     <header className="
                                 text-center mb-4
@@ -90,7 +91,7 @@ const LoginPage = () => {
                             name="username"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
-                            className="p-2 border border-gray-300 text-base"
+                            className="p-2 border border-gray-300 text-base outline-none focus:outline-gray-400"
                             required
                         />
                         <label htmlFor="password" className="text-gray-300 text-base pt-4">
@@ -103,28 +104,32 @@ const LoginPage = () => {
                             name="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="p-2 border border-gray-300  text-base"
-                            required
+                            className="p-2 border border-gray-300  text-base outline-none focus:outline-gray-400"                            required
                         />
                         <button
                             type="submit"
                             className="w-full
                                 my-4
-                                py-3 bg-purple-950
+                                py-3 bg-green-950
                                 text-white -lg
                                 hover:bg-opacity[90%]
                                 focus:outline-none focus:ring-2
-                                focus:ring-purple-500
+                                focus:ring-green-500
                                 text-sm
                                 md:text-base
+                                hover:shadow-lg
+                                hover:bg-green-900
+                                transition duration-300
+                                ease-in-out
+                                disabled:opacity-50 disabled:cursor-not-allowed
                                 ">
                             {signin}
                         </button>
-                        <div className="text-center flex flex-row justify-center gap-2">
+                        {/* <div className="text-center flex flex-row justify-center gap-2">
                             <Link href="/signup" className="text-blue-500 text-sm hover:underline">Create Account</Link>
                             <span className="text-gray-500 text-sm">|</span>
                             <Link href="/login" className="text-blue-500 text-sm hover:underline">Forgot Password</Link>
-                        </div>
+                        </div> */}
                     </form>
                 </div>
 

@@ -96,10 +96,12 @@ class SalesForPeriodView(APIView):
         # #         res = "loss"
         # #     else:
         # #         res = "profit"
-
-        return Response({"total_sales_for_period": total_sales_for,
-                        #  res: profit_or_loss
+        if total_sales_for == None:
+            return Response({"total_sales_for_period": 0.0,
                         })
+        return Response({"total_sales_for_period": total_sales_for,
+                        })
+
 
 
 class ProductsBelowThresholdView(APIView):

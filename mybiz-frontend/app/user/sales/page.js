@@ -12,7 +12,7 @@ const AllSales = () => {
     const [sales, setSales] = useState([]);
     const { data: session } = useSession();
     const [openSaleId, setOpenSaleId] = useState(null);
-    const [totalSales, setTotalSales] = useState(0);
+    const [totalSales, setTotalSales] = useState(0.0);
 
     useEffect(() => {
         const fetchSales = async () => {
@@ -39,9 +39,15 @@ const AllSales = () => {
                     )
                 ]);
                 setSales(allSales.data);
-                setTotalSales(totalSales.data.total_sales_for_period.total_sales.toLocaleString());
+                if (totalSales.data.total_sales_for_period.total_sales) {
+                    setTotalSales(totalSales.data.total_sales_for_period.total_sales.toLocaleString());
+                }
+                else {
+                    setTotalSales(0.0);
+                }
                 setIsLoading(false);
             } catch (error) {
+                console.log(error)
                 toast.error('No sales found, or refresh the page');
                 setIsLoading(false);
             }
@@ -137,7 +143,7 @@ const AllSales = () => {
                                 ))}
                             </div>
                         ) : (
-                            <p className="p-4 text-center text-gray-600">No sales found</p>
+                            <p className="p-4 text-center text-gray-600">You have not made any sale yet!</p>
                         )}
                     </div>
                 </div>

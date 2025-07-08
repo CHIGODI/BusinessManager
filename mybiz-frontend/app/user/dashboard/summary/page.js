@@ -1,7 +1,58 @@
+'use client';
+import React, { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
+import axios from "axios";
+import { toast } from "react-toastify";
 import NavBar from "@/app/sharedComponents/NavBar";
 import SideNav from "@/app/sharedComponents/SideNav";
 
 const Summary = () => {
+    const [totalSales, setTotalSales] = useState(0);
+    const { data: session } = useSession();
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchSales = async () => {
+            try {
+                const [allSales, totalSales] = await Promise.all([
+                    axios.get(
+                        `${process.env.NEXT_PUBLIC_API_URL}/sales/`,
+                        {
+                            headers: {
+                                "Authorization": `Bearer ${session?.user?.access}`,
+                            }
+                        }),
+                    axios.get(
+                        `${process.env.NEXT_PUBLIC_API_URL}/analytics/sales/`,
+                        {
+                            headers: {
+                                "Authorization": `Bearer ${session?.user?.access}`,
+                            },
+                            params: {
+                                start_date: new Date().toISOString().split('T')[0],
+                                end_date: new Date().toISOString().split('T')[0],
+                            }
+                        }
+                    )
+                ]);
+                if (totalSales.data.total_sales_for_period.total_sales) {
+                    setTotalSales(totalSales.data.total_sales_for_period.total_sales.toLocaleString());
+                }
+                else {
+                    setTotalSales(0);
+                }
+                setIsLoading(false);
+            } catch (error) {
+                console.log(error)
+                toast.error('No sales found, or refresh the page');
+                setIsLoading(false);
+            }
+        };
+
+        if (session) {
+            fetchSales();
+        }
+    }, [session]);
     return (
         <div className="h-screen">
             <NavBar />
@@ -10,8 +61,8 @@ const Summary = () => {
                 <div className="w-[100%] lg:w-[80%] md:px-[2%] md:py-[2%] h-full bg-[#F8FAFC]  flex flex-row flex-wrap gap-4">
                     <div className="border bg-white shadow-sm rounded-xl h-1/4 w-1/4">
                         <div className="p-4 ">
-                            <p className="pb-2 text-xs text-gray-400">Total Today</p>
-                            <h2 className="text-xl text-gray-800 font-bold"><span className="text-gray-600 text-sm mr-1">KES</span>22,0000</h2>
+                            <p className="pb-2 text-xs text-gray-400">Today's Total</p>
+                            <h2 className="text-xl text-gray-800 font-bold"><span className="text-gray-600 text-sm mr-1">KES</span>{totalSales}</h2>
                             <span className="bg-green-100 text-green-600 text-xs px-2 py-1 rounded-xl">No discount offered today</span>
                         </div>
                     </div>
