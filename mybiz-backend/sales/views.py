@@ -24,7 +24,8 @@ class SalesListCreate(APIView):
     def get(self, request):
         """ Get all sales grouped by sale ID """
         # Query all Sale objects
-        sales = Sale.objects.all()
+        today = datetime.today().date()
+        sales = Sale.objects.filter(created_at__date=today).order_by('-created_at')
 
         # Prepare the response data
         response_data = []
