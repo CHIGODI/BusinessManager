@@ -46,7 +46,7 @@ const ProductListCard = ({products, addProductToCart}) => {
                     </thead>
                     <tbody>
                             {filteredProducts.map((product, index) => (
-                                <tr key={index} className="hover:bg-gray-50 h-[2%]" onClick={() => { addProductToCart(product); console.log(product); }}>
+                                <tr key={index} className="hover:bg-gray-50 h-[2%]" onClick={() => { addProductToCart(product) }}>
                                     <td className=" md:table-cell border-b px-4 py-2 text-sm text-[#4A4A4A] flex flex-col text-wrap">{product.name} {product.size}
                                         <span className="text-xs text-gray-400 space-x-1 md:hidden">S.P | {product.unit_selling_price}</span>
                                         <span className="text-xs text-gray-400 space-x-1 md:hidden">Qty | {product.quantity}</span>

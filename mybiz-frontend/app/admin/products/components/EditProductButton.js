@@ -7,14 +7,14 @@ const   EditProduct = (product) => {
      const [isFormVisible, setIsFormVisible] = useState(false);
         // const [industries, setIndustries] = useState([]); // Holds predefined industries
         const [formData, setFormData] = useState({
-            name: '',
-            unit_buying_price: 0,
-            unit_selling_price: 0,
-            manufacturer: '',
-            industry: '',
-            quantity: 0,
-            size: '',
-            low_stock_threshold: 0,
+            name: product.name || '',
+            unit_buying_price: product.unit_buying_price || 0,
+            unit_selling_price: product.unit_selling_price || 0,
+            manufacturer: product.manufacturer || '',
+            industry: product.industry || '',
+            quantity: product.quantity || 0,
+            size: product.size || '',
+            low_stock_threshold: product.low_stock_threshold || 0,
         });
         const [isCustomIndustry, setIsCustomIndustry] = useState(false);
 

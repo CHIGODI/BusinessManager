@@ -32,7 +32,6 @@ const handler = NextAuth({
                     const { user, access, refresh } = res.data;
                     return { ...user, access, refresh };
                 }
-
                 return null;
             },
         }),

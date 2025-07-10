@@ -38,13 +38,12 @@ const AddProductButton = () => {
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         try{
-            const response = await axios.post('http://localhost:8000/api/v1/products/',
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/products/`,
                 formData,
                 {
                     headers: {
                         "Authorization": `Bearer ${session?.user?.access}`,
-                    },
-                    withCredentials: true,
+                    }
                 }
             );
             if (response.status === 201){

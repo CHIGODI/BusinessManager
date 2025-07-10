@@ -12,7 +12,7 @@ class ProductListCreate(generics.ListCreateAPIView):
     """ View to list all products or create a new product
         /api/v1/products/
     """
-    queryset = Product.objects.all()
+    queryset = Product.objects.all().order_by('name')
     serializer_class = ProductSerializer
     permission_classes = [IsAdminOrReadOnly]
 

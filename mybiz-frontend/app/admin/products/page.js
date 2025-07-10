@@ -7,6 +7,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import EditProductButton from "./components/EditProductButton";
 import AddProductButton from "./components/AddProductsButtonAndForm";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 
 const AllProducts = () => {
@@ -14,7 +16,13 @@ const AllProducts = () => {
     const [products, setProducts] = useState([]);
     const { data: session } = useSession();
     const [openProductId, setOpenProductId] = useState(null);
+    const [searchQuery, setSearchQuery] = useState('');
 
+    const filteredProducts = searchQuery.trim()
+        ? products.filter((product) =>
+            product.name.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+        : products;
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -85,14 +93,27 @@ const AllProducts = () => {
                                     h-full flex flex-col gap-4">
                     <div className="flex justify-between items-center p-4">
                         <h2 className="font-bold text-lg text-gray-600">All Products</h2>
+                        <div className="relative w-[40%] max-w-md mx-auto">
+                            <input
+                                type="text"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                placeholder="Search..."
+                                className="text-xs w-full pl-10 pr-4 py-1 border-b border-gray-300 focus:outline-none focus:border-gray-600"
+                            />
+                            <FontAwesomeIcon
+                                className="text-xs w-4 h-4 text-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2"
+                                icon={faMagnifyingGlass}
+                            />
+                        </div>
                         <AddProductButton />
                     </div>
                     <div className="h-full border overflow-y-scroll scrollbar-hidden bg-white">
-                        {products.length === 0 ? (
+                        {filteredProducts.length === 0 ? (
                             <p className="p-4 text-center text-gray-600 flex items-center justify-center h-full text-sm">No products found! Try refreshing page</p>
                         ) : (
                             <ul className="divide-y divide-gray-200">
-                                {products.map((product) => (
+                                {filteredProducts.map((product) => (
                                     <li key={product.id} className="p-4 ">
                                         <div className="flex flex-column space-x-4 justify-between pb-4">
                                             <div>

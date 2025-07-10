@@ -8,7 +8,6 @@ import { toast } from "react-toastify";
 
 const AllSales = () => {
     const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(null);
     const [sales, setSales] = useState([]);
     const { data: session } = useSession();
     const [openSaleId, setOpenSaleId] = useState(null);
@@ -16,6 +15,7 @@ const AllSales = () => {
 
     useEffect(() => {
         const fetchSales = async () => {
+            console.log(session.user?.access);
             try {
                 const [allSales, totalSales] = await Promise.all([
                     axios.get(

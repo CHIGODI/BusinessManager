@@ -31,11 +31,11 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = True
 CORS_ALLOW_HEADERS = ['*']
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
+    "http://localhost:3000",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
-ALLOWED_HOSTS = ['localhost', '127.0.0.1' ]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 # Application definition
 
 INSTALLED_APPS = [
