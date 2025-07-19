@@ -15,7 +15,7 @@ const handler = NextAuth({
             },
             async authorize(credentials) {
                 const res = await axios.post(
-                    `${process.env.DJANGO_BACKEND_URL}/api/v1/account/login/`,
+                    `${process.env.DJANGO_BACKEND_URL}api/v1/account/login/`,
                     {
                         username: credentials.username,
                         password: credentials.password,

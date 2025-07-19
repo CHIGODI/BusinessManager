@@ -2,19 +2,25 @@
 
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { toast } from 'react-toastify';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-const   EditProduct = (product) => {
-     const [isFormVisible, setIsFormVisible] = useState(false);
+import axios from 'axios';
+import { useSession } from 'next-auth/react';
+
+const EditProduct = (product) => {
+        const [isFormVisible, setIsFormVisible] = useState(false);
+        const { data: session } = useSession();
+
         // const [industries, setIndustries] = useState([]); // Holds predefined industries
         const [formData, setFormData] = useState({
-            name: product.name || '',
-            unit_buying_price: product.unit_buying_price || 0,
-            unit_selling_price: product.unit_selling_price || 0,
-            manufacturer: product.manufacturer || '',
-            industry: product.industry || '',
-            quantity: product.quantity || 0,
-            size: product.size || '',
-            low_stock_threshold: product.low_stock_threshold || 0,
+            name: product.product.name || '',
+            unit_buying_price: product.product.unit_buying_price || 0,
+            unit_selling_price: product.product.unit_selling_price || 0,
+            manufacturer: product.product.manufacturer || '',
+            industry: product.product.industry || '',
+            quantity: product.product.quantity || 0,
+            size: product.product.size || '',
+            low_stock_threshold: product.product.low_stock_threshold || 0,
         });
         const [isCustomIndustry, setIsCustomIndustry] = useState(false);
 
@@ -31,6 +37,27 @@ const   EditProduct = (product) => {
             {'name':'Agriculture', 'id': 2}, {'name': 'Vetenary', 'id': 3}, {'name': 'Health', 'id': 4}
         ]
 
+    const handleFormSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/products/`,
+                formData,
+                {
+                    headers: {
+                        "Authorization": `Bearer ${session?.user?.access}`,
+                    }
+                }
+            );
+            if (response.status === 201) {
+                setIsFormVisible(false);
+                toast.success('Product edited successfully');
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error('An error occurred. Please try again later');
+        }
+        };
+
         return (
             <>
                 <button
@@ -46,6 +73,7 @@ const   EditProduct = (product) => {
                         <div className="bg-white p-6 shadow-lg w-full md:w-1/2 max-h-[596px]">
                             <h2 className="text-xl font-bold text-purple-600 mb-2">Add New Product</h2>
                             <form
+                                onSubmit={handleFormSubmit}
                                 className="bg-white pt-4 lg:p-6 max-h-[500px] w-full "
                             >
                                 <div className="grid grid-cols-2 gap-2">
