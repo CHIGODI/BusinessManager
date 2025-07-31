@@ -47,6 +47,8 @@ const SignUpPage = () => {
                 router.push('/login');
             };
         } catch (error) {
+            console.log(error);
+            console.log(error.response);
             if (error) {
                 toast.error("An error occurred. Please try again later.");
             }
