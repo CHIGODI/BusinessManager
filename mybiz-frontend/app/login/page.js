@@ -125,11 +125,11 @@ const LoginPage = () => {
                                 ">
                             {signin}
                         </button>
-                        {/* <div className="text-center flex flex-row justify-center gap-2">
+                        <div className="text-center flex flex-row justify-center gap-2">
                             <Link href="/signup" className="text-blue-500 text-sm hover:underline">Create Account</Link>
                             <span className="text-gray-500 text-sm">|</span>
                             <Link href="/login" className="text-blue-500 text-sm hover:underline">Forgot Password</Link>
-                        </div> */}
+                        </div>
                     </form>
                 </div>
 

@@ -102,14 +102,16 @@ WSGI_APPLICATION = 'mybiz.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_NAME'),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': os.getenv('DB_HOST'),
-        'PORT': os.getenv('DB_PORT'),
+        'ENGINE': 'django.db.backends.mysql',  # Ensure you're using MySQL
+        'NAME': os.getenv('DB_NAME'),  # Database name (replace with the actual name or env var)
+        'USER': os.getenv('DB_USER'),  # Database user (replace with the actual user or env var)
+        'PASSWORD': os.getenv('DB_PASSWORD'),  # Database password (replace with the actual password or env var)
+        'HOST': os.getenv('DB_HOST', 'localhost'),  # The host, usually 'localhost' for local MySQL
+        'PORT': os.getenv('DB_PORT', '3306'),  # MySQL default port is 3306
     }
 }
+
+
 
 
 # Password validation
