@@ -12,6 +12,8 @@ from django.shortcuts import get_object_or_404
 from django.core.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticated
 from .serializers import SaleSerializer, SaleItemSerializer
+from django.utils import timezone
+from datetime import timedelta
 
 
 class SalesListCreate(APIView):
@@ -24,9 +26,11 @@ class SalesListCreate(APIView):
     def get(self, request):
         """ Get all sales grouped by sale ID """
         # Query all Sale objects
-        today = datetime.today().date()
-        sales = Sale.objects.filter(created_at__date=today).order_by('-created_at')
+        today = timezone.now().date()
+        start_of_day = timezone.make_aware(datetime.combine(today, datetime.min.time()))
+        end_of_day = start_of_day + timedelta(days=1)
 
+        sales = Sale.objects.filter(created_at__gte=start_of_day, created_at__lt=end_of_day)
         # Prepare the response data
         response_data = []
 

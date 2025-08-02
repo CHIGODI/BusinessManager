@@ -17,6 +17,13 @@ from django.utils.timezone import make_aware
 #profit for a given period
 
 """
+# class PerformacsSummary(APIView):
+#     """
+#     API view with a summary of anaytics for
+#     performace on admin performance page
+#     """
+#     def get(self, request):
+
 
 
 class ProductAnalyticsView(APIView):

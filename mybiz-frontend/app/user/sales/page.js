@@ -47,6 +47,7 @@ const AllSales = () => {
                 }
                 setIsLoading(false);
             } catch (error) {
+                console.log(error);
                 toast.error('No sales found, or refresh the page');
                 setIsLoading(false);
             }

@@ -1,6 +1,10 @@
 'use client';
 import NavBar from "@/app/sharedComponents/NavBar";
 import SideNav from "../components/SideNav";
+import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
+import axios from "axios";
+import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowDown, faArrowUp } from "@fortawesome/free-solid-svg-icons";
 import { Line } from 'react-chartjs-2';
@@ -8,6 +12,55 @@ import { Chart as ChartJS, CategoryScale, LinearScale, LineElement, PointElement
 
 
 const Perfomance = () => {
+        const [isLoading, setIsLoading] = useState(true);
+        const [sales, setSales] = useState([]);
+        const { data: session } = useSession();
+        const [openSaleId, setOpenSaleId] = useState(null);
+        const [totalSales, setTotalSales] = useState(0.0);
+
+        useEffect(() => {
+            const fetchSales = async () => {
+                console.log(session.user?.access);
+                try {
+                    const [allSales, totalSales] = await Promise.all([
+                        axios.get(
+                            `${process.env.NEXT_PUBLIC_API_URL}/sales/`,
+                            {
+                                headers: {
+                                    "Authorization": `Bearer ${session?.user?.access}`,
+                                }
+                            }),
+                        axios.get(
+                            `${process.env.NEXT_PUBLIC_API_URL}/analytics/sales/`,
+                            {
+                                headers: {
+                                    "Authorization": `Bearer ${session?.user?.access}`,
+                                },
+                                params: {
+                                    start_date: new Date().toISOString().split('T')[0],
+                                    end_date: new Date().toISOString().split('T')[0],
+                                }
+                            }
+                        )
+                    ]);
+                    setSales(allSales.data);
+                    if (totalSales.data.total_sales_for_period.total_sales) {
+                        setTotalSales(totalSales.data.total_sales_for_period.total_sales.toLocaleString());
+                    }
+                    else {
+                        setTotalSales(0.0);
+                    }
+                    setIsLoading(false);
+                } catch (error) {
+                    toast.error('No sales found, or refresh the page');
+                    setIsLoading(false);
+                }
+            };
+
+            if (session) {
+                fetchSales();
+            }
+        }, [session]);
     ChartJS.register(
         CategoryScale,
         LinearScale,
@@ -50,7 +103,7 @@ const Perfomance = () => {
                         <div className="border bg-white shadow-sm rounded-xl h-[20%] lg:h-1/4 w-[90%] lg:w-1/4 mt-4 lg:mt-0">
                             <div className="p-4">
                                 <p className="pb-2 text-sm text-gray-400">Total Today</p>
-                                <h2 className="text-xl text-gray-800 font-bold"><span className="text-gray-600 text-sm mr-1">KES</span>22,0000</h2>
+                                <h2 className="text-xl text-gray-800 font-bold"><span className="text-gray-600 text-sm mr-1">KES</span>{totalSales}</h2>
                                 {/* <span className="bg-green-100 text-green-600 text-xs px-2 py-1 rounded-xl gap-2">
                                     <FontAwesomeIcon className="pr-2" icon={faArrowUp} />
                                     2.5%
