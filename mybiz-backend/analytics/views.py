@@ -1,13 +1,3 @@
-from django.db.models import Sum, F
-from sales.models import SaleItem
-from sales.models import Sale
-from datetime import datetime,  time
-from django.utils import timezone
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from products.models import Product
-from django.utils.timezone import make_aware
-
 """
 
 #filter sales by date
@@ -17,13 +7,83 @@ from django.utils.timezone import make_aware
 #profit for a given period
 
 """
-# class PerformacsSummary(APIView):
-#     """
-#     API view with a summary of anaytics for
-#     performace on admin performance page
-#     """
-#     def get(self, request):
+from django.utils import timezone
+from products.models import Product
+from sales.models import Sale, SaleItem
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from django.utils.timezone import make_aware
+from datetime import datetime, timedelta, time
+from django.db.models.functions import TruncDate,  Cast
+from django.db.models import Sum, F,DateTimeField, ExpressionWrapper, DecimalField, Count
 
+
+class PerformanceSummary(APIView):
+    def get(self, request):
+        start_date = request.query_params.get("start_date")
+        end_date = request.query_params.get("end_date")
+
+        if start_date and end_date:
+            print('Start Date:', start_date, 'End Date:', end_date)
+            try:
+                start_date = timezone.make_aware(datetime.strptime(start_date, "%Y-%m-%d"))
+                end_date = timezone.make_aware(datetime.strptime(end_date, "%Y-%m-%d")) + timedelta(days=1)
+            except ValueError:
+                return Response({"error": "Invalid date format. Use YYYY-MM-DD."}, status=400)
+
+            data = self.get_summary(start_date, end_date)
+            return Response({"period": data})
+
+        # No start and end dates – default to today + compare with yesterday
+        today = timezone.now().date()
+        start_today = timezone.make_aware(datetime.combine(today, datetime.min.time()))
+        end_today = start_today + timedelta(days=1)
+
+        start_yesterday = start_today - timedelta(days=1)
+        end_yesterday = start_today
+
+        today_data = self.get_summary(start_today, end_today)
+        yesterday_data = self.get_summary(start_yesterday, end_yesterday)
+
+        def percent_change(current, previous):
+            if previous == 0:
+                return 100 if current > 0 else 0
+            return round(((current - previous) / previous) * 100, 2)
+
+        comparison = {
+            "profit_change_pct": percent_change(today_data["profit"], yesterday_data["profit"]),
+            "revenue_change_pct": percent_change(today_data["total_revenue"], yesterday_data["total_revenue"]),
+            "items_sold_change_pct": percent_change(today_data["items_sold"], yesterday_data["items_sold"]),
+        }
+
+        return Response({
+            "period": today_data,
+            # "yesterday": yesterday_data,
+            "comparison": comparison,
+        })
+
+    def get_summary(self, start_date, end_date):
+        sale_items = SaleItem.objects.filter(sale__created_at__gte=start_date, sale__created_at__lt=end_date)
+        sales = Sale.objects.filter(created_at__gte=start_date, created_at__lt=end_date)
+
+        cost_expr = ExpressionWrapper(F("quantity") * F("product__unit_buying_price"), output_field=DecimalField())
+
+        total_cost = sale_items.aggregate(total_cost=Sum(cost_expr))["total_cost"] or 0
+        total_revenue = sales.aggregate(
+            revenue=Sum(F("total") - F("discount"))
+        )["revenue"] or 0
+        total_items_sold = sale_items.aggregate(total_qty=Sum("quantity"))["total_qty"] or 0
+        number_of_sales = sales.count()
+
+        return {
+            "total_revenue": float(total_revenue),
+            "total_cost": float(total_cost),
+            "profit": float(total_revenue - total_cost),
+            "items_sold": total_items_sold,
+            "number_of_sales": number_of_sales,
+            "start_date": start_date.date(),
+            "end_date": (end_date - timedelta(days=1)).date(),
+        }
 
 
 class ProductAnalyticsView(APIView):
@@ -82,33 +142,11 @@ class SalesForPeriodView(APIView):
             total_sales=Sum(F('total') )
         )
 
-        print(total_sales_for)
-
-        # total_buying_price = SaleItem.objects.filter(
-        #     sale__created_at__range=[start_date, end_date]
-        # ).aggregate(
-        #     total_sales=Sum(F('quantity') * F('product__unit_buying_price'))
-        # )
-
-        # if total_sales_for['total_sales'] is not None and total_buying_price['total_sales'] is not None:
-        #     profit_or_loss = total_sales_for['total_sales'] - total_buying_price['total_sales']
-
-
-        # # Ensure the response is properly formatted
-        # total_sales_amount = total_sales_for['total_sales'] if total_sales_for['total_sales'] is not None else 0
-
-        # # if profit_or_loss is not None:
-        # #     profit_or_loss = profit_or_loss
-        # #     if profit_or_loss < 0:
-        # #         res = "loss"
-        # #     else:
-        # #         res = "profit"
         if total_sales_for == None:
             return Response({"total_sales_for_period": 0.0,
                         })
         return Response({"total_sales_for_period": total_sales_for,
                         })
-
 
 
 class ProductsBelowThresholdView(APIView):

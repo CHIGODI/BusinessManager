@@ -36,11 +36,11 @@ const EditProduct = (product) => {
 
             {'name':'Agriculture', 'id': 2}, {'name': 'Vetenary', 'id': 3}, {'name': 'Health', 'id': 4}
         ]
-
+        console.log()
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/products/`,
+            const response = await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/products/${product.product.id}/`,
                 formData,
                 {
                     headers: {
@@ -48,7 +48,7 @@ const EditProduct = (product) => {
                     }
                 }
             );
-            if (response.status === 201) {
+            if (response.status === 200) {
                 setIsFormVisible(false);
                 toast.success('Product edited successfully');
             }

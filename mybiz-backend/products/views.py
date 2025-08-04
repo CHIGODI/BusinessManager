@@ -32,7 +32,7 @@ class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
         return Response(serializer.data)
 
     def put(self, request, product_id):
-        """ handle PUT request for a single product
+        """ handle update for a single product
             /api/v1/products/<str:product_id>/
         """
         product = get_object_or_404(Product, id=product_id)
