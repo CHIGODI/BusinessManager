@@ -47,9 +47,8 @@ const CheckoutCard = ({ total, products, session, setCart }) => {
                 setCart([]);
             }
         } catch (error) {
-            console.log(error);
             if (error.response) {
-                toast.error(error.response.data);
+                toast.error(error.response.data.error);
             } else {
                 toast.error('Unable to create sale, please try again');
             }
