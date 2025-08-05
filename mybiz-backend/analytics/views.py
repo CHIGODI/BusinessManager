@@ -24,7 +24,6 @@ class PerformanceSummary(APIView):
         end_date = request.query_params.get("end_date")
 
         if start_date and end_date:
-            print('Start Date:', start_date, 'End Date:', end_date)
             try:
                 start_date = timezone.make_aware(datetime.strptime(start_date, "%Y-%m-%d"))
                 end_date = timezone.make_aware(datetime.strptime(end_date, "%Y-%m-%d")) + timedelta(days=1)
@@ -168,7 +167,6 @@ class SalesForPeriodView(APIView):
         start_datetime = make_aware(datetime.combine(start_date, time.min))  # 00:00:00
         end_datetime = make_aware(datetime.combine( end_date, time.max))
 
-        print(f"Start Date: {start_date}, End Date: {end_date}")
         # Query total sales within the date range
         total_sales_for = Sale.objects.filter(
             created_at__range=[start_datetime, end_datetime]

@@ -32,7 +32,7 @@ class Sale(BaseModel):
         verbose_name_plural = "Sales"
 
     def __str__(self):
-        return f'{self.sold_by}  ({self.total})'
+        return f'{self.id} - {self.created_at.strftime("%Y-%m-%d %H:%M:%S")}'
 
 
 class SaleItem(BaseModel):

@@ -14,6 +14,8 @@ from rest_framework.permissions import IsAuthenticated
 from .serializers import SaleSerializer, SaleItemSerializer
 from django.utils import timezone
 from datetime import timedelta
+from django.utils.timezone import localtime
+
 
 
 class SalesListCreate(APIView):
@@ -31,12 +33,18 @@ class SalesListCreate(APIView):
         end_of_day = start_of_day + timedelta(days=1)
 
         sales = Sale.objects.filter(created_at__gte=start_of_day, created_at__lt=end_of_day)
+
+
         # Prepare the response data
         response_data = []
 
         for sale in sales:
             # Get all SaleItems related to this Sale
+            print(sale)
             sale_items = SaleItem.objects.filter(sale=sale)
+            # print(sale_items)
+            # break
+
 
             # Prepare product details for this sale
             products = [

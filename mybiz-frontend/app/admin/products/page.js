@@ -18,6 +18,11 @@ const AllProducts = () => {
     const [openProductId, setOpenProductId] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
 
+
+
+
+
+
     const filteredProducts = searchQuery.trim()
         ? products.filter((product) =>
             product.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -52,6 +57,27 @@ const AllProducts = () => {
 
     const handleViewDetails = (productID) => {
         setOpenProductId(openProductId === productID ? null : productID);
+    };
+
+    const deleteProduct = async (productId) => {
+        console.log(session?.user?.access)
+        try {
+            const response = await axios.delete(
+                `${process.env.NEXT_PUBLIC_API_URL}/products/${productId}/`,
+                {
+                    headers: {
+                        "Authorization": `Bearer ${session?.user?.access}`,
+                    }
+                }
+            );
+            if (response.status === 200) {
+                toast.success("Product deleted successfully")
+                setIsLoading(false);
+            }
+        } catch (error) {
+            toast.error('Cant delete, please try later');
+            setIsLoading(false);
+        }
     };
 
     if (isLoading) {
@@ -144,9 +170,6 @@ const AllProducts = () => {
                                                 </div>
                                                 <div className="w-1/2 h-full flex justify-end">
                                                    <EditProductButton product={product} />
-                                                   <button className="text-red-600 hover:text-red-800 text-sm px-4 py-2">
-                                                        Delete
-                                                    </button>
                                                 </div>
                                             </ul>
                                         )}
