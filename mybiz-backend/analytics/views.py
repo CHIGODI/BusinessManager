@@ -1,21 +1,21 @@
 """
-
 #filter sales by date
 #list of products below low_stock_threshold (new order)
 #best moving products based on (weekly/monthly) sales
 #total sales for a given period
 #profit for a given period
-
 """
 from django.utils import timezone
 from products.models import Product
 from sales.models import Sale, SaleItem
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from django.utils.timezone import make_aware
-from datetime import datetime, timedelta, time
+from django.utils.timezone import make_aware, is_naive
+from datetime import datetime, timedelta, time, date
 from django.db.models.functions import TruncDate,  Cast
 from django.db.models import Sum, F,DateTimeField, ExpressionWrapper, DecimalField, Count
+from django.db.models import F, Sum, Count, ExpressionWrapper, DecimalField
+from django.db.models.functions import TruncDate
 
 
 class PerformanceSummary(APIView):
@@ -32,6 +32,7 @@ class PerformanceSummary(APIView):
                 return Response({"error": "Invalid date format. Use YYYY-MM-DD."}, status=400)
 
             data = self.get_summary(start_date, end_date)
+
             return Response({"period": data})
 
         # No start and end dates – default to today + compare with yesterday
@@ -58,7 +59,7 @@ class PerformanceSummary(APIView):
 
         return Response({
             "period": today_data,
-            # "yesterday": yesterday_data,
+            "yesterday": yesterday_data,
             "comparison": comparison,
         })
 
@@ -74,17 +75,50 @@ class PerformanceSummary(APIView):
         )["revenue"] or 0
         total_items_sold = sale_items.aggregate(total_qty=Sum("quantity"))["total_qty"] or 0
         number_of_sales = sales.count()
+        cash_sales = Sale.objects.filter(
+                created_at__gte=start_date, created_at__lt=end_date, payment_method="cash"
+            ).aggregate(total_cash_sales=Sum(F("total") - F("discount")))["total_cash_sales"] or 0
+        mpesa_sales = Sale.objects.filter(
+            created_at__gte=start_date, created_at__lt=end_date, payment_method="mpesa"
+        ).aggregate(total_mpesa_sales=Sum(F("total") - F("discount")))["total_mpesa_sales"] or 0
 
+       # Daily sales breakdown
+        today = date.today()
+        sales_over_time = Sale.objects.filter(
+            created_at__gte=datetime(today.year, 1, 1),
+            created_at__lt=datetime(today.year, 12, 31, 23, 59, 59)
+        ).annotate(
+            date=TruncDate('created_at'),
+            total_minus_discount=ExpressionWrapper(
+                F('total') - F('discount'),
+                output_field=DecimalField()
+            )
+        ).values('date').annotate(
+            daily_revenue=Sum('total_minus_discount'),
+            daily_sales_count=Count('id')
+        ).order_by('date')
+
+        # Convert to list and format dates
+        daily_sales = []
+        for item in sales_over_time:
+            daily_sales.append({
+                'date': item['date'].strftime('%Y-%m-%d'),
+                'revenue': float(item['daily_revenue'] or 0),
+                'sales_count': item['daily_sales_count']
+            })
+        sales_since_jan = []
         return {
             "total_revenue": float(total_revenue),
+            "cash_sales": float(cash_sales),
+            "mpesa_sales": float(mpesa_sales),
             "total_cost": float(total_cost),
             "profit": float(total_revenue - total_cost),
             "items_sold": total_items_sold,
             "number_of_sales": number_of_sales,
             "start_date": start_date.date(),
             "end_date": (end_date - timedelta(days=1)).date(),
+            "daily_sales": daily_sales,
         }
-
 
 class ProductAnalyticsView(APIView):
     """
