@@ -13,6 +13,7 @@ export default function NavBar() {
     const Router = useRouter();
     const { data: session, status } = useSession();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isLoggingOut, setIsLoggingOut] = useState(false);
 
     const openMenu = () => {
         setIsMenuOpen(isMenuOpen ? false : true);
@@ -22,6 +23,7 @@ export default function NavBar() {
         if (!session) {
             return;
         }
+        setIsLoggingOut(true);
         await axios.post(
             'http://localhost:8000/api/v1/account/logout/',
             { 'refresh': session?.user?.refresh },
@@ -36,8 +38,9 @@ export default function NavBar() {
                 Router.push('/');
             }
         }).catch((error) => {
-            console.log(error);
             toast.error('Error logging out');
+        }).finally(() => {
+            setIsLoggingOut(false);
         });
     };
 
@@ -74,7 +77,11 @@ export default function NavBar() {
             <div className="hidden lg:flex w-1/2 h-full mr-[5%] relative items-center justify-end">
                 <div className="w-[30%] h-[70%]  justify-end flex items-center">
                     <FontAwesomeIcon className='p-2 text-sm text-gray-600 hover:bg-gray-200' icon={faUser} />
-                    <FontAwesomeIcon onClick={handleLogout} className="text-xs text-gray-600 p-2 hover:bg-gray-200" icon={faRightFromBracket} />
+                    <FontAwesomeIcon
+                        onClick={handleLogout}
+                        className={`text-xs text-gray-600 p-2 hover:bg-gray-200 ${isLoggingOut ? 'opacity-50 pointer-events-none' : ''}`}
+                        icon={faRightFromBracket}
+                    />
                 </div>
             </div>
         </nav>
