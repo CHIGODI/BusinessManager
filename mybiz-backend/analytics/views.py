@@ -76,10 +76,10 @@ class PerformanceSummary(APIView):
         number_of_sales = sales.count()
         cash_sales = Sale.objects.filter(
                 created_at__gte=start_date, created_at__lt=end_date, payment_method="cash"
-            ).aggregate(total_cash_sales=Sum(F("total") - F("discount")))["total_cash_sales"] or 0
+            ).aggregate(total_cash_sales=Sum("total"))["total_cash_sales"] or 0
         mpesa_sales = Sale.objects.filter(
             created_at__gte=start_date, created_at__lt=end_date, payment_method="mpesa"
-        ).aggregate(total_mpesa_sales=Sum(F("total") - F("discount")))["total_mpesa_sales"] or 0
+        ).aggregate(total_mpesa_sales=Sum("total"))["total_mpesa_sales"] or 0
 
        # Daily sales breakdown
         today = date.today()
