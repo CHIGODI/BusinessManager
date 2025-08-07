@@ -16,7 +16,6 @@ const AllSales = () => {
 
     useEffect(() => {
         const fetchSales = async () => {
-            console.log(session.user?.access);
             try {
                 const [allSales, totalSales] = await Promise.all([
                     axios.get(
@@ -40,7 +39,6 @@ const AllSales = () => {
                     )
                 ]);
                 setSales(allSales.data);
-                console.log(allSales.data);
                 if (totalSales.data.total_sales_for_period.total_sales) {
                     setTotalSales(totalSales.data.total_sales_for_period.total_sales.toLocaleString());
                 }

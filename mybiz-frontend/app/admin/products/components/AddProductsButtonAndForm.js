@@ -7,10 +7,10 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-const AddProductButton = () => {
+const AddProductButton = (props) => {
     const [isFormVisible, setIsFormVisible] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const { data: session } = useSession();
-    // const [industries, setIndustries] = useState([]); // Holds predefined industries
     const [formData, setFormData] = useState({
         name: '',
         unit_buying_price: 0,
@@ -37,7 +37,10 @@ const AddProductButton = () => {
     ]
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-        try{
+        if (isSubmitting) return;
+        setIsSubmitting(true);
+
+        try {
             const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/products/`,
                 formData,
                 {
@@ -46,14 +49,29 @@ const AddProductButton = () => {
                     }
                 }
             );
-            if (response.status === 201){
-                setIsFormVisible(false);
+            if (response.status === 201) {
                 toast.success('Product added successfully');
+                setIsFormVisible(false);
+                setFormData({  // Reset the form
+                    name: '',
+                    unit_buying_price: 0,
+                    unit_selling_price: 0,
+                    manufacturer: '',
+                    industry: '',
+                    quantity: 0,
+                    size: '',
+                    low_stock_threshold: 0,
+                });
+                setIsCustomIndustry(false);
             }
-        }catch(error){
+            props.triggerRefresh();
+        } catch (error) {
             toast.error('An error occurred. Please try again later');
+        } finally {
+            setIsSubmitting(false);
         }
     };
+
 
     return (
         <>
@@ -214,10 +232,12 @@ const AddProductButton = () => {
                                 </button>
                                 <button
                                     type="submit"
-                                    className="w-1/2 px-4 py-3 bg-[#FCC737] text-white text-sm"
+                                    disabled={isSubmitting}
+                                    className={`w-1/2 px-4 py-3 text-white text-sm ${isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#FCC737]'}`}
                                 >
-                                    Save
+                                    {isSubmitting ? 'Saving...' : 'Save'}
                                 </button>
+
                             </div>
                         </form>
                     </div>

@@ -17,6 +17,7 @@ const AllProducts = () => {
     const { data: session } = useSession();
     const [openProductId, setOpenProductId] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
+    const [shouldRefresh, setShouldRefresh] = useState(false);
 
     const filteredProducts = searchQuery.trim()
         ? products.filter((product) =>
@@ -48,7 +49,7 @@ const AllProducts = () => {
         if (session) {
             fetchProducts();
         }
-    }, [session]);
+    }, [session, shouldRefresh]);
 
     const handleViewDetails = (productID) => {
         setOpenProductId(openProductId === productID ? null : productID);
@@ -127,7 +128,7 @@ const AllProducts = () => {
                                 icon={faMagnifyingGlass}
                             />
                         </div>
-                        <AddProductButton />
+                        <AddProductButton triggerRefresh={() => setShouldRefresh(prev => !prev)}  />
                     </div>
                     <div className="h-full border overflow-y-scroll scrollbar-hidden bg-white">
                         {filteredProducts.length === 0 ? (

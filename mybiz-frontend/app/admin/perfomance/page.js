@@ -34,6 +34,8 @@ const Perfomance = () => {
         if (totalDays > 31) return format(date, 'MMM yyyy');
         return format(date, 'dd MMM');
     };
+    const formatKES = (num) =>
+        Number(num).toLocaleString('en-KE', { minimumFractionDigits: 2 });
 
     const fetchSales = async (start = '', end = '') => {
         setIsLoading(true);
@@ -90,12 +92,16 @@ const Perfomance = () => {
             <div className="flex-1 min-w-[250px] max-w-[300px] bg-white shadow-sm rounded-xl">
                 <div className="p-4">
                     <p className="pb-2 text-sm text-gray-400">{label}</p>
+                    {/* if value is item sold dont add kes before it */}
                     <h2 className="text-xl text-gray-800 font-bold">
-                        <span className="text-gray-500 text-sm">KES</span> {value}
+                        {label === 'Items Sold'
+                            ? Number(value).toLocaleString('en-KE')
+                            : (<><span className="text-gray-500 text-sm">KES</span> {formatKES(value)}</>)
+                        }
                     </h2>
 
                     {!isFiltered && !isSame && (
-                        <span className={`inline-flex items-center gap-1 text-xs px-2 py-1 rounded-xl ${isUp ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}`}>
+                        <span className={`inline-flex items-center gap-1 text-[10px] px-2 py-1 rounded-xl ${isUp ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}`}>
                             <FontAwesomeIcon className="pr-1" icon={isUp ? faArrowTrendUp : faArrowTrendDown} />
                             {formattedPercent}
                         </span>
@@ -163,7 +169,7 @@ const Perfomance = () => {
                                             <Line
                                                 type="monotone"
                                                 dataKey="revenue"
-                                                stroke="#22c55e"
+                                                stroke="purple"
                                                 strokeWidth={2}
                                                 dot={{ r: 4 }}
                                                 activeDot={{ r: 6 }}
