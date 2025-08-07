@@ -32,7 +32,7 @@ class SalesListCreate(APIView):
         start_of_day = timezone.make_aware(datetime.combine(today, datetime.min.time()))
         end_of_day = start_of_day + timedelta(days=1)
 
-        sales = Sale.objects.filter(created_at__gte=start_of_day, created_at__lt=end_of_day)
+        sales = Sale.objects.filter(created_at__gte=start_of_day, created_at__lt=end_of_day).order_by('-created_at')
 
 
         # Prepare the response data
@@ -60,13 +60,15 @@ class SalesListCreate(APIView):
 
             # Calculate the total for this sale
             total_amount = sum(item["total"] for item in products)
+            total_amount_with_discount = total_amount - sale.discount
 
             if datetime.today().date() == sale.created_at.date():
                 response_data.append({
                     "sale_id": sale.id,
-                    "total_amount": total_amount,
+                    "total_amount": total_amount_with_discount,
                     "discounted_total": sale.discount,
                     "products": products,
+                    "payment_method": sale.payment_method,
                     "created_at": sale.created_at,
                 })
 
