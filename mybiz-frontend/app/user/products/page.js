@@ -87,6 +87,7 @@ const AllProducts = () => {
                                 {products.map((product) => (
                                     <li key={product.id} className="p-4 flex justify-between items-center">
                                         <div>
+                                            <p className="text-[10px] text-gray-400 pb-1">last edited: {new Date(product.updated_at).toLocaleDateString()}</p>
                                             <p className="font-medium text-sm text-gray-600">{product.name} {product.size}</p>
                                             <p className="text-xs text-gray-400">
                                                 Price: KES {product.unit_selling_price} | Quantity: {product.quantity}

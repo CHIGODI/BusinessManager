@@ -16,7 +16,9 @@ from django.db.models.functions import TruncDate,  Cast
 from django.db.models import Sum, F,DateTimeField, ExpressionWrapper, DecimalField, Count
 from django.db.models import F, Sum, Count, ExpressionWrapper, DecimalField
 from django.db.models.functions import TruncDate
-
+from django.db.models.functions import ExtractMonth
+from collections import defaultdict
+from calendar import month_name
 
 class PerformanceSummary(APIView):
     def get(self, request):
@@ -203,6 +205,8 @@ class MonthlyProductPerformance(APIView):
         year = int(request.GET.get('year', datetime.today().year))
         month = int(request.GET.get('month', datetime.today().month))
 
+
+
         start_date = make_aware(datetime(year, month, 1))
         if month == 12:
             end_date = make_aware(datetime(year + 1, 1, 1))
@@ -217,3 +221,42 @@ class MonthlyProductPerformance(APIView):
         ).order_by('-total_sold')
 
         return Response(list(sale_items))
+
+
+
+
+from calendar import month_abbr  # gives ['','Jan','Feb',...,'Dec']
+
+class ProductSalesMonthlyTrend(APIView):
+    def get(self, request):
+        year = int(request.GET.get('year', datetime.today().year))
+        start_date = make_aware(datetime(year, 1, 1))
+        end_date = make_aware(datetime(year + 1, 1, 1))
+
+        sale_items = (
+            SaleItem.objects
+            .filter(sale__created_at__gte=start_date, sale__created_at__lt=end_date)
+            .annotate(month=ExtractMonth('sale__created_at'))
+            .values('product__name', 'month')
+            .annotate(total_sold=Sum('quantity'))
+            .order_by('product__name', 'month')
+        )
+
+        product_data = defaultdict(lambda: {m: 0 for m in range(1, 13)})
+
+        for item in sale_items:
+            product = item['product__name']
+            month = item['month']
+            total = item['total_sold']
+            product_data[product][month] = total
+
+        results = []
+        for product, monthly in product_data.items():
+            results.append({
+                "product": product,
+                "monthly_sales": {
+                    month_abbr[m]: monthly[m] for m in range(1, 13)
+                }
+            })
+
+        return Response(results)
