@@ -143,8 +143,8 @@ const AllProducts = () => {
                                     <li key={product.id} className="p-4 ">
                                         <div className="flex flex-column space-x-4 justify-between pb-4">
                                             <div>
-                                                <p className="font-medium text-gray-600">{product.name} {product.size}</p>
-                                                <p className="text-sm text-gray-400">
+                                                <p className="font-medium text-sm text-gray-600">{product.name} {product.size}</p>
+                                                <p className="text-xs text-gray-400">
                                                     Price: KES {product.unit_selling_price} | Quantity: {product.quantity}
                                                 </p>
                                             </div>

@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { useSession } from "next-auth/react";
 import { format, parseISO } from 'date-fns';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowDown, faArrowUp } from "@fortawesome/free-solid-svg-icons";
+import { faArrowTrendDown, faArrowTrendUp } from "@fortawesome/free-solid-svg-icons";
 import {
     LineChart, Line, XAxis, YAxis, CartesianGrid,
     Tooltip, Legend, ResponsiveContainer
@@ -70,23 +70,38 @@ const Perfomance = () => {
     }, [session]);
 
     const StatCard = ({ label, value, compare }) => {
-        const isUp = value > compare;
-        const isSame = value === compare;
+        const current = parseFloat(value);
+        const isSame = current === compare;
+        const isUp = current > compare;
+
+        let percent = 0;
+        if (compare === 0) {
+            percent = current === 0 ? 0 : 100;
+        } else {
+            percent = ((current - compare) / compare) * 100;
+        }
+
+        const formattedPercent = `${isUp ? '+' : ''}${percent.toFixed(1)}%`;
 
         return (
             <div className="flex-1 min-w-[250px] max-w-[300px] bg-white shadow-sm rounded-xl">
                 <div className="p-4">
                     <p className="pb-2 text-sm text-gray-400">{label}</p>
-                    <h2 className="text-xl text-gray-800 font-bold">{value}</h2>
+                    <h2 className="text-xl text-gray-800 font-bold">
+                        <span className="text-gray-500 text-sm">KES</span> {value}
+                    </h2>
+
                     {!isFiltered && !isSame && (
-                        <span className={`text-xs px-2 py-1 rounded-xl ${isUp ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}`}>
-                            <FontAwesomeIcon className="pr-2" icon={isUp ? faArrowUp : faArrowDown} />
+                        <span className={`inline-flex items-center gap-1 text-xs px-2 py-1 rounded-xl ${isUp ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}`}>
+                            <FontAwesomeIcon className="pr-1" icon={isUp ? faArrowTrendUp : faArrowTrendDown} />
+                            {formattedPercent}
                         </span>
                     )}
                 </div>
             </div>
         );
     };
+
 
     const period = salesData?.period || {};
     const yesterday = salesData?.yesterday || {};
@@ -113,11 +128,11 @@ const Perfomance = () => {
                     </div>
 
                     <div className="flex flex-wrap gap-4 lg:gap-2">
-                        <StatCard label="Total Revenue" value={`KES ${(period.total_revenue || 0).toFixed(2)}`} compare={yesterday.total_revenue || 0} />
-                        <StatCard label="Profit" value={`KES ${(period.profit || 0).toFixed(2)}`} compare={yesterday.total_revenue || 0} />
+                        <StatCard label="Total Revenue" value={`${(period.total_revenue || 0).toFixed(2)}`} compare={yesterday.total_revenue || 0} />
+                        <StatCard label="Profit" value={`${(period.profit || 0).toFixed(2)}`} compare={yesterday.total_revenue || 0} />
                         <StatCard label="Items Sold" value={period.items_sold || 0} compare={yesterday.total_revenue || 0} />
-                        <StatCard label="Mpesa Sales" value={`KES ${(period.mpesa_sales || 0).toFixed(2)}`} compare={yesterday.mpesa_sales || 0} />
-                        <StatCard label="Cash Sales" value={`KES ${(period.cash_sales || 0).toFixed(2)}`} compare={yesterday.cash_sales || 0} />
+                        <StatCard label="Mpesa Sales" value={`${(period.mpesa_sales || 0).toFixed(2)}`} compare={yesterday.mpesa_sales || 0} />
+                        <StatCard label="Cash Sales" value={`${(period.cash_sales || 0).toFixed(2)}`} compare={yesterday.cash_sales || 0} />
                     </div>
 
                     <div className="w-full max-w-[600px] h-[250px] mx-auto mt-12 mb-12">

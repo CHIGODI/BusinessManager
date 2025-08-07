@@ -8,16 +8,15 @@ import NavBar from "../../sharedComponents/NavBar";
 
 
 const AllSales = () => {
-
-    const [isLoading, setIsLoading ] = useState(true);
-    const [error, setError] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
     const [sales, setSales] = useState([]);
     const { data: session } = useSession();
     const [openSaleId, setOpenSaleId] = useState(null);
-    const [totalSales, setTotalSales] = useState(0);
+    const [totalSales, setTotalSales] = useState(0.0);
 
     useEffect(() => {
         const fetchSales = async () => {
+            console.log(session.user?.access);
             try {
                 const [allSales, totalSales] = await Promise.all([
                     axios.get(
@@ -41,6 +40,7 @@ const AllSales = () => {
                     )
                 ]);
                 setSales(allSales.data);
+                console.log(allSales.data);
                 if (totalSales.data.total_sales_for_period.total_sales) {
                     setTotalSales(totalSales.data.total_sales_for_period.total_sales.toLocaleString());
                 }
@@ -97,10 +97,6 @@ const AllSales = () => {
         );
     }
 
-    if (error) {
-        return <div>Error: {error.message}</div>;
-    }
-
     return (
         <div className="h-screen">
             <NavBar />
@@ -119,16 +115,26 @@ const AllSales = () => {
                                 {sales.map((sale) => (
                                     <div key={sale.sale_id} className="p-4 flex flex-col justify-between items-center space-y-4">
                                         <div className="flex flex-row justify-between items-center w-full">
-                                            <div className="text-sm text-gray-600 w-1/2">
+                                            <div className="text-sm text-gray-600 w-1/2 ">
+                                                <p className="text-xs text-gray-400 font-bold">{new Date(sale.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
                                                 <p className="text-sm text-gray-600">Total Amount: KES {sale.total_amount.toFixed(2)} </p>
-                                                <p>Discount: KES {sale.discounted_total}</p>
+                                                <p className="text-xs text-gray-400">Discount: <span className="text-xs">KES</span> {sale.discounted_total}</p>
                                             </div>
-                                            <button
-                                                className="text-purple-600 hover:text-purple-800 text-sm"
-                                                onClick={() => handleViewDetails(sale.sale_id)}
-                                            >
-                                                View Details
-                                            </button>
+                                            <div>
+                                                <p className={`text-xs text-sm  ${sale.payment_method === 'Cash'
+                                                        ? 'text-green-300'
+                                                        : sale.payment_method === 'Mpesa'
+                                                            ? 'text-orange-300'
+                                                            : 'text-gray-300'
+                                                    }`}>{sale.payment_method}
+                                                </p>
+                                                <button
+                                                    className="text-purple-600 hover:text-purple-800 text-sm"
+                                                    onClick={() => handleViewDetails(sale.sale_id)}
+                                                >
+                                                    View Details
+                                                </button>
+                                            </div>
                                         </div>
                                         {openSaleId === sale.sale_id && (
                                             <ol className="list-decimal list-inside w-full flex flex-col space-y-4 bg-[#F8FAFC] p-4">
@@ -144,7 +150,7 @@ const AllSales = () => {
                                 ))}
                             </div>
                         ) : (
-                            <p className="p-4 text-center text-gray-600">No sales found</p>
+                            <p className="p-4 text-center text-gray-600">You have not made any sale yet!</p>
                         )}
                     </div>
                 </div>
