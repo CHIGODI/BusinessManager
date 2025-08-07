@@ -5,9 +5,11 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import NavBar from "@/app/sharedComponents/NavBar";
 import SideNav from "@/app/sharedComponents/SideNav";
+import { set } from "date-fns";
 
 const Summary = () => {
     const [totalSales, setTotalSales] = useState(0);
+    const [mpesa, setMpesa] = useState(0);
     const { data: session } = useSession();
     const [isLoading, setIsLoading] = useState(true);
 
@@ -16,7 +18,7 @@ const Summary = () => {
             try {
                 const [allSales, totalSales] = await Promise.all([
                     axios.get(
-                        `${process.env.NEXT_PUBLIC_API_URL}/sales/`,
+                        `${process.env.NEXT_PUBLIC_API_URL}/analytics/performance/summary/`,
                         {
                             headers: {
                                 "Authorization": `Bearer ${session?.user?.access}`,
@@ -35,6 +37,8 @@ const Summary = () => {
                         }
                     )
                 ]);
+                setMpesa(allSales.data.period.mpesa_sales || 0.0);
+                console.log(allSales.data.period.mpesa_sales);
                 if (totalSales.data.total_sales_for_period.total_sales) {
                     setTotalSales(totalSales.data.total_sales_for_period.total_sales.toLocaleString());
                 }
@@ -62,8 +66,13 @@ const Summary = () => {
                     <div className="border bg-white shadow-sm rounded-xl h-1/4 w-1/4">
                         <div className="p-4 ">
                             <p className="pb-2 text-xs text-gray-400">Today's Total</p>
-                            <h2 className="text-xl text-gray-800 font-bold"><span className="text-gray-600 text-sm mr-1">KES</span>{totalSales}</h2>
-                            <span className="bg-green-100 text-green-600 text-xs px-2 py-1 rounded-xl">No discount offered today</span>
+                            <h2 className="text-xl text-gray-800 font-bold"><span className="text-gray-600 text-sm mr-1">KES</span>{(totalSales || 0).toFixed(2)}</h2>
+                        </div>
+                    </div>
+                    <div className="border bg-white shadow-sm rounded-xl h-1/4 w-1/4">
+                        <div className="p-4 ">
+                            <p className="pb-2 text-xs text-gray-400">Mpesa Sales</p>
+                            <h2 className="text-xl text-gray-800 font-bold"><span className="text-gray-600 text-sm mr-1">KES</span>{`${(mpesa || 0).toFixed(2)}`}</h2>
                         </div>
                     </div>
                 </div>
