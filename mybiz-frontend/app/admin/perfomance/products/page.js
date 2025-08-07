@@ -82,8 +82,8 @@ const ProductPerformancePage = () => {
             <h1 className="font-bold text-lg text-gray-600">Products Performance</h1>
             <p className="text-xs text-gray-500">Top selling products this month</p>
             <Link href="/admin/perfomance/">
-              <span className="hover:text-gray-800 hover:underline cursor-pointer text-sm">
-                Back
+              <span className="hover:text-gray-800 hover:underline cursor-pointer text-sm mt-2 inline-block">
+                {'<< Back'}
               </span>
             </Link>
           </div>

@@ -37,9 +37,9 @@ const Summary = () => {
                         }
                     )
                 ]);
-                setMpesa(allSales.data.period.mpesa_sales || 0.0);
+                setMpesa(allSales.data.period.mpesa_sales.toLocaleString() || 0.0);
                 if (totalSales.data.total_sales_for_period.total_sales) {
-                    setTotalSales(totalSales.data.total_sales_for_period.total_sales);
+                    setTotalSales(totalSales.data.total_sales_for_period.total_sales.toLocaleString());
                 }
                 else {
                     setTotalSales(0);
@@ -65,13 +65,14 @@ const Summary = () => {
                     <div className="border bg-white shadow-sm rounded-xl h-1/4 w-1/4">
                         <div className="p-4 ">
                             <p className="pb-2 text-xs text-gray-400">Today's Total</p>
-                            <h2 className="text-xl text-orange-500 font-bold"><span className="text-gray-600 text-sm mr-1">KES</span>{(totalSales || 0).toFixed(2)}</h2>
+                            <h2 className="text-xl text-orange-500 font-bold"><span className="text-gray-600 text-sm mr-1">KES</span>{totalSales}
+</h2>
                         </div>
                     </div>
                     <div className="border bg-white shadow-sm rounded-xl h-1/4 w-1/4">
                         <div className="p-4 ">
                             <p className="pb-2 text-xs text-gray-400">Mpesa Sales</p>
-                            <h2 className="text-xl text-green-500 font-bold"><span className="text-gray-600 text-sm mr-1">KES</span>{`${(mpesa || 0).toFixed(2)}`}</h2>
+                            <h2 className="text-xl text-green-500 font-bold"><span className="text-gray-600 text-sm mr-1">KES</span>{`${mpesa}`}</h2>
                         </div>
                     </div>
                 </div>

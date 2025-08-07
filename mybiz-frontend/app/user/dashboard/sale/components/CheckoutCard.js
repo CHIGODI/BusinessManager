@@ -104,18 +104,30 @@ const CheckoutCard = ({ total, products, session, setCart }) => {
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                     <div className="bg-white p-6 rounded-lg shadow-lg w-[300px] text-center space-y-4">
                         <h3 className="text-lg font-semibold text-gray-700">Select Payment Method</h3>
+
                         <button
                             onClick={() => handleConfirmSale('Mpesa')}
                             className="w-full py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition duration-200"
                         >
                             Mpesa
                         </button>
+
                         <button
                             onClick={() => handleConfirmSale('Cash')}
                             className="w-full py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition duration-200"
                         >
                             Cash
                         </button>
+
+                        <button
+                            disabled
+                            className="w-full py-2 bg-purple-400 text-white rounded-md cursor-not-allowed relative"
+                            title="Coming soon"
+                        >
+                            Voucher (Coming soon)
+                            <span className="absolute top-2 right-3 h-2 w-2 bg-white rounded-full border border-purple-800"></span>
+                        </button>
+
                         <button
                             onClick={() => setShowPaymentModal(false)}
                             className="w-full py-2 border border-gray-300 text-gray-600 rounded-md hover:bg-gray-100 transition duration-200 text-sm"

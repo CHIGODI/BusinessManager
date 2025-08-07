@@ -111,11 +111,8 @@ const Perfomance = () => {
         );
     };
 
-
     const period = salesData?.period || {};
     const yesterday = salesData?.yesterday || {};
-    console.log(yesterday)
-
     return (
         <div className="h-screen">
             <NavBar />
@@ -123,13 +120,15 @@ const Perfomance = () => {
                 <SideNav />
                 <div className="w-full lg:w-[80%] px-[2%] py-[2%] h-full bg-[#F8FAFC] overflow-y-auto">
                     <div className="">
-                        <h1 className="font-bold text-lg text-gray-600 pt-4">Performance Overview</h1>
-                        <p className="text-xs text-gray-500">View your business performance metrics</p>
-                        <Link href="/admin/perfomance/products">
-                            <span className="hover:text-gray-800 hover:underline cursor-pointer text-sm">
-                                Products Performance
-                            </span>
-                        </Link>
+                        <div className="flex-1">
+                            <h1 className="font-bold text-lg text-gray-600 pt-4">Performance Summary</h1>
+                            <p className="text-xs text-gray-500">View your business performance metrics</p>
+                        </div>
+                        <div className="w-[20%] bg-black mt-4 text-white px-4 py-2 rounded-md flex items-center hover:bg-gray-800 transition-colors text-xs">
+                            <Link href="/admin/perfomance/products">
+                                    Products Performance
+                            </Link>
+                        </div>
                     </div>
 
                     <div className="flex flex-col lg:flex-row justify-between items-center mt-4 mb-4 pb-4 pt-4">
@@ -157,7 +156,7 @@ const Perfomance = () => {
                             <p className="text-gray-500 text-center mt-10">No sales data to display</p>
                         ) : (
                             <div className="bg-white">
-                                <p className="text-center font-bold text-sm text-gray-500 mb-2">Daily Sales Overview</p>
+                                <p className="text-center font-bold text-sm text-gray-500 mb-2">Sales Trend</p>
                                 <div className="h-[250px] w-full">
                                     <ResponsiveContainer width="100%" height="100%">
                                         <LineChart data={dailySales}>
