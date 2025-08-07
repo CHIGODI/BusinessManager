@@ -1,13 +1,15 @@
 'use client';
-import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
 import axios from "axios";
-import SideNav from "../components/SideNav";
-import NavBar from "../../sharedComponents/NavBar";
 import { toast } from "react-toastify";
+import { useState, useEffect } from "react";
+import SideNav from "../components/SideNav";
+import { useSession } from "next-auth/react";
+import NavBar from "../../sharedComponents/NavBar";
+
 
 const AllSales = () => {
-    const [isLoading, setIsLoading] = useState(true);
+
+    const [isLoading, setIsLoading ] = useState(true);
     const [error, setError] = useState(null);
     const [sales, setSales] = useState([]);
     const { data: session } = useSession();
@@ -39,7 +41,6 @@ const AllSales = () => {
                     )
                 ]);
                 setSales(allSales.data);
-                console.log(allSales.data, totalSales.data);
                 if (totalSales.data.total_sales_for_period.total_sales) {
                     setTotalSales(totalSales.data.total_sales_for_period.total_sales.toLocaleString());
                 }

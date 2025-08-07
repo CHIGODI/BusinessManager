@@ -6,6 +6,7 @@ from .serializers import ProductSerializer
 from .permissions import IsAdminOrReadOnly
 from rest_framework import generics, status
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 
 class ProductListCreate(generics.ListCreateAPIView):
@@ -50,3 +51,11 @@ class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
         product.delete()
         return Response({"message": "Product deleted successfully."},
                         status=status.HTTP_204_NO_CONTENT)
+
+
+class ProductsSummary(APIView):
+    def get(self, request):
+        from django.db.models import F
+        products_below_threshold = Product.objects.filter(quantity__lte=F('low_stock_threshold'))
+        serialized = ProductSerializer(products_below_threshold, many=True).data
+        return Response({"low_stock_products": serialized})

@@ -34,7 +34,8 @@ class Product(BaseModel):
     manufacturer = models.TextField(max_length=255, null=True)
     industry = models.TextField(max_length=255, null=True)
     low_stock_threshold = models.IntegerField(default=0, null=False)
-    quantity = models.IntegerField(default=0, null=False)
+    quantity = models.DecimalField(max_digits=6, decimal_places=2,
+        default=Decimal('0.00'), null=False)
 
     class Meta:
         """Control behavior of the model"""
