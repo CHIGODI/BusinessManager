@@ -6,6 +6,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useSession } from "next-auth/react";
 import { format, parseISO } from 'date-fns';
+import Link from 'next/link';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowTrendDown, faArrowTrendUp } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -80,6 +81,8 @@ const Perfomance = () => {
         } else {
             percent = ((current - compare) / compare) * 100;
         }
+        console.log("current, compare, percent",current, compare, percent);
+        console.log("current - compare", current - compare);
 
         const formattedPercent = `${isUp ? '+' : ''}${percent.toFixed(1)}%`;
 
@@ -105,6 +108,7 @@ const Perfomance = () => {
 
     const period = salesData?.period || {};
     const yesterday = salesData?.yesterday || {};
+    console.log(yesterday)
 
     return (
         <div className="h-screen">
@@ -112,9 +116,14 @@ const Perfomance = () => {
             <div className="relative flex w-full h-[calc(100vh-70px)]">
                 <SideNav />
                 <div className="w-full lg:w-[80%] px-[2%] py-[2%] h-full bg-[#F8FAFC] overflow-y-auto">
-                    <div>
+                    <div className="">
                         <h1 className="font-bold text-lg text-gray-600 pt-4">Performance Overview</h1>
                         <p className="text-xs text-gray-500">View your business performance metrics</p>
+                        <Link href="/admin/perfomance/products">
+                            <span className="hover:text-gray-800 hover:underline cursor-pointer text-sm">
+                                Products Performance
+                            </span>
+                        </Link>
                     </div>
 
                     <div className="flex flex-col lg:flex-row justify-between items-center mt-4 mb-4 pb-4 pt-4">
@@ -129,38 +138,44 @@ const Perfomance = () => {
 
                     <div className="flex flex-wrap gap-4 lg:gap-2">
                         <StatCard label="Total Revenue" value={`${(period.total_revenue || 0).toFixed(2)}`} compare={yesterday.total_revenue || 0} />
-                        <StatCard label="Profit" value={`${(period.profit || 0).toFixed(2)}`} compare={yesterday.total_revenue || 0} />
-                        <StatCard label="Items Sold" value={period.items_sold || 0} compare={yesterday.total_revenue || 0} />
+                        <StatCard label="Profit" value={`${(period.profit || 0).toFixed(2)}`} compare={yesterday.profit || 0} />
+                        <StatCard label="Items Sold" value={period.items_sold || 0} compare={yesterday.number_of_sales || 0} />
                         <StatCard label="Mpesa Sales" value={`${(period.mpesa_sales || 0).toFixed(2)}`} compare={yesterday.mpesa_sales || 0} />
                         <StatCard label="Cash Sales" value={`${(period.cash_sales || 0).toFixed(2)}`} compare={yesterday.cash_sales || 0} />
                     </div>
 
-                    <div className="w-full max-w-[600px] h-[250px] mx-auto mt-12 mb-12">
+                    <div className="w-full max-w-[600px] h-[250px]  mt-12 mb-12">
                         {isLoading ? (
-                            <div className="w-full h-full flex items-center justify-center animate-pulse bg-gray-100 rounded-lg"></div>
+                            <div className="w-full h-full flex items-center justify-center animate-pulse bg-[#F8FAFC] "></div>
                         ) : dailySales.length === 0 ? (
                             <p className="text-gray-500 text-center mt-10">No sales data to display</p>
                         ) : (
-                            <ResponsiveContainer width="100%" height="100%">
-                                <LineChart data={dailySales}>
-                                    <CartesianGrid strokeDasharray="3 3" />
-                                    <XAxis dataKey="date" tickFormatter={formatDateLabel} />
-                                    <YAxis />
-                                    <Tooltip />
-                                    <Legend />
-                                    <Line
-                                        type="monotone"
-                                        dataKey="revenue"
-                                        stroke="#22c55e"
-                                        strokeWidth={2}
-                                        dot={{ r: 4 }}
-                                        activeDot={{ r: 6 }}
-                                        name="Revenue (KES)"
-                                    />
-                                </LineChart>
-                            </ResponsiveContainer>
+                            <div className="bg-white">
+                                <p className="text-center font-bold text-sm text-gray-500 mb-2">Daily Sales Overview</p>
+                                <div className="h-[250px] w-full">
+                                    <ResponsiveContainer width="100%" height="100%">
+                                        <LineChart data={dailySales}>
+                                            <CartesianGrid strokeDasharray="3 3" />
+                                            <XAxis dataKey="date" tickFormatter={formatDateLabel} />
+                                            <YAxis />
+                                            <Tooltip />
+                                            <Legend />
+                                            <Line
+                                                type="monotone"
+                                                dataKey="revenue"
+                                                stroke="#22c55e"
+                                                strokeWidth={2}
+                                                dot={{ r: 4 }}
+                                                activeDot={{ r: 6 }}
+                                                name="Revenue (KES)"
+                                            />
+                                        </LineChart>
+                                    </ResponsiveContainer>
+                                </div>
+                            </div>
                         )}
                     </div>
+
                 </div>
             </div>
         </div>

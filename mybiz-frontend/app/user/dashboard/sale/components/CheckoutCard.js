@@ -4,6 +4,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
 import getProductCount from '../../../../lib/productCount';
+import { set } from 'date-fns';
 
 const CheckoutCard = ({ total, products, session, setCart }) => {
     const [discount, setDiscount] = useState(0);
@@ -29,6 +30,7 @@ const CheckoutCard = ({ total, products, session, setCart }) => {
     };
 
     const handleConfirmSale = async (paymentMethod) => {
+        if (!validateInputs()) return;
         const data = {
             'sales_data': {
                 'products': productAndCount,
@@ -36,7 +38,6 @@ const CheckoutCard = ({ total, products, session, setCart }) => {
                 'payment_method': paymentMethod
             }
         };
-
         try {
             const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/sales/`, data, {
                 headers: {
@@ -50,8 +51,9 @@ const CheckoutCard = ({ total, products, session, setCart }) => {
                 setShowPaymentModal(false);
             }
         } catch (error) {
-            if (error.response) {
-                toast.error(error.response.data);
+            if (error.response.data.error) {
+                toast.error(error.response.data.error || 'Likey not enogh stock for some products');
+                setShowPaymentModal(false);
             } else {
                 toast.error('Unable to create sale, please try again');
             }

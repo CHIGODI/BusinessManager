@@ -105,7 +105,6 @@ class PerformanceSummary(APIView):
                 'revenue': float(item['daily_revenue'] or 0),
                 'sales_count': item['daily_sales_count']
             })
-        sales_since_jan = []
         return {
             "total_revenue": float(total_revenue),
             "cash_sales": float(cash_sales),
@@ -193,3 +192,28 @@ class ProductsBelowThresholdView(APIView):
         ).values("name", "quantity", "low_stock_threshold")
 
         return Response(products)
+
+
+class MonthlyProductPerformance(APIView):
+    """
+    API view to get monthly product performance.
+    Endpoint: /api/v1/analytics/monthly-product-sales/
+    """
+    def get(self, request):
+        year = int(request.GET.get('year', datetime.today().year))
+        month = int(request.GET.get('month', datetime.today().month))
+
+        start_date = make_aware(datetime(year, month, 1))
+        if month == 12:
+            end_date = make_aware(datetime(year + 1, 1, 1))
+        else:
+            end_date = make_aware(datetime(year, month + 1, 1))
+
+        sale_items = SaleItem.objects.filter(
+            sale__created_at__gte=start_date,
+            sale__created_at__lt=end_date
+        ).values('product__name').annotate(
+            total_sold=Sum('quantity')
+        ).order_by('-total_sold')
+
+        return Response(list(sale_items))

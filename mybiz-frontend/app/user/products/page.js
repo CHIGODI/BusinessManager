@@ -28,6 +28,7 @@ const AllProducts = () => {
                     setIsLoading(false);
                 }
             } catch (error) {
+                console.log(error);
                 toast.error('Error loading products');
                 setIsLoading(false);
             }

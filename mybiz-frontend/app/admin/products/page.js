@@ -18,11 +18,6 @@ const AllProducts = () => {
     const [openProductId, setOpenProductId] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
 
-
-
-
-
-
     const filteredProducts = searchQuery.trim()
         ? products.filter((product) =>
             product.name.toLowerCase().includes(searchQuery.toLowerCase())
