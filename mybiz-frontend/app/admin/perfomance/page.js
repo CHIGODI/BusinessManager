@@ -83,9 +83,9 @@ const Perfomance = () => {
         } else {
             percent = ((current - compare) / compare) * 100;
         }
-        console.log("current, compare, percent",current, compare, percent);
-        console.log("current - compare", current - compare);
-
+        if (label == 'Item Sold'){
+            console.log(compare)
+        }
         const formattedPercent = `${isUp ? '+' : ''}${percent.toFixed(1)}%`;
 
         return (
