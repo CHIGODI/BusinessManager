@@ -126,7 +126,7 @@ const ProductPerformancePage = () => {
               <p className="text-gray-400">No product sales for this month.</p>
             ) : (
               <>
-                <p className='text-sm text-gray-500'>Stock Value: {data.stock_value}</p>
+                <p className='text-xs text-gray-500 pb-2'>Stock Value: {data[2].stock_value}</p>
                 <table className="w-full text-sm text-left text-gray-700">
                   <thead className="bg-gray-100 text-xs uppercase text-gray-500 border-b">
                     <tr>
