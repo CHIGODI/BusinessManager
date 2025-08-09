@@ -53,6 +53,8 @@ const ProductPerformancePage = () => {
         const sorted = res.data.sort((a, b) => b.total_sold - a.total_sold);
         setData(sorted);
 
+        console.log(data)
+
         const topProducts = sorted.slice(0, 10);
         const productNames = topProducts.map(p => p.product);
         const monthData = monthLabels.map((month) => {
@@ -66,8 +68,10 @@ const ProductPerformancePage = () => {
         setChartData(monthData);
         setColors(generateColors(topProducts.length));
       })
-      .catch(() => {
-        toast.error('Failed to fetch product performance');
+      .catch((error) => {
+        if (error.response) {
+          toast.error('Failed to fetch product performance');
+        }
       })
       .finally(() => setLoading(false));
   }, [session]);
@@ -121,31 +125,33 @@ const ProductPerformancePage = () => {
             ) : data.length === 0 ? (
               <p className="text-gray-400">No product sales for this month.</p>
             ) : (
-              <table className="w-full text-sm text-left text-gray-700">
+              <>
                 <p className='text-sm text-gray-500'>Stock Value: {data.stock_value}</p>
-                <thead className="bg-gray-100 text-xs uppercase text-gray-500 border-b">
-                  <tr>
-                    <th className="px-2 py-2">S/N</th>
-                    <th className="px-2 py-2">Product</th>
-                    {monthLabels.map((month) => (
-                      <th key={month} className="px-2 py-2 text-center">{month}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.map((item, i) => (
-                    <tr key={item.product} className="border-b">
-                      <td className="px-2 py-2">{i + 1}</td>
-                      <td className="px-2 py-2">{item.product}</td>
+                <table className="w-full text-sm text-left text-gray-700">
+                  <thead className="bg-gray-100 text-xs uppercase text-gray-500 border-b">
+                    <tr>
+                      <th className="px-2 py-2">S/N</th>
+                      <th className="px-2 py-2">Product</th>
                       {monthLabels.map((month) => (
-                        <td key={month} className="px-2 py-2 text-center">
-                          {item.monthly_sales[month] || 0}
-                        </td>
+                        <th key={month} className="px-2 py-2 text-center">{month}</th>
                       ))}
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {data.map((item, i) => (
+                      <tr key={`${item.product}-${i}`} className="border-b">
+                        <td className="px-2 py-2">{i + 1}</td>
+                        <td className="px-2 py-2">{item.product}</td>
+                        {monthLabels.map((month) => (
+                          <td key={month} className="px-2 py-2 text-center">
+                            {(item.monthly_sales?.[month]) || 0}
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </>
             )}
           </div>
 
