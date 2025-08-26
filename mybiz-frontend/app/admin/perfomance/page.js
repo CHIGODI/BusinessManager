@@ -24,7 +24,7 @@ const Perfomance = () => {
                 <div className="w-full lg:w-[80%] px-[2%] py-[2%] h-full bg-[#F8FAFC] overflow-y-auto">
                     <div className="">
                         <div className="flex-1">
-                            <h1 className="font-bold text-lg text-gray-600 pt-4">Performance Summary</h1>
+                            <h1 className="font-bold text-lg text-gray-600 pt-4">Performance Metrics</h1>
                             <p className="text-xs text-gray-500">View your business performance metrics</p>
                         </div>
                         <div className="flex gap-4 border-b border-gray-200 mt-4">

@@ -132,14 +132,14 @@ const KeyMetrics = () => {
                 <StatCard label="Cash Sales" value={`${(period.cash_sales || 0).toFixed(2)}`} compare={yesterday.cash_sales || 0} />
             </div>
 
-            <div className="w-full max-w-[600px] h-[250px]  mt-12 mb-12">
+            <div className="h-[250px]  mt-12 mb-12">
                 {isLoading ? (
                     <div className="w-full h-full flex items-center justify-center animate-pulse bg-[#F8FAFC] "></div>
                 ) : dailySales.length === 0 ? (
                     <p className="text-gray-500 text-center mt-10">No sales data to display</p>
                 ) : (
                     <div className="bg-white">
-                        <p className="text-center font-bold text-sm text-gray-500 mb-2">Sales Trend</p>
+                        <p className="text-center font-bold text-sm text-gray-500 mb-2 w-full">Sales Trend</p>
                         <div className="h-[250px] w-full">
                             <ResponsiveContainer width="100%" height="100%">
                                 <LineChart data={dailySales}>
