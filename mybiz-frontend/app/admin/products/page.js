@@ -121,7 +121,7 @@ const AllProducts = () => {
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 placeholder="Search..."
-                                className="text-xs w-full pl-10 pr-4 py-1 border-b border-gray-300 focus:outline-none focus:border-gray-600"
+                                className="bg-gray-100 p-2 text-xs w-full pl-10 rounded-xl focus:outline-none focus:outline-none border border-gray-100 focus:border-gray-400"
                             />
                             <FontAwesomeIcon
                                 className="text-xs w-4 h-4 text-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2"

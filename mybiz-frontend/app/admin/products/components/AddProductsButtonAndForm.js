@@ -77,7 +77,7 @@ const AddProductButton = (props) => {
         <>
             <button
                 onClick={handleButtonClick}
-                className="px-4 py-3 bg-gray-950 text-white text-sm shadow hover:bg-opacity-[85%]"
+                className="px-3 py-2 bg-gray-950 text-white text-xs shadow hover:bg-opacity-[85%]"
             >
                 New Product <FontAwesomeIcon className='pl-2' icon={faPlus} />
             </button>
