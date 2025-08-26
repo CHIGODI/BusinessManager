@@ -261,5 +261,7 @@ class ProductSalesMonthlyTrend(APIView):
         stock_value = Product.objects.aggregate(
             total_stock_value=Sum(F('quantity') * F('unit_buying_price'))
         )['total_stock_value'] or 0
-        results.append({"stock_value": stock_value})
-        return Response(results)
+
+        return Response({"stock_value": stock_value,
+                        "items": results
+                        })
