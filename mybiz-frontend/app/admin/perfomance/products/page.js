@@ -37,6 +37,7 @@ const ProductPerformancePage = () => {
   const [colors, setColors] = useState([]);
   const [loading, setLoading] = useState(true);
   const { data: session } = useSession();
+  const [stockVal, setStockVal] = useState(0)
 
   useEffect(() => {
     if (!session?.user?.access) return;
@@ -50,10 +51,10 @@ const ProductPerformancePage = () => {
         },
       })
       .then((res) => {
-        const sorted = res.data.sort((a, b) => b.total_sold - a.total_sold);
+        const sorted = res.data.items.sort((a, b) => b.total_sold - a.total_sold);
         setData(sorted);
 
-        console.log(data)
+        setStockVal(res.data.stock_value.toLocaleString())
 
         const topProducts = sorted.slice(0, 10);
         const productNames = topProducts.map(p => p.product);
@@ -126,7 +127,7 @@ const ProductPerformancePage = () => {
               <p className="text-gray-400">No product sales for this month.</p>
             ) : (
               <>
-                <p className='text-xs text-gray-500 pb-2'>Stock Value: {data[2].stock_value}</p>
+                <p className='text-xs text-gray-500 pb-2'>Stock Value: {stockVal}</p>
                 <table className="w-full text-sm text-left text-gray-700">
                   <thead className="bg-gray-100 text-xs uppercase text-gray-500 border-b">
                     <tr>
