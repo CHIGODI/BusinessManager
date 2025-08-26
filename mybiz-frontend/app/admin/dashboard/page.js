@@ -11,11 +11,22 @@ import { useSession } from 'next-auth/react';
 function AdminDashboard() {
     const { data: session, status } = useSession();
     const [loading, setLoading] = useState(true);
+    const[greeting, setGreeting] = useState('');
+
 
     useEffect(() => {
         if (status !== 'loading') {
             setLoading(false);
         }
+        const hour = new Date().getHours();
+        if (hour < 12) {
+            setGreeting('Good morning');
+        } else if (hour < 18) {
+            setGreeting('Good afternoon');
+        } else {
+            setGreeting('Good evening');
+        }
+
     }, [status]);
 
     if (loading) {
@@ -29,8 +40,12 @@ function AdminDashboard() {
                 <SideNav />
                 <main className="w-[100%] md:w-[80%] md:px-[2%] md:py-[2%] h-full flex flex-col gap-4">
                     {/* welcome message */}
-                    <div className="flex justify-between items-center">
-                        <h2 className="font-bold text-lg text-gray-600 pt-4 pl-4">Hello {session?.user?.username}👋🏽</h2>
+                    <div className="border-l border-green-500 flex items-center justify-center items-center p-4 w-fit">
+                        <h2 className="text-gray-600">
+                            <span className="block text-2xl font-bold">{greeting} !</span>
+                            <span className="block font-semibold">{session?.user?.username}</span>
+                            <span className="block text-xs">welcome to your dashboard</span>
+                        </h2>
                     </div>
                     {/* action cards */}
                     <div className="h-full overflow-y-scroll flex flex-col gap-4  items-center lg:items-start lg:flex-row lg:flex-wrap p-4 md:p-0">
@@ -50,7 +65,7 @@ function AdminDashboard() {
                         </div>
                         <div className='cards flex flex-col justify-center'>
                             <h5 className='text-center text-[#001F3F]'>
-                                DAY SUMMARY
+                                SUMMARY
                             </h5>
                             <FontAwesomeIcon className='text-5xl md:text-7xl mt-4 text-[#A6AEBF]' icon={faCoins} />
                             <Link href='/admin/perfomance/' className='flex items-center justify-center'>
