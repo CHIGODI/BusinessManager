@@ -1,20 +1,23 @@
 'use client';
-import { useState, useEffect } from 'react';
-import NavBar from '../../../sharedComponents/NavBar';
-import SideNav from '../../components/SideNav';
-import CheckoutCard from './components/CheckoutCard';
-import ProductListCard from './components/ProductListCard';
-import CartCard from './components/CartCard';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { useState, useEffect } from 'react';
+import CartCard from './components/CartCard';
 import { useSession } from 'next-auth/react';
+import SideNav from '../../components/SideNav';
+import CheckoutCard from './components/CheckoutCard';
+import NavBar from '../../../sharedComponents/NavBar';
+import ProductListCard from './components/ProductListCard';
+
 
 export default function SalePage() {
+    const [viewTotal, setViewTotal] = useState(true);
     const [products, setProducts] = useState([]);
     const [cart, setCart] = useState([]);
+    // const [quantity, setQuantity] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredProducts, setFilteredProducts] = useState(products);
-    const { data: session, status} = useSession()
+    const { data: session, status } = useSession()
     const isLoading = status === "loading";
 
     useEffect(() => {
@@ -39,15 +42,45 @@ export default function SalePage() {
         };
 
         fetchProducts();
-    }, [isLoading, session]);
+    }, [isLoading, session, cart]);
 
-
-    // add product to cart
+    // when adding product to cart, always set a quantity
     const addProductToCart = (product) => {
-        setCart((prevCart) => [...prevCart, product])
+        setCart((prevCart) => {
+            const existingIndex = prevCart.findIndex(p => p.id === product.id);
+
+            if (existingIndex !== -1) {
+                // Already in cart → increase quantity by 1
+                const updated = [...prevCart];
+                updated[existingIndex] = {
+                    ...updated[existingIndex],
+                    quantity: (updated[existingIndex].quantity || 1) + 1,
+                };
+                return updated;
+            }
+
+            // New product → start with quantity 1
+            return [...prevCart, { ...product, quantity: 1 }];
+        });
     };
 
-    // remove product from cart
+
+    // update quantity
+    const setQuantity = (index, newQty) => {
+        setCart((prevCart) => {
+            const updated = [...prevCart];
+
+            // Allow empty string while typing
+            if (newQty === "" || isNaN(newQty)) {
+                updated[index] = { ...updated[index], quantity: "" };
+            } else {
+                updated[index] = { ...updated[index], quantity: newQty > 0 ? newQty : 1 };
+            }
+
+            return updated;
+        });
+    };
+
     const removeProductFromCart = (productIndex) => {
         setCart((prevCart) => prevCart.filter(
             (_, index) => index !== productIndex)
@@ -68,10 +101,11 @@ export default function SalePage() {
     };
 
     const totalSalePayable = () => {
-        const total = cart.reduce((accumulator, product) => {
-            return accumulator + Number(product.unit_selling_price);
+        return cart.reduce((acc, product) => {
+            const qty = Number(product.quantity) || 0;
+            const price = Number(product.unit_selling_price) || 0;
+            return acc + qty * price;
         }, 0);
-        return total;
     };
 
     return (
@@ -91,11 +125,13 @@ export default function SalePage() {
                         <CartCard
                             products={cart}
                             removeProductFromCart={removeProductFromCart}
+                            setQuantity={setQuantity}
                         />
-                        <CheckoutCard total={totalSalePayable()}
-                                      products={cart}
-                                      session={session}
-                                      setCart={setCart}
+                        <CheckoutCard
+                            total={totalSalePayable()}
+                            products={cart}
+                            session={session}
+                            setCart={setCart}
                         />
                     </div>
                 </div>
