@@ -51,42 +51,56 @@ function AdminDashboard() {
                     <div className="h-full overflow-y-scroll flex flex-col gap-4  items-center lg:items-start lg:flex-row lg:flex-wrap p-4 md:p-0">
                         <div className='cards flex flex-col justify-center'>
                             <h5 className='text-center text-[#001F3F]'>
-                                MAKE SALE
+                                SELL
                             </h5>
                             <FontAwesomeIcon className='text-5xl md:text-7xl mt-4 text-[#A6AEBF]' icon={faCartShopping} />
                             <Link href='/admin/dashboard/sale' className='flex items-center justify-center'>
                                 <button className='border text-[#001F3F]
                                                 rounded p-2 mt-4 hover:bg-gray-100'
                                 >
-                                    Go to sale point
+                                    Sale point
                                     <FontAwesomeIcon className='ml-2' icon={faArrowUpRightFromSquare} />
                                 </button>
                             </Link>
                         </div>
                         <div className='cards flex flex-col justify-center'>
                             <h5 className='text-center text-[#001F3F]'>
-                                SUMMARY
+                                ANALYTICS
                             </h5>
                             <FontAwesomeIcon className='text-5xl md:text-7xl mt-4 text-[#A6AEBF]' icon={faCoins} />
                             <Link href='/admin/perfomance/' className='flex items-center justify-center'>
                                 <button className='border text-[#001F3F]
                                             rounded p-2 mt-4 hover:bg-gray-100'
                                 >
-                                    View summary
+                                    Perfomance analytics
                                     <FontAwesomeIcon className='ml-2' icon={faArrowUpRightFromSquare} />
                                 </button>
                             </Link>
                         </div>
                         <div className='cards flex flex-col justify-center'>
                             <h5 className='text-center text-[#001F3F]'>
-                                ALL PRODUCTS
+                                PRODUCTS
                             </h5>
                             <FontAwesomeIcon className='text-5xl md:text-7xl mt-4 text-[#A6AEBF]' icon={faBox} />
                             <Link href='/admin/products' className='flex items-center justify-center'>
                                 <button className='border text-[#001F3F]
                                             p-2 mt-4 hover:bg-gray-100'
                                 >
-                                    All products list
+                                    All products
+                                    <FontAwesomeIcon className='ml-2' icon={faArrowUpRightFromSquare} />
+                                </button>
+                            </Link>
+                        </div>
+                        <div className='cards flex flex-col justify-center'>
+                            <h5 className='text-center text-[#001F3F]'>
+                                
+                            </h5>
+                            <FontAwesomeIcon className='text-5xl md:text-7xl mt-4 text-[#A6AEBF]' icon={faCartShopping} />
+                            <Link href='/admin/dashboard/sale' className='flex items-center justify-center'>
+                                <button className='border text-[#001F3F]
+                                                rounded p-2 mt-4 hover:bg-gray-100'
+                                >
+                                    Sale point
                                     <FontAwesomeIcon className='ml-2' icon={faArrowUpRightFromSquare} />
                                 </button>
                             </Link>

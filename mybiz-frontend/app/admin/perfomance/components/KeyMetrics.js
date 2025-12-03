@@ -125,8 +125,8 @@ const KeyMetrics = () => {
             </div>
 
             <div className="flex flex-wrap gap-4 lg:gap-2">
-                <StatCard label="Total Revenue" value={`${(period.total_revenue || 0).toFixed(2)}`} compare={yesterday.total_revenue || 0} />
-                <StatCard label="Profit" value={`${(period.profit || 0).toFixed(2)}`} compare={yesterday.profit || 0} />
+                <StatCard label="Total Sales" value={`${(period.total_revenue || 0).toFixed(2)}`} compare={yesterday.total_revenue || 0} />
+                <StatCard label="Profit Made" value={`${(period.profit || 0).toFixed(2)}`} compare={yesterday.profit || 0} />
                 <StatCard label="Items Sold" value={period.items_sold || 0} compare={yesterday.number_of_sales || 0} />
                 <StatCard label="Mpesa Sales" value={`${(period.mpesa_sales || 0).toFixed(2)}`} compare={yesterday.mpesa_sales || 0} />
                 <StatCard label="Cash Sales" value={`${(period.cash_sales || 0).toFixed(2)}`} compare={yesterday.cash_sales || 0} />
